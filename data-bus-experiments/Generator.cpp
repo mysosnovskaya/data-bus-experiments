@@ -28,7 +28,7 @@ const int iterationCount = 30;
 
 vector<Job*> jobs = {
     MklXpyJob::create(20), /*MklXpyJob::create(35), MklXpyJob::create(50),*/ MklXpyJob::create(65),
-    MklSumJob::create(30), /*MklSumJob::create(45), MklSumJob::create(60),*/ MklSumJob::create(75),
+    MklSumJob::create(200), /*MklSumJob::create(350), MklSumJob::create(500),*/ MklSumJob::create(650),
     MklQrJob::create(1000), /*MklQrJob::create(1100), MklQrJob::create(1200),*/ MklQrJob::create(1300),
     MklCopyJob::create(10), /*MklCopyJob::create(25), MklCopyJob::create(40),*/ MklCopyJob::create(55)
 };
@@ -69,7 +69,7 @@ string getFileName(vector<int> jobIndexes) {
     for (int i = 0; i < jobIndexes.size(); i++) {
         jobsSizesString = jobsSizesString + "_" + jobs[jobIndexes[i]]->getJobId();
     }
-    return string("data_") + string(jobsCountStr) + "j_" + jobsSizesString + string(".txt");
+    return string("results/data_") + string(jobsCountStr) + "j_" + jobsSizesString + string(".txt");
 }
 
 void printData(vector<vector<double>> durationsOfIterations, vector<int> jobIndexes) {
@@ -157,12 +157,13 @@ long run(vector<int> jobIndexes) {
 
 int main() {
     srand(unsigned(time(0)));
-  
+
     vector<vector<int>> allPossibleModes = getAllPossibleModes(jobs.size(), maxCoresCount);
 
     cout << "all possible modes count: " << allPossibleModes.size() << endl << endl;
 
     for (int i = 0; i < allPossibleModes.size(); i++) {
+        cout << "Starting mode: " << i + 1 << "/" << allPossibleModes.size() << endl;
         run(allPossibleModes[i]);
     }
 
