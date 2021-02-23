@@ -1,3 +1,7 @@
+# Description
+
+The program runs 8 jobs in all possible modes (maximum 4 jobs in a mode), each mode is executed 30 times. The information about duration of each iteration of each mode and some statisctis information are stored in the output files.
+
 # Get started
 
 ## Environment requirements
