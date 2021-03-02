@@ -58,7 +58,8 @@ vector<vector<int>> getAllPossibleModes(int maxValue, int maxSize) {
     return permutations;
 }
 
-void executeJob(Job* job, int index, vector<double>* percentOfExecution) {
+void executeJob(Job* job, pthread_barrier_t* barrier, int index, vector<double>* percentOfExecution) {
+    pthread_barrier_wait(barrier);
     job->execute(&(*percentOfExecution)[index], true);
 }
 
@@ -117,9 +118,11 @@ long run(vector<int> jobIndexes) {
 
         GLOBAL_EXECUTION_FLAG = false;
         vector<thread> threads;
+        pthread_barrier_t barrier;
+        pthread_barrier_init(&barrier, NULL, jobIndexes.size());
         for (int k = 0; k < jobIndexes.size(); k++) {
             Job* job = jobs[jobIndexes[k]];
-            threads.push_back(thread(executeJob, job, k, &percentOfExecution));
+            threads.push_back(thread(executeJob, job, &barrier, k, &percentOfExecution));
             // next 4 lines are Linux only, comment it for Windows
             cpu_set_t cpuset;
             CPU_ZERO(&cpuset);
@@ -143,6 +146,7 @@ long run(vector<int> jobIndexes) {
         }
 
         average += time.count();
+        pthread_barrier_destroy(&barrier);
     }
 
     printData(jobsTime, jobIndexes);
