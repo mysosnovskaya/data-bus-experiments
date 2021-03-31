@@ -24,13 +24,14 @@ public:
     virtual int execute(double* percentOfExecution, bool changeFlagTo) = 0;
 
     int execute(int indexJob) {
+        printf("job %d started \n", indexJob);
         high_resolution_clock::time_point startTime = high_resolution_clock::now();
         double tmp;
         int result = execute(&tmp, false);
         high_resolution_clock::time_point endTime = high_resolution_clock::now();
         duration<double, std::milli> time = endTime - startTime;
-        cout << "job " << indexJob << " finished for " << time.count() << " with value " << result << endl;
-        return 0;
+        printf("job %d finished for %f ms\n", indexJob, time.count());
+        return result;
     }
 
     virtual ~Job() {};
