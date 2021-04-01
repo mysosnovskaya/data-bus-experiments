@@ -35,7 +35,7 @@ string getFileName(string partialOrderType, vector<Job*> jobs) {
     for (int i = 0; i < jobs.size(); i++) {
         jobsIdsString = jobsIdsString + "_" + jobs[i]->getJobId();
     }
-    return string("data_") + string(jobsCountStr) + "j_" + partialOrderType + "_" + jobsIdsString + string(".txt");
+    return string("results/data_") + string(jobsCountStr) + "j_" + partialOrderType + "_" + jobsIdsString + string(".txt");
 }
 
 void printData(vector<double> durations, vector<vector<int>> orderTable, string partialOrderType, vector<Job*> jobs) {
