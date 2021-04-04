@@ -17,13 +17,8 @@ vector<Job*> jobs = {
     MklCopyJob::create(10), MklCopyJob::create(25), MklCopyJob::create(40), MklCopyJob::create(55)
 };
 
-int main() {
-    srand(unsigned(time(0)));
-    // next 4 lines are Linux only, comment it for Windows
-    cpu_set_t cpuset;
-    CPU_ZERO(&cpuset);
-    CPU_SET(0, &cpuset);
-    pthread_setaffinity_np(std::this_thread::get_id().native_handle(), sizeof(cpu_set_t), &cpuset);
+void run() {
+    std::this_thread::sleep_for(150ms);
     high_resolution_clock::time_point startTime = high_resolution_clock::now();
     for (Job* job : jobs) {
         duration<double, std::milli> timeFromStart = high_resolution_clock::now() - startTime;
@@ -34,9 +29,18 @@ int main() {
         duration<double, std::milli> time = endTime - startJobTime;
         cout << "Job " << job->getJobId() << " execution time: " << time.count() << endl << endl;
     }
-
-    cout << "execution completed" << endl;
-
-    return 0;
 }
 
+int main() {
+    srand(unsigned(time(0)));
+    thread t = thread(run);
+    // next 4 lines are Linux only, comment it for Windows
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(0, &cpuset);
+    pthread_setaffinity_np(t.native_handle(), sizeof(cpu_set_t), &cpuset);
+
+    t.join();
+    cout << "execution completed" << endl;
+    return 0;
+}
