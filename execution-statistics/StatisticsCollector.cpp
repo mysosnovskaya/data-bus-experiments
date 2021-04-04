@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 #include <thread>
-#include "ExecutionFlag.hpp"
-#include "Jobs.hpp"
+#include "../common/ExecutionFlag.hpp"
+#include "../common/Jobs.hpp"
 #include "StatisticUtils.hpp"
 
 using namespace std;
