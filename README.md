@@ -4,8 +4,9 @@
 
 Please, make sure the next tools are installed:
 1. dpcpp compiler
-2. Intel Math Kernel Library
-3. Utilities lscpu and numactl
+2. Intel Math Kernel Library (MKL)
+3. Intel Threading Building Blocks (TBB) library
+4. Utilities lscpu and numactl
 
 Before running, please, do the next steps:
 1. Disable Turbo Boost and Hyper-Threading
