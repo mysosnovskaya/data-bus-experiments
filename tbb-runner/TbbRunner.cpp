@@ -24,7 +24,7 @@ void printVector(vector<T>& v, ostream& out) {
 }
 
 vector<string> partialOrderTypes = { "NO_ORDER", "RANDOM", "BITREE", "ONE_TO_MANY_TO_ONE" };
-vector<int> jobsCountArray = { 5, 10, 20, 40 };
+vector<int> jobsCountArray = { 15, 50, 100, 200 };
 int optionsCount = 10;
 const int iterationCount = 7;
 

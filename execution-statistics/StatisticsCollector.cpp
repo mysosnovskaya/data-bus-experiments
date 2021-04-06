@@ -119,7 +119,7 @@ long run(vector<int> jobIndexes) {
         GLOBAL_EXECUTION_FLAG = false;
         vector<thread> threads;
         pthread_barrier_t barrier;
-        pthread_barrier_init(&barrier, NULL, jobIndexes.size());
+        pthread_barrier_init(&barrier, NULL, jobIndexes.size() + 1);
         for (int k = 0; k < jobIndexes.size(); k++) {
             Job* job = jobs[jobIndexes[k]];
             threads.push_back(thread(executeJob, job, &barrier, k, &percentOfExecution));
@@ -132,6 +132,7 @@ long run(vector<int> jobIndexes) {
 
         high_resolution_clock::time_point startTime = high_resolution_clock::now();
 
+        pthread_barrier_wait(barrier);
         for (int k = 0; k < jobIndexes.size(); k++) {
             threads[k].join();
         }

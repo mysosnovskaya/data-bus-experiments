@@ -32,7 +32,6 @@ void run() {
 }
 
 int main() {
-    srand(unsigned(time(0)));
     thread t = thread(run);
     // next 4 lines are Linux only, comment it for Windows
     cpu_set_t cpuset;
