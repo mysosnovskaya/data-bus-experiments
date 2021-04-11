@@ -132,7 +132,7 @@ long run(vector<int> jobIndexes) {
 
         high_resolution_clock::time_point startTime = high_resolution_clock::now();
 
-        pthread_barrier_wait(barrier);
+        pthread_barrier_wait(&barrier);
         for (int k = 0; k < jobIndexes.size(); k++) {
             threads[k].join();
         }

@@ -7,9 +7,9 @@
 #include <algorithm>
 #include <random>
 #include <iostream>
-#include <thread> 
+#include <thread>
 #include <fstream>
-#include <iomanip> 
+#include <iomanip>
 #include "../common/Jobs.hpp"
 #include "../common/ExecutionFlag.hpp"
 #include <condition_variable>
@@ -53,7 +53,7 @@ long calculateStandardTime(Job* job) {
         CPU_SET(0, &cpuset);
         pthread_setaffinity_np(t.native_handle(), sizeof(cpu_set_t), &cpuset);
 		high_resolution_clock::time_point startTime = high_resolution_clock::now();
-		pthread_barrier_wait(barrier);
+		pthread_barrier_wait(&barrier);
 		t.join();
 		high_resolution_clock::time_point endTime = high_resolution_clock::now();
 		duration<double, std::milli> time = endTime - startTime;
@@ -83,7 +83,7 @@ int main() {
 			pthread_barrier_init(&barrier, NULL, coresNumbers.size() + 1);
 
 			for (int c = 0; c < coresNumbers.size(); c++) {
-				threads.push_back(thread(executeJob, obsToExecute[c], &barrier));
+				threads.push_back(thread(executeJob, jobsToExecute[c], &barrier));
 				// next 4 lines are Linux only, comment it for Windows
 				cpu_set_t cpuset;
 				CPU_ZERO(&cpuset);
@@ -93,8 +93,8 @@ int main() {
 
 			high_resolution_clock::time_point startTime = high_resolution_clock::now();
 
-			pthread_barrier_wait(barrier);
-			for (thread t: threads) {
+			pthread_barrier_wait(&barrier);
+			for (thread& t: threads) {
 				t.join();
 			}
 
