@@ -7,10 +7,11 @@
 #include <algorithm>
 #include <random>
 #include <iostream>
-#include <thread> 
+#include <thread>
 #include <fstream>
-#include <iomanip> 
+#include <iomanip>
 #include "../common/Jobs.hpp"
+#include "InputReader.hpp"
 #include <condition_variable>
 #include <filesystem>
 
@@ -18,13 +19,7 @@ using namespace std;
 using namespace std::chrono;
 namespace fs = std::filesystem;
 
-const int iterationCount = 50;
-vector<double> delayis;
-vector<Job*> jobs;
-vector<vector<int>> order;
-vector<thread> threads;
-vector<bool> jobIsFinished;
-vector<vector<int>> queue;
+const int iterationCount = 40;
 
 std::condition_variable cv;
 std::mutex m;
@@ -52,7 +47,6 @@ void executeJob(vector<int> jobIndexes, pthread_barrier_t* barrier) {
             this_thread::sleep_for(std::chrono::milliseconds((int) delayis[jobIndex]));
         }
 
-        printf("thread: start job %d \n", jobIndex);
         jobs[jobIndex]->execute(jobIndex);
         jobIsFinished[jobIndex] = true;
         cv.notify_all();
@@ -80,7 +74,7 @@ vector<long> run() {
         }
 
         pthread_barrier_t barrier;
-        pthread_barrier_init(&barrier, NULL, jobIndexes.size() + 1);
+        pthread_barrier_init(&barrier, NULL, queue.size() + 1);
         for (int k = 0; k < queue.size(); k++) {
             threads[k] = thread(executeJob, queue[k], &barrier);
             // next 4 lines are Linux only, comment it for Windows
@@ -106,78 +100,10 @@ vector<long> run() {
         averageTime += time.count();
         iterationDurations[j] = time.count();
 
-        cout << "iteration " << j + 1 << " finished for " << time.count() << " ms" << endl;
+        cout << endl << "iteration " << j + 1 << " finished for " << time.count() << " ms" << endl;
     }
-    cout << "avarage time for all jobs is " << (averageTime / iterationCount) << " ms" << endl;
+    cout << "avarage time for all jobs is " << (averageTime / iterationCount) << " ms" << endl << endl;
     return iterationDurations;
-}
-
-void readOrderTable(ifstream* inFile, int jobsCount) {
-    order = vector<vector<int>>(jobsCount);
-
-    for (int i = 0; i < jobsCount; i++) {
-        order[i] = vector<int>(jobsCount);
-    }
-
-    for (int i = 0; i < jobsCount; i++) {
-        for (int j = 0; j < jobsCount; j++) {
-            *inFile >> order[i][j];
-        }
-    }
-}
-
-void readDelayis(ifstream* inFile, int jobsCount) {
-    delayis = vector<double>(jobsCount);
-
-    for (int i = 0; i < jobsCount; i++) {
-        *inFile >> delayis[i];
-    }
-}
-
-void readJobs(ifstream* inFile, int jobsCount) {
-    jobs = vector<Job*>();
-    jobIsFinished = vector<bool>(jobsCount);
-    for (int i = 0; i < jobsCount; i++) {
-        string jobType;
-        int jobSize;
-        *inFile >> jobSize;
-        *inFile >> jobType;
-
-        Job* job;
-        if (jobType == "SUM") {
-            job = MklSumJob::create(jobSize);
-        }
-        else if (jobType == "COPY") {
-            job = MklCopyJob::create(jobSize);
-        }
-        else if (jobType == "XPY") {
-            job = MklXpyJob::create(jobSize);
-        }
-        else {
-            job = MklQrJob::create(jobSize);
-        }
-        jobs.push_back(job);
-    }
-}
-
-void readQueues(ifstream* inFile) {
-    int queueCount;
-    *inFile >> queueCount;
-
-    threads = vector<thread>(queueCount);
-    vector<int> queueSize(queueCount);
-    for (int i = 0; i < queueCount; i++) {
-        *inFile >> queueSize[i];
-    }
-
-    queue = vector<vector<int>>(queueCount);
-    for (int i = 0; i < queueCount; i++) {
-        for (int j = 0; j < queueSize[i]; j++) {
-            int x;
-            *inFile >> x;
-            queue[i].push_back(x);
-        }
-    }
 }
 
 int main() {
@@ -187,7 +113,7 @@ int main() {
     int count = 1;
     for (const auto& entry : std::filesystem::recursive_directory_iterator(path)) {
         cout << "start to execute " << count << " : " << entry.path() << endl;
-        
+
         ifstream inFile;
         inFile.open(entry.path());
 
@@ -207,6 +133,7 @@ int main() {
         myfile.open("results/executor_results.txt", ios_base::app);
         myfile << entry.path() << endl;
         printVector(iterationDurations, *&myfile);
+        myfile << endl << endl;
         myfile.close();
 
         for (int i = 0; i < jobsCount; i++) {
