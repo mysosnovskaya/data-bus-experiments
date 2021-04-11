@@ -34,6 +34,8 @@ public:
         return result;
     }
 
+    virtual Job* copy() = 0;
+
     virtual ~Job() {};
 };
 
@@ -82,6 +84,10 @@ public:
         return "MUL";
     }
 
+    Job* copy() {
+         return MklMulJob::create(getSize());
+    }
+
     ~MklMulJob() {
         mkl_free(x);
         mkl_free(y);
@@ -101,6 +107,8 @@ public:
         size(size),
         x(x),
         y(y) {}
+
+    MklCopyJob(const MklCopyJob &job) {x = job.x; y = job.y; }
 
     static MklCopyJob* create(int size) {
         long scaledSize = size * 1000000;
@@ -137,6 +145,10 @@ public:
         return "COPY";
     }
 
+    Job* copy() {
+         return MklCopyJob::create(getSize());
+    }
+
     ~MklCopyJob() {
         mkl_free(x);
         mkl_free(y);
@@ -154,6 +166,8 @@ public:
         size(size),
         x(x),
         y(y) {}
+
+    MklQrJob(const MklQrJob &job) {x = job.x; y = job.y; }
 
     static MklQrJob* create(int size) {
         double* x = (double*)mkl_malloc(size * size * sizeof(double), 64);
@@ -183,6 +197,10 @@ public:
         return "QR";
     }
 
+    Job* copy() {
+         return MklQrJob::create(getSize());
+    }
+
     ~MklQrJob() {
         mkl_free(x);
         mkl_free(y);
@@ -198,6 +216,8 @@ public:
     MklSumJob(int size, double* x) :
         size(size),
         x(x) {}
+
+    MklSumJob(const MklSumJob &job) {x = job.x; }
 
     static MklSumJob* create(int size) {
         long scaledSize = size * 1000000;
@@ -228,6 +248,10 @@ public:
         return "SUM";
     }
 
+    Job* copy() {
+         return MklSumJob::create(getSize());
+    }
+
     ~MklSumJob() {
         mkl_free(x);
     }
@@ -244,6 +268,8 @@ public:
         size(size),
         x(x),
         y(y) {}
+
+    MklXpyJob(const MklXpyJob &job) {x = job.x; y = job.y; }
 
     static MklXpyJob* create(int size) {
         long scaledSize = size * 1000000;
@@ -273,6 +299,10 @@ public:
 
     string getType() {
         return "XPY";
+    }
+
+    Job* copy() {
+         return MklXpyJob::create(getSize());
     }
 
     ~MklXpyJob() {

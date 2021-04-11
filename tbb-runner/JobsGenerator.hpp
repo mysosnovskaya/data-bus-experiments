@@ -14,39 +14,29 @@ using namespace std;
 
 vector<string> jobTypes = { "XPY", "SUM", "QR", "COPY" };
 
-const int minSumSize = 30;
-const int minXpySize = 20;
-const int minCopySize = 10;
-const int minQrSize = 1000;
-
-const int sumInterval = 5;
-const int xpyInterval = 5;
-const int copyInterval = 5;
-const int qrInterval = 50;
-
-const int maxSumIntervalCount = 8;
-const int maxXpyIntervalCount = 8;
-const int maxCopyIntervalCount = 8;
-const int maxQrIntervalCount = 6;
+vector<int> xpyPossibleSizes = { 20, 35, 50, 65 };
+vector<int> sumPossibleSizes = { 200, 350, 500, 650 };
+vector<int> qrPossibleSizes = { 1000, 1100, 1200, 1300 };
+vector<int> copyPossibleSizes = { 10, 25, 40, 55 };
 
 Job* generateJob() {
     string type = jobTypes[randInt(0, jobTypes.size())];
     int size;
     Job* job;
     if (type == "SUM") {
-        size = minSumSize + randInt(0, maxSumIntervalCount + 1) * sumInterval;
+        size = sumPossibleSizes[randInt(0, sumPossibleSizes.size())];
         job = MklSumJob::create(size);
     }
     else if (type == "COPY") {
-        size = minCopySize + randInt(0, maxCopyIntervalCount + 1) * copyInterval;
+        size = copyPossibleSizes[randInt(0, copyPossibleSizes.size())];
         job = MklCopyJob::create(size);
     }
     else if (type == "XPY") {
-        size = minXpySize + randInt(0, maxXpyIntervalCount + 1) * xpyInterval;
+        size = xpyPossibleSizes[randInt(0, xpyPossibleSizes.size())];
         job = MklXpyJob::create(size);
     }
     else {
-        size = minQrSize + randInt(0, maxQrIntervalCount + 1) * qrInterval;
+        size = qrPossibleSizes[randInt(0, qrPossibleSizes.size())];
         job = MklQrJob::create(size);
     }
     return job;

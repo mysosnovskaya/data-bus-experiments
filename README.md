@@ -12,6 +12,7 @@ Before running, please, do the next steps:
 1. Disable Turbo Boost and Hyper-Threading
 2. Fix the frequency of the processor
 
+
 ## Collect execution statistics
 
 ### Description
@@ -30,6 +31,7 @@ To compile and run the program go to `execution-statistics` directory and execut
 
 All the results (an output of the lscpu utility and result files of the program) are stored in `execution-statistics/results` directory.
 
+
 ## Run tbb for generated set of jobs
 
 ### Description
@@ -47,3 +49,23 @@ To compile and run the program go to `tbb-runner` directory and execute two scri
 ### Results
 
 All the results (result files of the program) are stored in `tbb-runner/results` directory.
+
+
+## Measure the data bus bandwidth
+
+### Description
+
+Two programs are suggested for measuring the data bus consumption. 
+Both programs run all jobs one by one and measures data bus consumption for each job,
+but `BusBandwidthCollector.cpp` does it with using vtune and `CalculateBusPercent.cpp` - with using our custom algorithm. 
+
+### Run
+To compile and run the programs go to `bus-bandwidth-collector` directory and execute two scripts:
+```bash
+./compile.sh
+./run.sh
+```
+
+### Results
+
+All the results (result files of the programs) are stored in `bus-bandwidth-collector/results` directory.
