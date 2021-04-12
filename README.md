@@ -37,7 +37,7 @@ Input: none
 
 Output: 
 
-    file names: "data_2j__20_XPY_1000_QR.txt", where 2j means "two jobs", "20_XPY_1000_QR" - job ids.
+    file names: "collector_out_2j__20_XPY_1000_QR.txt", where 2j means "two jobs", "20_XPY_1000_QR" - job ids.
     file format (job id, iteration durations and statistic information for each job):
         Job 20_XPY
         1428.44,1428.13,1435.44,1420.89,1432.17,1422.08,1432.41,1432.61,1422.25,1429.22,1421.45,1426.09,1424.25,1423.11,1432.59,1423.76,1430.81,1431.41,1427.26,1432.18,1420.07,1432.67,1423.81,1428.37,1430.9,1422.08,1429.09,1424.98,1426.7,1425.47
