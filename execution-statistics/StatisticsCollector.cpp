@@ -66,11 +66,11 @@ void executeJob(Job* job, pthread_barrier_t* barrier, int index, vector<double>*
 string getFileName(vector<int> jobIndexes) {
     auto jobsCountStr = to_string(jobIndexes.size());
 
-    string jobsSizesString;
+    string jobsIdsString;
     for (int i = 0; i < jobIndexes.size(); i++) {
-        jobsSizesString = jobsSizesString + "_" + jobs[jobIndexes[i]]->getJobId();
+        jobsIdsString = jobsIdsString + "_" + jobs[jobIndexes[i]]->getJobId();
     }
-    return string("results/data_") + string(jobsCountStr) + "j_" + jobsSizesString + string(".txt");
+    return string("collector_out_") + string(jobsCountStr) + "j_" + jobsIdsString + string(".txt");
 }
 
 void printData(vector<vector<double>> durationsOfIterations, vector<int> jobIndexes) {
