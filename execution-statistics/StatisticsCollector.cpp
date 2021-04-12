@@ -24,13 +24,13 @@ void printVector(vector<T>& v, ostream& out) {
 
 int maxCoresCount = 4;
 
-const int iterationCount = 30;
+const int iterationCount = 50;
 
 vector<Job*> jobs = {
     MklXpyJob::create(20), /*MklXpyJob::create(35), MklXpyJob::create(50),*/ MklXpyJob::create(65),
-    MklSumJob::create(200), /*MklSumJob::create(350), MklSumJob::create(500),*/ MklSumJob::create(650),
-    MklQrJob::create(1000), /*MklQrJob::create(1100), MklQrJob::create(1200),*/ MklQrJob::create(1300),
-    MklCopyJob::create(10), /*MklCopyJob::create(25), MklCopyJob::create(40),*/ MklCopyJob::create(55)
+    /*MklSumJob::create(200), MklSumJob::create(350), MklSumJob::create(500), MklSumJob::create(650),*/
+    MklQrJob::create(1000), /*MklQrJob::create(1100), MklQrJob::create(1200), MklQrJob::create(1300),*/
+    MklCopyJob::create(10), /*MklCopyJob::create(25), MklCopyJob::create(40), MklCopyJob::create(55)*/
 };
 
 vector<vector<int>> getAllPossibleModes(int maxValue, int maxSize) {
@@ -58,19 +58,19 @@ vector<vector<int>> getAllPossibleModes(int maxValue, int maxSize) {
     return permutations;
 }
 
-void executeJob(Job* job, pthread_barrier_t* barrier, int index, vector<double>* percentOfExecution) {
-    pthread_barrier_wait(barrier);
+void executeJob(Job* job, /*pthread_barrier_t* barrier,*/ int index, vector<double>* percentOfExecution) {
+    //pthread_barrier_wait(barrier);
     job->execute(&(*percentOfExecution)[index], true);
 }
 
 string getFileName(vector<int> jobIndexes) {
     auto jobsCountStr = to_string(jobIndexes.size());
 
-    string jobsSizesString;
+    string jobsIdsString;
     for (int i = 0; i < jobIndexes.size(); i++) {
-        jobsSizesString = jobsSizesString + "_" + jobs[jobIndexes[i]]->getJobId();
+        jobsIdsString = jobsIdsString + "_" + jobs[jobIndexes[i]]->getJobId();
     }
-    return string("results/data_") + string(jobsCountStr) + "j_" + jobsSizesString + string(".txt");
+    return string("collector_out_") + string(jobsCountStr) + "j_" + jobsIdsString + string(".txt");
 }
 
 void printData(vector<vector<double>> durationsOfIterations, vector<int> jobIndexes) {
@@ -118,21 +118,21 @@ long run(vector<int> jobIndexes) {
 
         GLOBAL_EXECUTION_FLAG = false;
         vector<thread> threads;
-        pthread_barrier_t barrier;
-        pthread_barrier_init(&barrier, NULL, jobIndexes.size() + 1);
+       // pthread_barrier_t barrier;
+        //pthread_barrier_init(&barrier, NULL, jobIndexes.size() + 1);
         for (int k = 0; k < jobIndexes.size(); k++) {
             Job* job = jobs[jobIndexes[k]];
-            threads.push_back(thread(executeJob, job, &barrier, k, &percentOfExecution));
+            threads.push_back(thread(executeJob, job,/* &barrier,*/ k, &percentOfExecution));
             // next 4 lines are Linux only, comment it for Windows
-            cpu_set_t cpuset;
-            CPU_ZERO(&cpuset);
-            CPU_SET(k, &cpuset);
-            pthread_setaffinity_np(threads[k].native_handle(), sizeof(cpu_set_t), &cpuset);
+         //   cpu_set_t cpuset;
+         //   CPU_ZERO(&cpuset);
+         //   CPU_SET(k, &cpuset);
+         //   pthread_setaffinity_np(threads[k].native_handle(), sizeof(cpu_set_t), &cpuset);
         }
 
         high_resolution_clock::time_point startTime = high_resolution_clock::now();
 
-        pthread_barrier_wait(&barrier);
+        //pthread_barrier_wait(&barrier);
         for (int k = 0; k < jobIndexes.size(); k++) {
             threads[k].join();
         }
@@ -147,7 +147,7 @@ long run(vector<int> jobIndexes) {
         }
 
         average += time.count();
-        pthread_barrier_destroy(&barrier);
+      //  pthread_barrier_destroy(&barrier);
     }
 
     printData(jobsTime, jobIndexes);

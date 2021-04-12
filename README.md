@@ -123,3 +123,46 @@ Output:
         20_XPY   3142   59.0935
         1000_QR   3119   59.9232
         10_COPY   3168   66.4569
+
+
+## Execute built schedules
+
+### Description
+
+The program performs jobs according to the constructed schedule.
+
+### Run
+To compile and run the programs go to `schedule-executor` directory and execute two scripts:
+```bash
+./compile.sh
+./run.sh
+```
+
+### Results
+
+All the results (result files of the programs) are stored in `schedule-executor/results` directory.
+
+### Input and output format
+
+Input: input files should be in the `schedule-executor/input` directory. The file names can be anything. The file format is:
+
+    4                               // jobs count
+    0 1 0 0                         // order table. this line means "job0 should be executed after job1"
+    0 0 0 0                         // order table. this line means "job1 doesn't have any restrictions by order"
+    1 0 0 1                         // order table. this line means "job2 should be executed after job0 and job3"
+    0 0 0 0                         // order table. this line means "job3 doesn't have any restrictions by order"
+    0.0 0.0 0.0 0.0                 // delays (for each job). how many milliseconds should be skipped before the job started
+    60 SUM 35 COPY 40 SUM 45 XPY    // the job ids
+    2 3 1                           // number of queues and how many jobs are performed in each queue.
+    2 0 1                           // jobs executed in the first queue
+    3                               // jobs executed in the second queue
+
+Output:
+
+    file name: "executor_results.txt"
+    file format (input file name, iteration durations):
+        data_4j_BITREE_4c_60_SUM_35_COPY_40_SUM_45_XPY.txt
+        10078,10144,10002,9986,11762
+
+        data_6j_NO_ORDER_4c_40_COPY_50_SUM_1200_QR_45_SUM_40_XPY_30_COPY.txt
+        7234,7366,7149,7199,7250

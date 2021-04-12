@@ -19,6 +19,13 @@ using namespace std;
 using namespace std::chrono;
 namespace fs = std::filesystem;
 
+vector<int> coresNumbers = {
+     0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
+    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
+    50, 51, 52, 53, 54, 55, 56, 57, 58, 59
+};
+
 const int iterationCount = 40;
 
 std::condition_variable cv;
@@ -43,8 +50,8 @@ void executeJob(vector<int> jobIndexes, pthread_barrier_t* barrier) {
                 cv.wait(lock, [j] {return jobIsFinished[j]; });
             }
         }
-        if (delayis[jobIndex] != 0) {
-            this_thread::sleep_for(std::chrono::milliseconds((int) delayis[jobIndex]));
+        if (delays[jobIndex] != 0) {
+            this_thread::sleep_for(std::chrono::milliseconds((int) delays[jobIndex]));
         }
 
         jobs[jobIndex]->execute(jobIndex);
@@ -80,7 +87,7 @@ vector<long> run() {
             // next 4 lines are Linux only, comment it for Windows
             cpu_set_t cpuset;
             CPU_ZERO(&cpuset);
-            CPU_SET(k, &cpuset);
+            CPU_SET(coresNumbers[k], &cpuset);
             pthread_setaffinity_np(threads[k].native_handle(), sizeof(cpu_set_t), &cpuset);
         }
 
@@ -121,7 +128,7 @@ int main() {
         inFile >> jobsCount;
 
         readOrderTable(&inFile, jobsCount);
-        readDelayis(&inFile, jobsCount);
+        readDelays(&inFile, jobsCount);
         readJobs(&inFile, jobsCount);
         readQueues(&inFile);
 

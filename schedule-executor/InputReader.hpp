@@ -2,7 +2,7 @@
 
 using namespace std;
 
-vector<double> delayis;
+vector<double> delays;
 vector<Job*> jobs;
 vector<vector<int>> order;
 vector<thread> threads;
@@ -23,11 +23,11 @@ void readOrderTable(ifstream* inFile, int jobsCount) {
     }
 }
 
-void readDelayis(ifstream* inFile, int jobsCount) {
-    delayis = vector<double>(jobsCount);
+void readDelays(ifstream* inFile, int jobsCount) {
+    delays = vector<double>(jobsCount);
 
     for (int i = 0; i < jobsCount; i++) {
-        *inFile >> delayis[i];
+        *inFile >> delays[i];
     }
 }
 
