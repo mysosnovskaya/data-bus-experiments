@@ -147,10 +147,10 @@ All the results (result files of the programs) are stored in `schedule-executor/
 Input: input files should be in the `schedule-executor/input` directory. The file names can be anything. The file format is:
 
     4                               // jobs count
-    0 1 0 0                         // order table. this line means "job0 should be executed after job1"
-    0 0 0 0                         // order table. this line means "job1 doesn't have any restrictions by order"
-    1 0 0 1                         // order table. this line means "job2 should be executed after job0 and job3"
-    0 0 0 0                         // order table. this line means "job3 doesn't have any restrictions by order"
+    0 1 0 0                         // order table. this line means "job1 should be executed after job0"
+    0 0 0 0                         // order table. this line means "no job to be executed after job1"
+    1 0 0 1                         // order table. this line means "job0 and job3 should be executed after job2"
+    0 0 0 0                         // order table. this line means "no job to be executed after job3"
     0.0 0.0 0.0 0.0                 // delays (for each job). how many milliseconds should be skipped before the job started
     60 SUM 35 COPY 40 SUM 45 XPY    // the job ids
     2 3 1                           // number of queues and how many jobs are performed in each queue.
