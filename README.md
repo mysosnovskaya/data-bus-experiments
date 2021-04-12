@@ -166,3 +166,20 @@ Output:
 
         data_6j_NO_ORDER_4c_40_COPY_50_SUM_1200_QR_45_SUM_40_XPY_30_COPY.txt
         7234,7366,7149,7199,7250
+
+
+
+
+
+
+
+
+# Helper scripts
+
+`helper-scripts` directory contains some scripts for building histograms, converting data to correct input format, etc.
+
+### Histogram builder
+
+The script `build-histograms.py` (in `histogram-builder` directory) helps to build histograms. 
+The input files are output files of `execution-statistics` program. The output files are histograms.
+The first number in the output file names is value of `p`.
