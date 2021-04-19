@@ -24,22 +24,19 @@ void printVector(vector<T>& v, ostream& out) {
 }
 
 vector<string> partialOrderTypes = { "NO_ORDER", "RANDOM", "BITREE", "ONE_TO_MANY_TO_ONE" };
-vector<int> jobsCountArray = { 15, 50, 100, 200 };
+vector<int> jobsCountArray = { /*15*/, 50, 100, 200 };
 int optionsCount = 10;
 const int iterationCount = 7;
 
-string getFileName(string partialOrderType, vector<Job*> jobs) {
-    auto jobsCountStr = to_string(jobs.size());
+string getFileName(string partialOrderType, int jobsCount, int optionNumber) {
+    auto jobsCountStr = to_string(jobsCount);
+    auto optionNumberStr = to_string(optionNumber);
 
-    string jobsIdsString;
-    for (int i = 0; i < jobs.size(); i++) {
-        jobsIdsString = jobsIdsString + "_" + jobs[i]->getJobId();
-    }
-    return string("results/tbb_output_") + string(jobsCountStr) + "j_" + partialOrderType + "_" + jobsIdsString + string(".txt");
+    return string("results/tbb_output_") + string(jobsCountStr) + "j_" + partialOrderType + "_" + optionNumberStr + string(".txt");
 }
 
-void printData(vector<double> durations, vector<vector<int>> orderTable, string partialOrderType, vector<Job*> jobs) {
-    string fileName = getFileName(partialOrderType, jobs);
+void printData(vector<double> durations, vector<vector<int>> orderTable, string partialOrderType, vector<Job*> jobs, int optionNumber) {
+    string fileName = getFileName(partialOrderType, jobs.size(), optionNumber);
 
     ofstream myfile;
     myfile.open(fileName);
@@ -112,6 +109,7 @@ vector<double> run(vector<Job*> jobs, vector<vector<int>> orderTable) {
 
 int main() {
     srand(unsigned(time(0)));
+    int optionNumber = 0;
     for (int jobsCount : jobsCountArray) {
         for (int option = 0; option < optionsCount; option++) {
             vector<Job*> jobs(jobsCount);
@@ -123,12 +121,13 @@ int main() {
                 cout << endl << "Starting execution for " << partialOrderType << " type" << endl;
                 vector<vector<int>> orderTable = getOrderTable(jobs.size(), partialOrderType);
                 vector<double> durations = run(jobs, orderTable);
-                printData(durations, orderTable, partialOrderType, jobs);
+                printData(durations, orderTable, partialOrderType, jobs, optionNumber);
             }
 
             for (int j = 0; j < jobsCount; j++) {
                 delete jobs[j];
             }
+            optionNumber++;
         }
     }
 
