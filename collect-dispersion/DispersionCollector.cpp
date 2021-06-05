@@ -20,9 +20,7 @@ void printVector(vector<T>& v, ostream& out) {
     }
 }
 
-int maxCoresCount = 4;
-
-const int iterationCount = 1;
+const int iterationCount = 55;
 
 struct JobFields {
     string type;
@@ -64,7 +62,7 @@ long run(Job* job) {
         double tmp = 1.0;
         high_resolution_clock::time_point startTime = high_resolution_clock::now();
 
-        job->execute(&tmp, true);
+        job->execute(&tmp, false);
 
         high_resolution_clock::time_point endTime = high_resolution_clock::now();
         duration<double, std::milli> time = endTime - startTime;
