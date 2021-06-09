@@ -20,7 +20,7 @@ void printVector(vector<T>& v, ostream& out) {
     }
 }
 
-const int iterationCount = 55;
+const int iterationCount = 305;
 
 struct JobFields {
     string type;
