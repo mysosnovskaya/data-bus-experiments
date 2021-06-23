@@ -10,6 +10,7 @@ vector<bool> jobIsFinished;
 vector<vector<int>> queue;
 
 void readOrderTable(ifstream* inFile, int jobsCount) {
+    cerr << "started execution of readOrderTable" << endl;
     order = vector<vector<int>>(jobsCount);
 
     for (int i = 0; i < jobsCount; i++) {
@@ -21,17 +22,21 @@ void readOrderTable(ifstream* inFile, int jobsCount) {
             *inFile >> order[i][j];
         }
     }
+    cerr << "completed execution of readOrderTable" << endl;
 }
 
 void readDelays(ifstream* inFile, int jobsCount) {
+    cerr << "started execution of readDelays" << endl;
     delays = vector<double>(jobsCount);
 
     for (int i = 0; i < jobsCount; i++) {
         *inFile >> delays[i];
     }
+    cerr << "completed execution of readDelays" << endl;
 }
 
 void readJobs(ifstream* inFile, int jobsCount) {
+    cerr << "started execution of readJobs" << endl;
     jobs = vector<Job*>();
     jobIsFinished = vector<bool>(jobsCount);
     for (int i = 0; i < jobsCount; i++) {
@@ -55,9 +60,11 @@ void readJobs(ifstream* inFile, int jobsCount) {
         }
         jobs.push_back(job);
     }
+    cerr << "completed execution of readJobs" << endl;
 }
 
 void readQueues(ifstream* inFile) {
+    cerr << "started execution of readQueues" << endl;
     int queueCount;
     *inFile >> queueCount;
 
@@ -75,4 +82,5 @@ void readQueues(ifstream* inFile) {
             queue[i].push_back(x);
         }
     }
+    cerr << "completed execution of readQueues" << endl;
 }

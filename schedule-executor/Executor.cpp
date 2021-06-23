@@ -43,14 +43,19 @@ void printVector(vector<T>& v, ostream& out) {
 
 void executeJob(vector<int> jobIndexes, pthread_barrier_t* barrier) {
     pthread_barrier_wait(barrier);
+    cerr << "start executeJob ";
+    printVector(jobIndexes, *&cerr);
+    cerr << endl;
     for (int jobIndex : jobIndexes) {
         for (int j = 0; j < order.size(); j++) {
             if (order[j][jobIndex] == 1 && !jobIsFinished[j]) {
+                cerr << "waiting to execute job " << jobIndex << endl;
                 std::unique_lock<std::mutex> lock(m);
                 cv.wait(lock, [j] {return jobIsFinished[j]; });
             }
         }
         if (delays[jobIndex] != 0) {
+            cerr << "delaying for job " << jobIndex << " is " << delays[jobIndex] << endl;
             this_thread::sleep_for(std::chrono::milliseconds((int) delays[jobIndex]));
         }
 
@@ -76,6 +81,7 @@ vector<long> run() {
 
     for (int j = 0; j < iterationCount; j++) {
         cout << endl << endl << "start iteration " << j + 1 << endl << endl;
+        cerr << endl << endl << "start iteration " << j + 1 << endl << endl;
         for (int i = 0; i < jobs.size(); i++) {
             jobIsFinished[i] = false;
         }
@@ -89,6 +95,7 @@ vector<long> run() {
             CPU_ZERO(&cpuset);
             CPU_SET(coresNumbers[k], &cpuset);
             pthread_setaffinity_np(threads[k].native_handle(), sizeof(cpu_set_t), &cpuset);
+            cerr << "therad " << k << " created on core " << coresNumbers[k] << endl;
         }
 
         high_resolution_clock::time_point startTime = high_resolution_clock::now();
@@ -108,6 +115,7 @@ vector<long> run() {
         iterationDurations[j] = time.count();
 
         cout << endl << "iteration " << j + 1 << " finished for " << time.count() << " ms" << endl;
+        cerr << endl << "iteration " << j + 1 << " finished for " << time.count() << " ms" << endl;
     }
     cout << "avarage time for all jobs is " << (averageTime / iterationCount) << " ms" << endl << endl;
     return iterationDurations;
@@ -116,10 +124,13 @@ vector<long> run() {
 int main() {
     srand(unsigned(time(0)));
 
+    cerr << "Started" << endl;
+
     string path = "input";
     int count = 1;
     for (const auto& entry : std::filesystem::recursive_directory_iterator(path)) {
         cout << "start to execute " << count << " : " << entry.path() << endl;
+        cerr << "start to execute " << count << " : " << entry.path() << endl;
 
         ifstream inFile;
         inFile.open(entry.path());
@@ -134,7 +145,9 @@ int main() {
 
         inFile.close();
 
+        cerr << entry.path() << " read. String execution..." << endl;
         vector<long> iterationDurations = run();
+        cerr << entry.path() << " executed. String writing to the file..." << endl;
 
         ofstream myfile;
         myfile.open("results/executor_results.txt", ios_base::app);
@@ -143,11 +156,15 @@ int main() {
         myfile << endl << endl;
         myfile.close();
 
+        cerr << entry.path() << " wrote. String deleting..." << endl;
         for (int i = 0; i < jobsCount; i++) {
             delete jobs[i];
         }
         count++;
+        cerr << entry.path() << " execution completed." << endl;
     }
+
+    cerr << "Completed" << endl;
 
     return 0;
 }

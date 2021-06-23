@@ -59,10 +59,18 @@ public:
         double* y = (double*)mkl_malloc(size * size * sizeof(double), 64);
         double* z = (double*)mkl_malloc(size * size * sizeof(double), 64);
 
-        return new MklMulJob(size, x, y, z);
+        MklMulJob* job = new MklMulJob(size, x, y, z);
+
+        cerr << job->getJobId() << "::x : " << x << endl;
+        cerr << job->getJobId() << "::y : " << y << endl;
+        cerr << job->getJobId() << "::z : " << z << endl;
+
+        return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
+        cerr << getJobId() << "::execute()" << endl;
+
         for (int i = 0; i < 100; i++) {
             if (GLOBAL_EXECUTION_FLAG) {
                 *percentOfExecution = (double)i / 100;
@@ -115,10 +123,17 @@ public:
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
         double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
 
-        return new MklCopyJob(scaledSize, x, y);
+        MklCopyJob* job = new MklCopyJob(scaledSize, x, y);
+
+        cerr << job->getJobId() << "::x : " << x << endl;
+        cerr << job->getJobId() << "::y : " << y << endl;
+
+        return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
+        cerr << getJobId() << "::execute()" << endl;
+
         for (int i = 0; i < 100; i++) {
             if (GLOBAL_EXECUTION_FLAG) {
                 *percentOfExecution = (double)i / 100;
@@ -173,10 +188,17 @@ public:
         double* x = (double*)mkl_malloc(size * size * sizeof(double), 64);
         double* y = (double*)mkl_malloc(size * sizeof(double), 64);
 
-        return new MklQrJob(size, x, y);
+        MklQrJob* job = new MklQrJob(size, x, y);
+
+        cerr << job->getJobId() << "::x : " << x << endl;
+        cerr << job->getJobId() << "::y : " << y << endl;
+
+        return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
+        cerr << getJobId() << "::execute()" << endl;
+
         for (int i = 0; i < 100; i++) {
             if (GLOBAL_EXECUTION_FLAG) {
                 *percentOfExecution = (double)i / 100;
@@ -223,10 +245,16 @@ public:
         long scaledSize = size * 1000000;
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
 
-        return new MklSumJob(scaledSize, x);
+        MklSumJob* job = new MklSumJob(scaledSize, x);
+
+        cerr << job->getJobId() << "::x : " << x << endl;
+
+        return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
+        cerr << getJobId() << "::execute()" << endl;
+
         for (int i = 0; i < 100; i++) {
             if (GLOBAL_EXECUTION_FLAG) {
                 *percentOfExecution = (double)i / 100;
@@ -276,10 +304,17 @@ public:
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
         double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
 
-        return new MklXpyJob(scaledSize, x, y);
+        MklXpyJob* job = new MklXpyJob(scaledSize, x, y);
+
+        cerr << job->getJobId() << "::x : " << x << endl;
+        cerr << job->getJobId() << "::y : " << y << endl;
+
+        return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
+        cerr << getJobId() << "::execute()" << endl;
+
         for (int i = 0; i < 100; i++) {
             if (GLOBAL_EXECUTION_FLAG) {
                 *percentOfExecution = (double)i / 100;
