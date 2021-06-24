@@ -1,3 +1,5 @@
+#include <dirent.h>
+#include <string.h>
 #include <string>
 #include <chrono>
 #include <time.h>
@@ -126,42 +128,56 @@ int main() {
 
     cerr << "Started" << endl;
 
-    string path = "input";
+    char path[] = "input";
     int count = 1;
-    for (const auto& entry : std::filesystem::recursive_directory_iterator(path)) {
-        cout << "start to execute " << count << " : " << entry.path() << endl;
-        cerr << "start to execute " << count << " : " << entry.path() << endl;
 
-        ifstream inFile;
-        inFile.open(entry.path());
+    struct dirent *dir;
+    DIR *d = opendir(path);
+    if (d) {
+        while ((dir = readdir(d)) != NULL) {
+            string file_name(dir->d_name);
+            if (file_name.find(".txt") == std::string::npos) {
+                continue;
+            }
+            string file_path = string(path) + "/" + file_name;
 
-        int jobsCount;
-        inFile >> jobsCount;
+            cout << "start to execute " << count << " : " << file_name << endl;
+            cerr << "start to execute " << count << " : " << file_name << endl;
 
-        readOrderTable(&inFile, jobsCount);
-        readDelays(&inFile, jobsCount);
-        readJobs(&inFile, jobsCount);
-        readQueues(&inFile);
+            ifstream inFile;
+            inFile.open(file_path);
 
-        inFile.close();
+            int jobsCount;
+            inFile >> jobsCount;
 
-        cerr << entry.path() << " read. String execution..." << endl;
-        vector<long> iterationDurations = run();
-        cerr << entry.path() << " executed. String writing to the file..." << endl;
+            readOrderTable(&inFile, jobsCount);
+            readDelays(&inFile, jobsCount);
+            readJobs(&inFile, jobsCount);
+            readQueues(&inFile);
 
-        ofstream myfile;
-        myfile.open("results/executor_results.txt", ios_base::app);
-        myfile << entry.path() << endl;
-        printVector(iterationDurations, *&myfile);
-        myfile << endl << endl;
-        myfile.close();
+            inFile.close();
 
-        cerr << entry.path() << " wrote. String deleting..." << endl;
-        for (int i = 0; i < jobsCount; i++) {
-            delete jobs[i];
+            cerr << file_name << " read. String execution..." << endl;
+            vector<long> iterationDurations = run();
+            cerr << file_name << " executed. String writing to the file..." << endl;
+
+            ofstream myfile;
+            myfile.open("results/executor_results.txt", ios_base::app);
+            myfile << file_name << endl;
+            printVector(iterationDurations, *&myfile);
+            myfile << endl << endl;
+            myfile.close();
+
+            cerr << file_name << " wrote. String deleting..." << endl;
+            for (int i = 0; i < jobsCount; i++) {
+                delete jobs[i];
+            }
+            count++;
+            cerr << file_name << " execution completed." << endl;
         }
-        count++;
-        cerr << entry.path() << " execution completed." << endl;
+        closedir(d);
+    } else {
+        cerr << "Failed to open dir: " << path << endl;
     }
 
     cerr << "Completed" << endl;
