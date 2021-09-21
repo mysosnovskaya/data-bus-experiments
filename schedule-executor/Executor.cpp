@@ -28,7 +28,7 @@ vector<int> coresNumbers = {
     50, 51, 52, 53, 54, 55, 56, 57, 58, 59
 };
 
-const int iterationCount = 40;
+const int iterationCount = 30;
 
 std::condition_variable cv;
 std::mutex m;
@@ -128,7 +128,7 @@ int main() {
 
     cerr << "Started" << endl;
 
-    char path[] = "input";
+    char path[] = "input_from_ga";
     int count = 1;
 
     struct dirent *dir;
@@ -162,7 +162,7 @@ int main() {
             cerr << file_name << " executed. String writing to the file..." << endl;
 
             ofstream myfile;
-            myfile.open("results/executor_results.txt", ios_base::app);
+            myfile.open("results/ga_schedules_executor_results.txt", ios_base::app);
             myfile << file_name << endl;
             printVector(iterationDurations, *&myfile);
             myfile << endl << endl;
