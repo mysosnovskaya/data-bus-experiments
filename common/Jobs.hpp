@@ -4,7 +4,15 @@
 #include <string>
 #include <iostream>
 #include <time.h>
+#ifdef MKL_ILP64
 #include "mkl.h"
+#define USE_MKL
+#else
+#include <cblas64.h>
+#include <lapacke.h>
+#define mkl_malloc(sz, al) malloc(sz)
+#define mkl_free free
+#endif
 #include "ExecutionFlag.hpp"
 
 using namespace std;
