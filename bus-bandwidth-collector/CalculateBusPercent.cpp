@@ -33,101 +33,101 @@ vector<int> coresNumbers = {
 const int iterationCount = 7;
 
 void executeJob(Job* job, pthread_barrier_t* barrier) {
-	pthread_barrier_wait(barrier);
-	job->execute(0);
+    pthread_barrier_wait(barrier);
+    job->execute(0);
 }
 
 long calculateStandardTime(Job* job) {
-	cout << "calculate standard time" << endl;
-	map<string, long> jobSizeToStandardTime;
-	cout << "JobId is " << job->getJobId() << endl;
+    cout << "calculate standard time" << endl;
+    map<string, long> jobSizeToStandardTime;
+    cout << "JobId is " << job->getJobId() << endl;
 
-	int average = 0;
-	for (int i = 0; i < iterationCount; i++) {
-		GLOBAL_EXECUTION_FLAG = false;
-		pthread_barrier_t barrier;
+    int average = 0;
+    for (int i = 0; i < iterationCount; i++) {
+        GLOBAL_EXECUTION_FLAG = false;
+        pthread_barrier_t barrier;
         pthread_barrier_init(&barrier, NULL, 2);
-		thread t(executeJob, job, &barrier);
-		cpu_set_t cpuset;
+        thread t(executeJob, job, &barrier);
+        cpu_set_t cpuset;
         CPU_ZERO(&cpuset);
         CPU_SET(0, &cpuset);
         pthread_setaffinity_np(t.native_handle(), sizeof(cpu_set_t), &cpuset);
-		high_resolution_clock::time_point startTime = high_resolution_clock::now();
-		pthread_barrier_wait(&barrier);
-		t.join();
-		high_resolution_clock::time_point endTime = high_resolution_clock::now();
-		duration<double, std::milli> time = endTime - startTime;
-		cout << "iteration " << i << " time: " << time.count() << endl;
-		average += time.count();
-	}
-	long result = (long)((double)average / iterationCount);
-	cout << "standard time for job " << job->getJobId() << " is " << result << endl;
+        high_resolution_clock::time_point startTime = high_resolution_clock::now();
+        pthread_barrier_wait(&barrier);
+        t.join();
+        high_resolution_clock::time_point endTime = high_resolution_clock::now();
+        duration<double, std::milli> time = endTime - startTime;
+        cout << "iteration " << i << " time: " << time.count() << endl;
+        average += time.count();
+    }
+    long result = (long)((double)average / iterationCount);
+    cout << "standard time for job " << job->getJobId() << " is " << result << endl;
 
-	return result;
+    return result;
 }
 
 int main() {
-	cout << "execution started" << endl;
+    cout << "execution started" << endl;
 
-	for (Job* job : jobs) {
-	    long standardTime = calculateStandardTime(job);
-	    vector<Job*> jobsToExecute;
-	    for (int core: coresNumbers) {
-	        jobsToExecute.push_back(job->copy());
-	    }
-		int iterationsTimeSum = 0;
-		for (int i = 0; i < iterationCount; i++) {
-			vector<thread> threads;
+    for (Job* job : jobs) {
+        long standardTime = calculateStandardTime(job);
+        vector<Job*> jobsToExecute;
+        for (int core: coresNumbers) {
+            jobsToExecute.push_back(job->copy());
+        }
+        int iterationsTimeSum = 0;
+        for (int i = 0; i < iterationCount; i++) {
+            vector<thread> threads;
 
-			pthread_barrier_t barrier;
-			pthread_barrier_init(&barrier, NULL, coresNumbers.size() + 1);
+            pthread_barrier_t barrier;
+            pthread_barrier_init(&barrier, NULL, coresNumbers.size() + 1);
 
-			for (int c = 0; c < coresNumbers.size(); c++) {
-				threads.push_back(thread(executeJob, jobsToExecute[c], &barrier));
-				// next 4 lines are Linux only, comment it for Windows
-				cpu_set_t cpuset;
-				CPU_ZERO(&cpuset);
-				CPU_SET(coresNumbers[c], &cpuset);
-				pthread_setaffinity_np(threads.back().native_handle(), sizeof(cpu_set_t), &cpuset);
-			}
+            for (int c = 0; c < coresNumbers.size(); c++) {
+                threads.push_back(thread(executeJob, jobsToExecute[c], &barrier));
+                // next 4 lines are Linux only, comment it for Windows
+                cpu_set_t cpuset;
+                CPU_ZERO(&cpuset);
+                CPU_SET(coresNumbers[c], &cpuset);
+                pthread_setaffinity_np(threads.back().native_handle(), sizeof(cpu_set_t), &cpuset);
+            }
 
-			high_resolution_clock::time_point startTime = high_resolution_clock::now();
+            high_resolution_clock::time_point startTime = high_resolution_clock::now();
 
-			pthread_barrier_wait(&barrier);
-			for (thread& t: threads) {
-				t.join();
-			}
+            pthread_barrier_wait(&barrier);
+            for (thread& t: threads) {
+                t.join();
+            }
 
-			high_resolution_clock::time_point endTime = high_resolution_clock::now();
-			duration<double, std::milli> time = endTime - startTime;
-			iterationsTimeSum += time.count();
-		}
+            high_resolution_clock::time_point endTime = high_resolution_clock::now();
+            duration<double, std::milli> time = endTime - startTime;
+            iterationsTimeSum += time.count();
+        }
 
         for (int j = 0; j < jobsToExecute.size(); j++) {
             delete jobsToExecute[j];
         }
 
-		int averageTime = iterationsTimeSum / iterationCount;
-		cout << "average execution time for job " << job->getJobId() << " is " << averageTime << endl;
+        int averageTime = iterationsTimeSum / iterationCount;
+        cout << "average execution time for job " << job->getJobId() << " is " << averageTime << endl;
 
-		double slowdown = (double) standardTime / averageTime;
+        double slowdown = (double) standardTime / averageTime;
 
-		cout << "slowdown for job " << job->getJobId() << " is " << slowdown << endl << endl;
+        cout << "slowdown for job " << job->getJobId() << " is " << slowdown << endl << endl;
 
-		double busPercent;
-		if (slowdown < (double) 1 / coresNumbers.size()) {
-			busPercent = 0;
-		}
-		else {
-			busPercent = slowdown * 100;
-		}
+        double busPercent;
+        if (slowdown < (double) 1 / coresNumbers.size()) {
+            busPercent = 0;
+        }
+        else {
+            busPercent = slowdown * 100;
+        }
 
-		cout << "bus consumption for job " << job->getJobId() << " is " << busPercent << endl;
+        cout << "bus consumption for job " << job->getJobId() << " is " << busPercent << endl;
 
-		ofstream myfile;
-		myfile.open("results/bus_percents_results.txt", ios_base::app);
-		myfile << job->getJobId() << " " << standardTime << " " << busPercent << endl;
-		myfile.close();
-	}
-	return 0;
+        ofstream myfile;
+        myfile.open("results/bus_percents_results.txt", ios_base::app);
+        myfile << job->getJobId() << " " << standardTime << " " << busPercent << endl;
+        myfile.close();
+    }
+    return 0;
 }
