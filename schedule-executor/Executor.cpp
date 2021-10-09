@@ -127,7 +127,7 @@ int main() {
 
     cerr << "Started" << endl;
 
-    char path[] = "input_from_ga";
+    char path[] = "input_from_ga_manual_bandwidth";
     int count = 1;
 
     struct dirent *dir;
