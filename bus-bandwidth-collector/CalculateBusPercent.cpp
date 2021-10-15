@@ -119,7 +119,7 @@ int main() {
             busPercent = 0;
         }
         else {
-            busPercent = slowdown * 100;
+            busPercent = 100 / (slowdown * coresNumbers.size());
         }
 
         cout << "bus consumption for job " << job->getJobId() << " is " << busPercent << endl;
