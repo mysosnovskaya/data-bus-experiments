@@ -79,13 +79,13 @@ bool allJobsAreFinished() {
     return true;
 }
 
-vector<long> run() {
+vector<long> run(int exampleNumber, int totalExamplesCount) {
     long long averageTime = 0;
 
     vector<long> iterationDurations(iterationCount);
 
     for (int j = 0; j < iterationCount; j++) {
-        cout << endl << endl << "start iteration " << j + 1 << endl << endl;
+        cout << endl << endl << "start iteration " << j + 1 << " for " << exampleNumber << " from " << totalExamplesCount << " examples" << endl << endl;
         cerr << endl << endl << "start iteration " << j + 1 << endl << endl;
         for (int i = 0; i < jobs.size(); i++) {
             jobIsFinished[i] = false;
@@ -157,7 +157,7 @@ int main() {
             inFile.close();
 
             cerr << file_name << " read. String execution..." << endl;
-            vector<long> iterationDurations = run();
+            vector<long> iterationDurations = run(count, 60);
             cerr << file_name << " executed. String writing to the file..." << endl;
 
             ofstream myfile;
