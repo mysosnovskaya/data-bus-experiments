@@ -15,11 +15,38 @@
 #include "../common/Jobs.hpp"
 #include "InputReader.hpp"
 #include <filesystem>
+#include <sched.h>
+#include <tbb/tbb.h>
 #include <tbb/flow_graph.h>
 
 using namespace std;
 using namespace std::chrono;
 namespace fs = std::filesystem;
+
+thread_local int myCpu = -1;
+
+class PinningObserver: public tbb::task_scheduler_observer {
+public:
+    pinning_observer() {
+        observe(true);
+    }
+
+    void on_scheduler_entry( bool worker ) {
+        auto numberOfSlots = tbb::this_task_arena::max_concurrency();
+        cpu_set_t *mask = CPU_ALLOC(numberOfSlots);
+        auto maskSize = CPU_ALLOC_SIZE(numberOfSlots);
+        auto slotNumber = tbb::this_task_arena::current_thread_index();
+        CPU_ZERO_S(maskSize, mask);
+        CPU_SET_S(slotNumber, maskSize, mask);
+        if (sched_setaffinity(0, maskSize, mask)) {
+            cout << "Error in sched_setaffinity" << endl;
+        }
+        myCpu = sched_getcpu();
+    }
+
+    void on_scheduler_exit( bool worker ) {
+    }
+};
 
 const int iterationCount = 30;
 
@@ -77,6 +104,7 @@ vector<long> run(vector<Job*> jobs) {
 
 int main() {
     srand(unsigned(time(0)));
+    PinningObserver p;
 
     cerr << "Started" << endl;
 
