@@ -4,4 +4,4 @@ dpcpp -std=c++17 -DMKL_ILP64 -I${MKLROOT}/include ./TbbBasedExecutor.cpp -L${MKL
 
 chmod +x a-tbb.out
 
-numactl -m 0 -N 0 ./a-tbb.out 2> debug.txt
+numactl -m 1 -N 1 ./a-tbb.out 2> debug.txt
