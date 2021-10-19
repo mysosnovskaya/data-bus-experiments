@@ -15,33 +15,37 @@
 using namespace std;
 using namespace std::chrono;
 
-std::vector<int> coresArray {
-        20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-        30, 31, 32, 33, 34, 35, 36, 37, 38, 39
-    };
-tbb::concurrent_queue<int> cores(coresArray.begin(), coresArray.end());
+std::vector<int> coreNumbersVector {
+    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+    30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+};
+tbb::concurrent_queue<int> coreNumbers(coreNumbersVector.begin(), coreNumbersVector.end());
 
-thread_local int myCpu = -1;
 
 class PinningObserver: public tbb::task_scheduler_observer {
 public:
-    PinningObserver() {
-        observe(true);
-    }
+    PinningObserver() { observe(true); }
 
-    void on_scheduler_entry( bool worker ) {
+    void on_scheduler_entry(bool worker) {
         cpu_set_t cpu_set;
         CPU_ZERO(&cpu_set);
-        int core;
-        cores.try_pop(core);
-        CPU_SET(core, &cpu_set);
-        if(sched_setaffinity(0, sizeof(cpu_set_t), &cpu_set) < 0) {
+        int coreNumber;
+        coreNumbers.try_pop(coreNumber);
+        CPU_SET(coreNumber, &cpu_set);
+        if (sched_setaffinity(0, sizeof(cpu_set_t), &cpu_set) < 0) {
             cerr << "Unable to Set Affinity" << endl;
         }
-        myCpu = sched_getcpu();
     }
 
-    void on_scheduler_exit( bool worker ) {
+    void on_scheduler_exit(bool worker) {
+        cpu_set_t cpu_set;
+        CPU_ZERO(&cpu_set);
+        for (int coreNumber : coreNumbersVector) {
+            CPU_SET(coreNumber, &cpu_set);
+        }
+        if (sched_setaffinity(0, sizeof(cpu_set_t), &cpu_set) < 0) {
+            cerr << "Unable to Set Affinity" << endl;
+        }
     }
 };
 
@@ -141,7 +145,7 @@ vector<double> run(vector<Job*> jobs, vector<vector<int>> orderTable) {
 
 int main() {
     srand(unsigned(time(0)));
-    oneapi::tbb::global_control global_limit(oneapi::tbb::global_control::max_allowed_parallelism, coresArray.size());
+    oneapi::tbb::global_control global_limit(oneapi::tbb::global_control::max_allowed_parallelism, coreNumbersVector.size());
     PinningObserver p;
     int optionNumber = 0;
     for (int jobsCount : jobsCountArray) {
