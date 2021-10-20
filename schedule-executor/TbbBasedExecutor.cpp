@@ -36,25 +36,29 @@ public:
     PinningObserver() { observe(true); }
 
     void on_scheduler_entry(bool worker) {
-        cpu_set_t cpu_set;
-        CPU_ZERO(&cpu_set);
+        auto numberOfSlots = tbb::this_task_arena::max_concurrency();
+        cpu_set_t *cpu_set = CPU_ALLOC(numberOfSlots);
+        CPU_ZERO(cpu_set);
         int coreNumber;
         coreNumbers.try_pop(coreNumber);
-        CPU_SET(coreNumber, &cpu_set);
-        if (sched_setaffinity(0, sizeof(cpu_set_t), &cpu_set) < 0) {
+        CPU_SET(coreNumber, cpu_set);
+        if (sched_setaffinity(0, sizeof(cpu_set_t), cpu_set) < 0) {
             cerr << "Unable to Set Affinity" << endl;
         }
+        CPU_FREE(cpu_set);
     }
 
     void on_scheduler_exit(bool worker) {
-        cpu_set_t cpu_set;
-        CPU_ZERO(&cpu_set);
+        auto numberOfSlots = tbb::this_task_arena::max_concurrency();
+        cpu_set_t *cpu_set = CPU_ALLOC(numberOfSlots);
+        CPU_ZERO(cpu_set);
         for (int coreNumber : coreNumbersVector) {
-            CPU_SET(coreNumber, &cpu_set);
+            CPU_SET(coreNumber, cpu_set);
         }
-        if (sched_setaffinity(0, sizeof(cpu_set_t), &cpu_set) < 0) {
+        if (sched_setaffinity(0, sizeof(cpu_set_t), cpu_set) < 0) {
             cerr << "Unable to Set Affinity" << endl;
         }
+        CPU_FREE(cpu_set);
     }
 };
 
