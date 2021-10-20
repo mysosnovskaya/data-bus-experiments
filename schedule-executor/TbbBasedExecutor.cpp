@@ -1,6 +1,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <string>
+#include <vector>
 #include <chrono>
 #include <time.h>
 #include <cstdlib>
@@ -15,11 +16,51 @@
 #include "../common/Jobs.hpp"
 #include "InputReader.hpp"
 #include <filesystem>
+#include <sched.h>
+#include <tbb/tbb.h>
 #include <tbb/flow_graph.h>
 
 using namespace std;
 using namespace std::chrono;
 namespace fs = std::filesystem;
+
+std::vector<int> coreNumbersVector {
+    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+    30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+};
+tbb::concurrent_queue<int> coreNumbers(coreNumbersVector.begin(), coreNumbersVector.end());
+
+
+class PinningObserver: public tbb::task_scheduler_observer {
+public:
+    PinningObserver() { observe(true); }
+
+    void on_scheduler_entry(bool worker) {
+        auto numberOfSlots = tbb::this_task_arena::max_concurrency();
+        cpu_set_t *cpu_set = CPU_ALLOC(numberOfSlots);
+        CPU_ZERO(cpu_set);
+        int coreNumber = 0;
+        coreNumbers.try_pop(coreNumber);
+        CPU_SET(coreNumber, cpu_set);
+        if (sched_setaffinity(0, sizeof(cpu_set_t), cpu_set) < 0) {
+            cerr << "Unable to Set Affinity" << endl;
+        }
+        CPU_FREE(cpu_set);
+    }
+
+    void on_scheduler_exit(bool worker) {
+        auto numberOfSlots = tbb::this_task_arena::max_concurrency();
+        cpu_set_t *cpu_set = CPU_ALLOC(numberOfSlots);
+        CPU_ZERO(cpu_set);
+        for (int coreNumber : coreNumbersVector) {
+            CPU_SET(coreNumber, cpu_set);
+        }
+        if (sched_setaffinity(0, sizeof(cpu_set_t), cpu_set) < 0) {
+            cerr << "Unable to Set Affinity" << endl;
+        }
+        CPU_FREE(cpu_set);
+    }
+};
 
 const int iterationCount = 30;
 
@@ -77,6 +118,8 @@ vector<long> run(vector<Job*> jobs) {
 
 int main() {
     srand(unsigned(time(0)));
+    oneapi::tbb::global_control global_limit(oneapi::tbb::global_control::max_allowed_parallelism, coreNumbersVector.size());
+    PinningObserver p;
 
     cerr << "Started" << endl;
 

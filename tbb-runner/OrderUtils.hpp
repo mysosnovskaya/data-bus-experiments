@@ -13,6 +13,7 @@
 using namespace std;
 
 int PARTIAL_ORDER_COEFFICIENT = 2;
+int RANDOM_PARTIAL_ORDER_COEFFICIENT = 5;
 
 double randBinary() {
     return (double)(rand() % 100) / 100;
@@ -73,7 +74,7 @@ vector<vector<int>> getRandomOrderTable(int jobsCount) {
 
     for (int i = 0; i < jobsCount; i++) {
         for (int j = i + 1; j < jobsCount; j++) {
-            if (rand() % PARTIAL_ORDER_COEFFICIENT == 0) {
+            if (rand() % RANDOM_PARTIAL_ORDER_COEFFICIENT == 0) {
                 orderTable[i][j] = 1;
             }
         }
