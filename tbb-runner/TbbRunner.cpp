@@ -30,7 +30,7 @@ public:
         auto numberOfSlots = tbb::this_task_arena::max_concurrency();
         cpu_set_t *cpu_set = CPU_ALLOC(numberOfSlots);
         CPU_ZERO(cpu_set);
-        int coreNumber;
+        int coreNumber = 0;
         coreNumbers.try_pop(coreNumber);
         CPU_SET(coreNumber, cpu_set);
         if (sched_setaffinity(0, sizeof(cpu_set_t), cpu_set) < 0) {
