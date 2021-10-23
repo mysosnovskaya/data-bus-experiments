@@ -12,6 +12,7 @@
 #include <iomanip>
 #include "../common/Jobs.hpp"
 #include "../common/ExecutionFlag.hpp"
+#include "../common/CorePresets.hpp"
 #include <condition_variable>
 
 using namespace std;
@@ -21,23 +22,18 @@ vector<Job*> jobs = {
     MklXpyJob::create(20), MklXpyJob::create(35), MklXpyJob::create(50), MklXpyJob::create(65),
     MklSumJob::create(200), MklSumJob::create(350), MklSumJob::create(500), MklSumJob::create(650),
     MklQrJob::create(1000), MklQrJob::create(1100), MklQrJob::create(1200), MklQrJob::create(1300),
-    MklCopyJob::create(10), MklCopyJob::create(25), MklCopyJob::create(40), MklCopyJob::create(55)
+    MklCopyJob::create(10), MklCopyJob::create(25), MklCopyJob::create(40), MklCopyJob::create(55),
+    MklMulJob::create(1000), MklMulJob::create(1100), MklMulJob::create(1200), MklMulJob::create(1300)
 };
 
-vector<int> coresNumbers = {
-     0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
-    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-    40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-    50, 51, 52, 53, 54, 55, 56, 57, 58, 59
-};
-const int iterationCount = 7;
+const int ITERATION_COUNT_DEFAULT = 7;
 
 void executeJob(Job* job, pthread_barrier_t* barrier) {
     pthread_barrier_wait(barrier);
     job->execute(0);
 }
 
-long calculateStandardTime(Job* job) {
+long calculateStandardTime(Job* job, int iterationCount) {
     cout << "calculate standard time" << endl;
     map<string, long> jobSizeToStandardTime;
     cout << "JobId is " << job->getJobId() << endl;
@@ -66,11 +62,8 @@ long calculateStandardTime(Job* job) {
     return result;
 }
 
-int main() {
-    cout << "execution started" << endl;
-
-    for (Job* job : jobs) {
-        long standardTime = calculateStandardTime(job);
+void calculateBusPercent(Job* job, vector<int> coresNumbers, int iterationCount, string outputFile) {
+        long standardTime = calculateStandardTime(job, iterationCount);
         vector<Job*> jobsToExecute;
         for (int core: coresNumbers) {
             jobsToExecute.push_back(job->copy());
@@ -125,9 +118,57 @@ int main() {
         cout << "bus consumption for job " << job->getJobId() << " is " << busPercent << endl;
 
         ofstream myfile;
-        myfile.open("results/bus_percents_results.txt", ios_base::app);
+        myfile.open(outputFile, ios_base::app);
         myfile << job->getJobId() << " " << standardTime << " " << busPercent << endl;
         myfile.close();
+}
+
+int main(int argc, char** argv) {
+    // required arguments
+    string corePreset = "";
+
+    // optional arguments
+    int iterationCount = ITERATION_COUNT_DEFAULT;
+    string outputFile = "results/bus_percents_results.txt";
+
+    for (auto i = 0; i < argc; ++i) {
+        auto name = argv[i];
+
+        if (strcmp("--core-preset", name) == 0) {
+            ++i;
+            if (i < argc) {
+                auto value = argv[i];
+                corePreset = value;
+            }
+        }
+
+        if (strcmp("--iteration-count", name) == 0) {
+            ++i;
+            if (i < argc) {
+                auto value = argv[i];
+                iterationCount = atoi(value);
+            }
+        }
+
+        if (strcmp("--output-file", name) == 0) {
+            ++i;
+            if (i < argc) {
+                auto value = argv[i];
+                outputFile = value;
+            }
+        }
+    }
+
+    if (corePreset == "") {
+        cerr << "Missing core-preset. See README.md for more information" << endl;
+        return -1;
+    }
+    vector<int> coresNumbers = getCoreNumbers(corePreset);
+
+    cout << "execution started" << endl;
+
+    for (Job* job : jobs) {
+        calculateBusPercent(job, coresNumbers, iterationCount, outputFile);
     }
     return 0;
 }
