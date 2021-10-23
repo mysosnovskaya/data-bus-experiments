@@ -25,8 +25,8 @@ public:
     virtual string getType() = 0;
 
     string getJobId() {
-        auto jobsSizetStr = to_string(getSize());
-        return jobsSizetStr + string("_") + getType();
+        auto jobsSizeStr = to_string(getSize());
+        return jobsSizeStr + string("_") + getType();
     }
 
     virtual int execute(double* percentOfExecution, bool changeFlagTo) = 0;

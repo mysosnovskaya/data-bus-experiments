@@ -33,8 +33,8 @@ string generateJobId() {
     } else {
         size = qrPossibleSizes[randInt(0, qrPossibleSizes.size())];
     }
-    auto jobsSizetStr = to_string(size);
-    return jobsSizetStr + string("_") + type;
+    auto jobsSizeStr = to_string(size);
+    return jobsSizeStr + string(" ") + type;
 }
 
 void prepareToPartialOrder(vector<int>* partialOrder, vector<int>* graphComponentsSeparatorsList, int jobsCount, int avgGraphComponentSize) {
@@ -196,7 +196,7 @@ void printData(string outputDirectory, vector<vector<int>> orderTable, string pa
 
     myfile << jobIds.size() << endl;
     for (int i = 0; i < jobIds.size(); i++) {
-        myfile << jobIds[i] << " ";
+        myfile << jobIds[i] << "  ";
     }
     myfile << endl;
     myfile << endl;
@@ -205,6 +205,8 @@ void printData(string outputDirectory, vector<vector<int>> orderTable, string pa
 }
 
 int main(int argc, char** argv) {
+    srand(unsigned(time(0)));
+
     // required arguments
     int jobsCount = NULL;
     int examplesCount = NULL;
