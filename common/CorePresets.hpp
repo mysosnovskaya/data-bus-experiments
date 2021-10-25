@@ -24,6 +24,10 @@ vector<int> HUAWEI_SERVER_NODE_1 = {
     36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47
 };
 
+vector<int> LOCALHOST = {
+     1, 3, 5, 7
+};
+
 vector<int> getCoreNumbers(string presetName) {
     if (presetName == "INTEL_SERVER_NODE_0") {
         return INTEL_SERVER_NODE_0;
@@ -33,6 +37,8 @@ vector<int> getCoreNumbers(string presetName) {
        return HUAWEI_SERVER_NODE_0;
     } else if (presetName == "HUAWEI_SERVER_NODE_1") {
        return HUAWEI_SERVER_NODE_1;
+    } else if (presetName == "LOCALHOST") {
+       return LOCALHOST;
     } else {
         cerr << "Unknown core preset name " << presetName << endl;
         throw invalid_argument("Unknown core preset name " + presetName);

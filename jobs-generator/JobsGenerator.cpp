@@ -3,6 +3,7 @@
 #include <iostream>
 #include <set>
 #include <string>
+#include <cstring>
 #include "../common/Utils.hpp"
 
 using namespace std;
@@ -16,7 +17,7 @@ vector<int> qrPossibleSizes = { 1000, 1100, 1200, 1300 };
 vector<int> copyPossibleSizes = { 10, 25, 40, 55 };
 vector<int> mulPossibleSizes = { 1000, 1100, 1200, 1300 };
 
-double EDGE_PROBABILITY_DEFAULT = 0.2;
+double EDGE_PROBABILITY_DEFAULT = 0.02;
 int AVG_GRAPH_COMPONENT_SIZE_DEFAULT = 10;
 
 string generateJobId() {
@@ -199,7 +200,6 @@ void printData(string outputDirectory, vector<vector<int>> orderTable, string pa
         myfile << jobIds[i] << "  ";
     }
     myfile << endl;
-    myfile << endl;
     printVectorOfVectors(orderTable, *&myfile);
     myfile.close();
 }
@@ -208,14 +208,14 @@ int main(int argc, char** argv) {
     srand(unsigned(time(0)));
 
     // required arguments
-    int jobsCount = NULL;
-    int examplesCount = NULL;
+    int jobsCount = -1;
+    int examplesCount = -1;
 
     // optional arguments
     string partialOrderType = "";
     double edgeProbability = EDGE_PROBABILITY_DEFAULT;
     int avgGraphComponentSize = AVG_GRAPH_COMPONENT_SIZE_DEFAULT;
-    string outputDirectory = "results";
+    string outputDirectory = "jobs-generator/results";
 
     for (auto i = 0; i < argc; ++i) {
         auto name = argv[i];
@@ -241,7 +241,7 @@ int main(int argc, char** argv) {
             if (i < argc) {
                 auto value = argv[i];
                 partialOrderType = value;
-                if (find(partialOrderTypes.begin(), partialOrderTypes.end(), partialOrderType) != partialOrderTypes.end()) {
+                if (find(partialOrderTypes.begin(), partialOrderTypes.end(), partialOrderType) == partialOrderTypes.end()) {
                     cerr << "Unknown partial order type " << partialOrderType << endl;
                     return -1;
                 }
@@ -273,11 +273,11 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (jobsCount == NULL) {
+    if (jobsCount == -1) {
         cerr << "Missing jobs-count. See README.md for more information" << endl;
         return -1;
     }
-    if (examplesCount == NULL) {
+    if (examplesCount == -1) {
         cerr << "Missing examples-count. See README.md for more information" << endl;
         return -1;
     }

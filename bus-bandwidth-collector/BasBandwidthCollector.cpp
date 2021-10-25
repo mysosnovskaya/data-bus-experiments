@@ -4,16 +4,13 @@
 #include <cstdlib>
 #include <set>
 #include <map>
-#include <algorithm>
-#include <random>
 #include <iostream>
 #include <thread>
 #include <fstream>
-#include <iomanip>
+#include <cstring>
 #include "../common/Jobs.hpp"
 #include "../common/ExecutionFlag.hpp"
 #include "../common/CorePresets.hpp"
-#include <condition_variable>
 
 using namespace std;
 using namespace std::chrono;
@@ -129,7 +126,7 @@ int main(int argc, char** argv) {
 
     // optional arguments
     int iterationCount = ITERATION_COUNT_DEFAULT;
-    string outputFile = "results/bus_percents_results.txt";
+    string outputFile = "bus-bandwidth-collector/results/bus_percents_results.txt";
 
     for (auto i = 0; i < argc; ++i) {
         auto name = argv[i];

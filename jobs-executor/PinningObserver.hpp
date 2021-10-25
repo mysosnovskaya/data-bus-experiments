@@ -12,7 +12,11 @@ private:
 public:
     PinningObserver(vector<int> coreNumbersVector) {
         this->coreNumbersVector = coreNumbersVector;
-        coreNumbers = tbb::concurrent_queue<int>(coreNumbersVector.begin(), coreNumbersVector.end());
+
+        for (int coreNumber : coreNumbersVector) {
+            this->coreNumbers.push(coreNumber);
+        }
+        
         observe(true);
     }
 

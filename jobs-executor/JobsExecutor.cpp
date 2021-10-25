@@ -15,6 +15,7 @@
 #include <iomanip>
 #include "../common/Jobs.hpp"
 #include "../common/Utils.hpp"
+#include "../common/CorePresets.hpp"
 #include "InputReader.hpp"
 #include "PinningObserver.hpp"
 #include <filesystem>
@@ -28,7 +29,7 @@ namespace fs = std::filesystem;
 
 const int ITERATION_COUNT_DEFAULT = 30;
 
-vector<long> run(vector<Job*> jobs, int exampleNumber, int totalExamplesCount, iterationCount) {
+vector<long> run(vector<Job*> jobs, int exampleNumber, int totalExamplesCount, int iterationCount, vector<vector<int>>& order) {
     long long averageTime = 0;
 
     vector<long> iterationDurations(iterationCount);
@@ -82,7 +83,7 @@ void execute(int exampleNumber, int totalExamplesCount, string inputFile, string
     vector<vector<int>> order = readOrderTable(&inFile, jobsCount);
     inFile.close();
 
-    vector<long> iterationDurations = run(jobs, exampleNumber, totalExamplesCount, iterationCount);
+    vector<long> iterationDurations = run(jobs, exampleNumber, totalExamplesCount, iterationCount, order);
 
     ofstream myfile;
     myfile.open(outputFile, ios_base::app);
@@ -104,9 +105,9 @@ int main(int argc, char** argv) {
 
     // optional arguments
     string inputFile = "";
-    char inputDir[] = "input";
+    string inputDir = "jobs-executor/input";
     int iterationCount = ITERATION_COUNT_DEFAULT;
-    string outputFile = "results/jobs_executor_results.txt";
+    string outputFile = "jobs-executor/results/jobs_executor_results.txt";
 
     for (auto i = 0; i < argc; ++i) {
         auto name = argv[i];
@@ -160,16 +161,16 @@ int main(int argc, char** argv) {
     vector<int> coresNumbers = getCoreNumbers(corePreset);
 
     oneapi::tbb::global_control global_limit(oneapi::tbb::global_control::max_allowed_parallelism, coresNumbers.size());
-    PinningObserver p;
+    PinningObserver p(coresNumbers);
 
     if (inputFile != "") {
         execute(1, 1, inputFile, outputFile, iterationCount);
         return 0;
     }
 
-    int count = 1;
+    vector<string> filePaths;
     struct dirent *dir;
-    DIR *d = opendir(inputDir);
+    DIR *d = opendir(inputDir.c_str());
     if (d) {
         while ((dir = readdir(d)) != NULL) {
             string fileName(dir->d_name);
@@ -177,12 +178,13 @@ int main(int argc, char** argv) {
                 continue;
             }
             string filePath = string(inputDir) + "/" + fileName;
-
-            execute(count, filePath, outputFile, iterationCount);
-
-            count++;
+            filePaths.push_back(filePath);
         }
         closedir(d);
+    }
+
+    for (int i = 0; i < filePaths.size(); ++i) {
+        execute(i + 1, filePaths.size(), filePaths[i], outputFile, iterationCount);
     }
 
     return 0;
