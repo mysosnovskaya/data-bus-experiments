@@ -4,4 +4,4 @@ dpcpp -DMKL_ILP64 -I${MKLROOT}/include ./CalculateBusPercent.cpp -L${MKLROOT}/li
 
 chmod +x ManualCollector.out
 
-sudo numactl -m 0 -N 0 ./ManualCollector.out
+sudo numactl -m 1 -N 1 ./ManualCollector.out
