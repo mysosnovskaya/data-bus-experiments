@@ -38,11 +38,12 @@ public:
     void on_scheduler_entry(bool worker) {
         auto numberOfSlots = tbb::this_task_arena::max_concurrency();
         cpu_set_t *cpu_set = CPU_ALLOC(numberOfSlots);
-        CPU_ZERO(cpu_set);
+        size_t setsize = CPU_ALLOC_SIZE(numberOfSlots);
+        CPU_ZERO_S(setsize, cpu_set);
         int coreNumber = 0;
         coreNumbers.try_pop(coreNumber);
-        CPU_SET(coreNumber, cpu_set);
-        if (sched_setaffinity(0, sizeof(cpu_set_t), cpu_set) < 0) {
+        CPU_SET_S(coreNumber, setsize, cpu_set);
+        if (sched_setaffinity(0, setsize, cpu_set) < 0) {
             cerr << "Unable to Set Affinity" << endl;
         }
         CPU_FREE(cpu_set);
@@ -51,11 +52,12 @@ public:
     void on_scheduler_exit(bool worker) {
         auto numberOfSlots = tbb::this_task_arena::max_concurrency();
         cpu_set_t *cpu_set = CPU_ALLOC(numberOfSlots);
-        CPU_ZERO(cpu_set);
+        size_t setsize = CPU_ALLOC_SIZE(numberOfSlots);
+        CPU_ZERO_S(setsize, cpu_set);
         for (int coreNumber : coreNumbersVector) {
-            CPU_SET(coreNumber, cpu_set);
+            CPU_SET_S(coreNumber, setsize, cpu_set);
         }
-        if (sched_setaffinity(0, sizeof(cpu_set_t), cpu_set) < 0) {
+        if (sched_setaffinity(0, setsize, cpu_set) < 0) {
             cerr << "Unable to Set Affinity" << endl;
         }
         CPU_FREE(cpu_set);
