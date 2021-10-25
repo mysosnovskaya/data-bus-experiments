@@ -1,9 +1,8 @@
 #pragma once
 
 #include <chrono>
-#include <string>
-#include <iostream>
 #include <time.h>
+#include <string>
 #ifdef MKL_ILP64
 #include "mkl.h"
 #define USE_MKL
