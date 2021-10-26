@@ -13,6 +13,7 @@
 #include "../common/CorePresets.hpp"
 #include "InputReader.hpp"
 #include "PinningObserver.hpp"
+#include <filesystem>
 #include <sched.h>
 #include <tbb/tbb.h>
 #include <tbb/flow_graph.h>
