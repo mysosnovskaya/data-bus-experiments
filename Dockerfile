@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 COPY data-bus-experiments-non-mkl.zip /
 
-RUN apt update && apt install -y unzip g++ libopenblas64-serial-dev liblapacke-dev liblapacke64-dev libtbb-dev
+RUN apt update && apt install -y unzip g++ libopenblas64-serial-dev liblapacke-dev liblapacke64-dev libtbb-dev numactl
 RUN unzip data-bus-experiments-non-mkl.zip
 
 WORKDIR /data-bus-experiments-non-mkl/tbb-runner
