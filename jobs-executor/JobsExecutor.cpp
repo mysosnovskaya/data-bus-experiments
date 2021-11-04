@@ -2,6 +2,7 @@
 #include <string.h>
 #include <string>
 #include <vector>
+#include <map>
 #include <chrono>
 #include <time.h>
 #include <cstdlib>
@@ -24,51 +25,36 @@ namespace fs = std::filesystem;
 
 const int ITERATION_COUNT_DEFAULT = 30;
 
-vector<long> run(vector<Job*> jobs, int exampleNumber, int totalExamplesCount, int iterationCount, vector<vector<int>>& order) {
-    long long averageTime = 0;
+long run(vector<Job*> jobs, vector<vector<int>>& order) {
+    tbb::flow::graph g;
+    tbb::flow::continue_node< tbb::flow::continue_msg >
+        node0(g, [](const tbb::flow::continue_msg&) { cout << "We are starting..." << endl; });
 
-    vector<long> iterationDurations(iterationCount);
+    vector<tbb::flow::continue_node<tbb::flow::continue_msg>*> nodes;
+    for (int j = 0; j < jobs.size(); j++) {
+        nodes.push_back(new tbb::flow::continue_node<tbb::flow::continue_msg>(g, [&jobs, j](const tbb::flow::continue_msg&) { jobs[j]->execute(j); }));
+        tbb::flow::make_edge(node0, *(nodes[j]));
+    }
 
-    for (int j = 0; j < iterationCount; j++) {
-        cout << endl << endl << "start iteration " << j + 1 << " for " << exampleNumber << " from " << totalExamplesCount << " examples" << endl << endl;
-
-        tbb::flow::graph g;
-        tbb::flow::continue_node< tbb::flow::continue_msg >
-            node0(g, [](const tbb::flow::continue_msg&) { cout << "We are starting..." << endl; });
-
-        vector<tbb::flow::continue_node<tbb::flow::continue_msg>*> nodes;
-        for (int j = 0; j < jobs.size(); j++) {
-            nodes.push_back(new tbb::flow::continue_node<tbb::flow::continue_msg>(g, [&jobs, j](const tbb::flow::continue_msg&) { jobs[j]->execute(j); }));
-            tbb::flow::make_edge(node0, *(nodes[j]));
-        }
-
-        for (int j1 = 0; j1 < jobs.size(); j1++) {
-            for (int j2 = 0; j2 < jobs.size(); j2++) {
-                if (order[j1][j2] == 1) {
-                    tbb::flow::make_edge(*nodes[j2], *nodes[j1]);
-                }
+    for (int j1 = 0; j1 < jobs.size(); j1++) {
+        for (int j2 = 0; j2 < jobs.size(); j2++) {
+            if (order[j1][j2] == 1) {
+                tbb::flow::make_edge(*nodes[j2], *nodes[j1]);
             }
         }
-
-        high_resolution_clock::time_point startTime = high_resolution_clock::now();
-
-        node0.try_put(tbb::flow::continue_msg());
-        g.wait_for_all();
-
-        high_resolution_clock::time_point endTime = high_resolution_clock::now();
-        duration<double, std::milli> time = endTime - startTime;
-        averageTime += time.count();
-        iterationDurations[j] = time.count();
-
-        cout << endl << "iteration " << j + 1 << " finished for " << time.count() << " ms" << endl;
     }
-    cout << "average time for all jobs is " << (averageTime / iterationCount) << " ms" << endl << endl;
-    return iterationDurations;
+
+    high_resolution_clock::time_point startTime = high_resolution_clock::now();
+
+    node0.try_put(tbb::flow::continue_msg());
+    g.wait_for_all();
+
+    high_resolution_clock::time_point endTime = high_resolution_clock::now();
+    duration<double, std::milli> time = endTime - startTime;
+    return time.count();
 }
 
-void execute(int exampleNumber, int totalExamplesCount, string inputFile, string outputFile, int iterationCount) {
-    cout << "start to execute " << exampleNumber << "/" << totalExamplesCount << " : " << inputFile << endl;
-
+long execute(string inputFile) {
     ifstream inFile;
     inFile.open(inputFile);
 
@@ -78,18 +64,13 @@ void execute(int exampleNumber, int totalExamplesCount, string inputFile, string
     vector<vector<int>> order = readOrderTable(&inFile, jobsCount);
     inFile.close();
 
-    vector<long> iterationDurations = run(jobs, exampleNumber, totalExamplesCount, iterationCount, order);
-
-    ofstream myfile;
-    myfile.open(outputFile, ios_base::app);
-    myfile << inputFile << endl;
-    printVector(iterationDurations, *&myfile);
-    myfile << endl << endl;
-    myfile.close();
+    long iterationDuration = run(jobs, order);
 
     for (int i = 0; i < jobsCount; i++) {
         delete jobs[i];
     }
+
+    return iterationDuration;
 }
 
 int main(int argc, char** argv) {
@@ -158,29 +139,51 @@ int main(int argc, char** argv) {
     oneapi::tbb::global_control global_limit(oneapi::tbb::global_control::max_allowed_parallelism, coresNumbers.size());
     PinningObserver p(coresNumbers);
 
+    map<string, vector<long>> fileToIterationDurations;
+
     if (inputFile != "") {
-        execute(1, 1, inputFile, outputFile, iterationCount);
-        return 0;
-    }
-
-    vector<string> filePaths;
-    struct dirent *dir;
-    DIR *d = opendir(inputDir.c_str());
-    if (d) {
-        while ((dir = readdir(d)) != NULL) {
-            string fileName(dir->d_name);
-            if (fileName.find(".txt") == std::string::npos) {
-                continue;
+        long iterationDuration = execute(inputFile);
+        vector<long> iterationDurations;
+        iterationDurations.push_back(iterationDuration);
+        fileToIterationDurations[inputFile] = iterationDurations;
+    } else {
+        vector<string> filePaths;
+        struct dirent *dir;
+        DIR *d = opendir(inputDir.c_str());
+        if (d) {
+            while ((dir = readdir(d)) != NULL) {
+                string fileName(dir->d_name);
+                if (fileName.find(".txt") == std::string::npos) {
+                    continue;
+                }
+                string filePath = string(inputDir) + "/" + fileName;
+                filePaths.push_back(filePath);
             }
-            string filePath = string(inputDir) + "/" + fileName;
-            filePaths.push_back(filePath);
+            closedir(d);
         }
-        closedir(d);
+
+        for (int i = 0; i < filePaths.size(); ++i) {
+            fileToIterationDurations[filePaths[i]] = {};
+        }
+
+        for (int it = 0; it < iterationCount; it++) {
+            for (int i = 0; i < filePaths.size(); ++i) {
+                cout << "Start execution iteration " << it + 1 << "/" << iterationCount << " for file " << filePaths[i] << " " << i + 1 << "/" << filePaths.size() << endl;
+                long iterationDuration = execute(filePaths[i]);
+                fileToIterationDurations[filePaths[i]].push_back(iterationDuration);
+                cout << "time is " << iterationDuration << endl << endl;
+            }
+        }
     }
 
-    for (int i = 0; i < filePaths.size(); ++i) {
-        execute(i + 1, filePaths.size(), filePaths[i], outputFile, iterationCount);
+    ofstream myfile;
+    myfile.open(outputFile, ios_base::app);
+    for (auto entry : fileToIterationDurations) {
+        myfile << entry.first << endl;
+        printVector(entry.second, *&myfile);
+        myfile << endl << endl;
     }
+    myfile.close();
 
     return 0;
 }

@@ -66,6 +66,12 @@ public:
         double* y = (double*)mkl_malloc(size * size * sizeof(double), 64);
         double* z = (double*)mkl_malloc(size * size * sizeof(double), 64);
 
+        for (int i = 0; i < size * size; i++) {
+            x[i] = (double) i;
+            y[i] = (double) i + 1;
+            z[i] = (double) i + 2;
+        }
+
         return new MklMulJob(size, x, y, z);
     }
 
@@ -121,6 +127,11 @@ public:
         long scaledSize = size * 1000000;
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
         double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+
+        for (int i = 0; i < scaledSize; i++) {
+            x[i] = (double) i + 3;
+            y[i] = (double) i + 4;
+        }
 
         return new MklCopyJob(scaledSize, x, y);
     }
@@ -180,6 +191,14 @@ public:
         double* x = (double*)mkl_malloc(size * size * sizeof(double), 64);
         double* y = (double*)mkl_malloc(size * sizeof(double), 64);
 
+        for (int i = 0; i < size * size; i++) {
+            x[i] = (double) i + 5;
+        }
+
+        for (int i = 0; i < size; i++) {
+            y[i] = (double) i + 6;
+        }
+
         return new MklQrJob(size, x, y);
     }
 
@@ -229,6 +248,10 @@ public:
     static MklSumJob* create(int size) {
         long scaledSize = size * 1000000;
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+
+        for (int i = 0; i < scaledSize; i++) {
+            x[i] = (double) i + 7;
+        }
 
         return new MklSumJob(scaledSize, x);
     }
@@ -282,6 +305,11 @@ public:
         long scaledSize = size * 1000000;
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
         double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+
+        for (int i = 0; i < scaledSize; i++) {
+            x[i] = (double) i + 8;
+            y[i] = (double) i + 9;
+        }
 
         return new MklXpyJob(scaledSize, x, y);
     }
