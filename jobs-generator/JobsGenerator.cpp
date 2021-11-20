@@ -8,7 +8,7 @@
 
 using namespace std;
 
-vector<string> jobTypes = { "XPY", "SUM", "QR", "COPY", "MUL" };
+vector<string> jobTypes = { "XPY", "SUM", /*"QR",*/ "COPY", "MUL" };
 vector<string> partialOrderTypes = { "NO_ORDER", "RANDOM", "BITREE", "ONE_TO_MANY_TO_ONE" };
 
 vector<int> xpyPossibleSizes = { 20, 35, 50, 65 };

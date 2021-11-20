@@ -18,7 +18,7 @@ using namespace std::chrono;
 vector<Job*> jobs = {
     MklXpyJob::create(20), MklXpyJob::create(35), MklXpyJob::create(50), MklXpyJob::create(65),
     MklSumJob::create(200), MklSumJob::create(350), MklSumJob::create(500), MklSumJob::create(650),
-    MklQrJob::create(1000), MklQrJob::create(1100), MklQrJob::create(1200), MklQrJob::create(1300),
+   // MklQrJob::create(1000), MklQrJob::create(1100), MklQrJob::create(1200), MklQrJob::create(1300),
     MklCopyJob::create(10), MklCopyJob::create(25), MklCopyJob::create(40), MklCopyJob::create(55),
     MklMulJob::create(1000), MklMulJob::create(1100), MklMulJob::create(1200), MklMulJob::create(1300)
 };
