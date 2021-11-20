@@ -27,7 +27,9 @@ const int ITERATION_COUNT_DEFAULT = 7;
 
 void executeJob(Job* job, pthread_barrier_t* barrier) {
     pthread_barrier_wait(barrier);
-    job->execute(0);
+    cout << "start Job " << job->getJobId() << endl;
+    double tmp = 0;
+    job->execute(&tmp, true);
 }
 
 long calculateStandardTime(Job* job) {

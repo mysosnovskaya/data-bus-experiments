@@ -31,13 +31,13 @@ public:
     virtual int execute(double* percentOfExecution, bool changeFlagTo) = 0;
 
     int execute(int indexJob) {
-        printf("job %d started \n", indexJob);
+        printf("%lu job %s_%d started %ld\n", hash<std::thread::id>{}(this_thread::get_id()), getJobId().c_str(), indexJob, duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
         high_resolution_clock::time_point startTime = high_resolution_clock::now();
         double tmp;
         int result = execute(&tmp, false);
         high_resolution_clock::time_point endTime = high_resolution_clock::now();
         duration<double, std::milli> time = endTime - startTime;
-        printf("job %d finished for %f ms\n", indexJob, time.count());
+        printf("%lu job %s_%d finished %ld for %f ms\n", hash<std::thread::id>{}(this_thread::get_id()), getJobId().c_str(), indexJob, duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(), time.count());
         return result;
     }
 

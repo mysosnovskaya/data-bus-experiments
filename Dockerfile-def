@@ -1,0 +1,8 @@
+FROM ubuntu:latest
+
+COPY data-bus-experiments-refactoring /data-bus-experiments-refactoring
+
+RUN apt update && apt install -y g++ libopenblas64-serial-dev liblapacke-dev liblapacke64-dev libtbb-dev openjdk-11-jre
+
+WORKDIR /data-bus-experiments-refactoring
+RUN bash compile-def.sh
