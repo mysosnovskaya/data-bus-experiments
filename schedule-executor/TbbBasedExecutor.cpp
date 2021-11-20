@@ -147,10 +147,10 @@ int main() {
             int jobsCount;
             inFile >> jobsCount;
 
-            readOrderTable(&inFile, jobsCount);
-            readDelays(&inFile, jobsCount);
             readJobs(&inFile, jobsCount);
-            readQueues(&inFile);
+            readOrderTable(&inFile, jobsCount);
+//            readDelays(&inFile, jobsCount);
+//            readQueues(&inFile);
 
             inFile.close();
 
