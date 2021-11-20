@@ -125,7 +125,7 @@ int main() {
 
     cerr << "Started" << endl;
 
-    char path[] = "input_from_ga";
+    char path[] = "input_our_examples";
     int count = 1;
 
     struct dirent *dir;

@@ -55,8 +55,10 @@ void readJobs(ifstream* inFile, int jobsCount) {
         else if (jobType == "XPY") {
             job = MklXpyJob::create(jobSize);
         }
-        else {
+        else if (jobType == "QR") {
             job = MklQrJob::create(jobSize);
+        } else {
+            job = MklMulJob::create(jobSize);
         }
         jobs.push_back(job);
     }
