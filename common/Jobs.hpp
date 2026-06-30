@@ -25,8 +25,8 @@ public:
     virtual string getType() = 0;
 
     string getJobId() {
-        auto jobsSizetStr = to_string(getSize());
-        return jobsSizetStr + string("_") + getType();
+        auto jobsSizeStr = to_string(getSize());
+        return jobsSizeStr + string("_") + getType();
     }
 
     virtual int execute(double* percentOfExecution, bool changeFlagTo) = 0;
@@ -66,6 +66,12 @@ public:
         double* x = (double*)mkl_malloc(size * size * sizeof(double), 64);
         double* y = (double*)mkl_malloc(size * size * sizeof(double), 64);
         double* z = (double*)mkl_malloc(size * size * sizeof(double), 64);
+
+        for (int i = 0; i < size * size; i++) {
+            x[i] = (double) i;
+            y[i] = (double) i + 1;
+            z[i] = (double) i + 2;
+        }
 
         MklMulJob* job = new MklMulJob(size, x, y, z);
 
@@ -130,6 +136,11 @@ public:
         long scaledSize = size * 1000000;
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
         double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+
+        for (int i = 0; i < scaledSize; i++) {
+            x[i] = (double) i + 3;
+            y[i] = (double) i + 4;
+        }
 
         MklCopyJob* job = new MklCopyJob(scaledSize, x, y);
 
@@ -196,6 +207,13 @@ public:
         double* x = (double*)mkl_malloc(size * size * sizeof(double), 64);
         double* y = (double*)mkl_malloc(size * sizeof(double), 64);
 
+        for (int i = 0; i < size * size; i++) {
+            x[i] = (double) i + 5;
+        }
+        for (int i = 0; i < size; i++) {
+            y[i] = (double) i + 6;
+        }
+
         MklQrJob* job = new MklQrJob(size, x, y);
 
         cerr << job->getJobId() << "::x : " << x << endl;
@@ -252,6 +270,10 @@ public:
     static MklSumJob* create(int size) {
         long scaledSize = size * 1000000;
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+
+        for (int i = 0; i < scaledSize; i++) {
+            x[i] = (double) i + 7;
+        }
 
         MklSumJob* job = new MklSumJob(scaledSize, x);
 
@@ -312,6 +334,11 @@ public:
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
         double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
 
+        for (int i = 0; i < scaledSize; i++) {
+            x[i] = (double) i + 8;
+            y[i] = (double) i + 9;
+        }
+        
         MklXpyJob* job = new MklXpyJob(scaledSize, x, y);
 
         cerr << job->getJobId() << "::x : " << x << endl;

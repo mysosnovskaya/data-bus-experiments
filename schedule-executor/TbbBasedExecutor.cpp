@@ -15,6 +15,7 @@
 #include <iomanip>
 #include "../common/Jobs.hpp"
 #include "InputReader.hpp"
+#include "PinningObserver.hpp"
 #include <filesystem>
 #include <sched.h>
 #include <tbb/tbb.h>
@@ -25,44 +26,9 @@ using namespace std::chrono;
 namespace fs = std::filesystem;
 
 std::vector<int> coreNumbersVector {
-    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-    30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+    0, 1, 2, 3
 };
 tbb::concurrent_queue<int> coreNumbers(coreNumbersVector.begin(), coreNumbersVector.end());
-
-
-class PinningObserver: public tbb::task_scheduler_observer {
-public:
-    PinningObserver() { observe(true); }
-
-    void on_scheduler_entry(bool worker) {
-        auto numberOfSlots = tbb::this_task_arena::max_concurrency();
-        cpu_set_t *cpu_set = CPU_ALLOC(numberOfSlots);
-        size_t setsize = CPU_ALLOC_SIZE(numberOfSlots);
-        CPU_ZERO_S(setsize, cpu_set);
-        int coreNumber = 0;
-        coreNumbers.try_pop(coreNumber);
-        CPU_SET_S(coreNumber, setsize, cpu_set);
-        if (sched_setaffinity(0, setsize, cpu_set) < 0) {
-            cerr << "Unable to Set Affinity" << endl;
-        }
-        CPU_FREE(cpu_set);
-    }
-
-    void on_scheduler_exit(bool worker) {
-        auto numberOfSlots = tbb::this_task_arena::max_concurrency();
-        cpu_set_t *cpu_set = CPU_ALLOC(numberOfSlots);
-        size_t setsize = CPU_ALLOC_SIZE(numberOfSlots);
-        CPU_ZERO_S(setsize, cpu_set);
-        for (int coreNumber : coreNumbersVector) {
-            CPU_SET_S(coreNumber, setsize, cpu_set);
-        }
-        if (sched_setaffinity(0, setsize, cpu_set) < 0) {
-            cerr << "Unable to Set Affinity" << endl;
-        }
-        CPU_FREE(cpu_set);
-    }
-};
 
 const int iterationCount = 30;
 
@@ -121,7 +87,7 @@ vector<long> run(vector<Job*> jobs) {
 int main() {
     srand(unsigned(time(0)));
     oneapi::tbb::global_control global_limit(oneapi::tbb::global_control::max_allowed_parallelism, coreNumbersVector.size());
-    PinningObserver p;
+    PinningObserver p(coreNumbersVector);
 
     cerr << "Started" << endl;
 
