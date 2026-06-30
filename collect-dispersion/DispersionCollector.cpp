@@ -20,7 +20,7 @@ void printVector(vector<T>& v, ostream& out) {
     }
 }
 
-const int iterationCount = 3005;
+const int iterationCount = 2;
 
 struct JobFields {
     string type;
@@ -32,7 +32,7 @@ vector<JobFields> jobs = {
   //  {"SUM", 200}, {"SUM", 250}, {"SUM", 300}, {"SUM", 350}, {"SUM", 400}, {"SUM", 450}, {"SUM", 500}, {"SUM", 550}, {"SUM", 600}, {"SUM", 650},
   //  {"QR", 1000}, {"QR", 1100}, {"QR", 1200}, {"QR", 1300}, {"QR", 1400}, {"QR", 1500}, {"QR", 1600}, {"QR", 1700}, {"QR", 1800}, {"QR", 1900},
  //   {"COPY", 10}, {"COPY", 20}, {"COPY", 30}, {"COPY", 40}, {"COPY", 50}, {"COPY", 60}, {"COPY", 70}, {"COPY", 80}, {"COPY", 90}, {"COPY", 100}
-    {"COPY", 25}, {"COPY", 55}
+    {"GEMV", 16}
 };
 
 string getFileName(string jobType) {
@@ -72,12 +72,14 @@ long run(Job* job) {
 
         jobTime[i] = time.count();
 
+if (i > 0) {
         average += time.count();
     }
+}
 
     printData(jobTime, job->getJobId());
 
-    long result = (long)((double)average / iterationCount);
+    long result = (long)((double)average / (iterationCount - 1));
 
     cout << "average time for job [" << job->getJobId() << "] is " << result << endl << endl;
     return result;
@@ -97,6 +99,12 @@ int main() {
         }
         else if (type == "SUM") {
             job = MklSumJob::create(jobs[i].size);
+        }
+        else if (type == "DOT") {
+            job = MklDotJob::create(jobs[i].size);
+        }
+        else if (type == "GEMV") {
+            job = MklGemvJob::create(jobs[i].size);
         }
         else {
             job = MklXpyJob::create(jobs[i].size);
