@@ -5,111 +5,121 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <numeric>
+#include <pthread.h>
 #include "../common/Jobs.hpp"
 
 using namespace std;
 using namespace std::chrono;
 
-template<typename T>
-void printVector(vector<T>& v, ostream& out) {
-    for (int i = 0; i < v.size(); ++i) {
-        out << v[i];
-        if (i < v.size() - 1) {
-            out << ",";
-        }
-    }
-}
+const int iterationCount = 7;
 
-const int iterationCount = 2;
-
-struct JobFields {
-    string type;
-    int size;
+vector<int> coresNumbers = {
+     0, 1, 2, 3
 };
 
-vector<JobFields> jobs = {
-   // {"XPY", 20}, {"XPY", 25}, {"XPY", 30}, {"XPY", 35}, {"XPY", 40}, {"XPY", 45}, {"XPY", 50}, {"XPY", 55}, {"XPY", 60}, {"XPY", 65},
-  //  {"SUM", 200}, {"SUM", 250}, {"SUM", 300}, {"SUM", 350}, {"SUM", 400}, {"SUM", 450}, {"SUM", 500}, {"SUM", 550}, {"SUM", 600}, {"SUM", 650},
-  //  {"QR", 1000}, {"QR", 1100}, {"QR", 1200}, {"QR", 1300}, {"QR", 1400}, {"QR", 1500}, {"QR", 1600}, {"QR", 1700}, {"QR", 1800}, {"QR", 1900},
- //   {"COPY", 10}, {"COPY", 20}, {"COPY", 30}, {"COPY", 40}, {"COPY", 50}, {"COPY", 60}, {"COPY", 70}, {"COPY", 80}, {"COPY", 90}, {"COPY", 100}
-    {"GEMV", 16}
-};
-
-string getFileName(string jobType) {
-    return string("results/dispersion_collector_out_") + string(jobType) + string(".txt");
+void executeJob(Job* job, pthread_barrier_t* barrier) {
+pthread_barrier_wait(barrier);
+    GLOBAL_EXECUTION_FLAG = false; 
+    double tmp = 0;
+    job->execute(&tmp, true);
 }
 
-void printData(vector<double> durationsOfIterations, string jobType) {
-    string fileName = getFileName(jobType);
-
-    ofstream myfile;
-    myfile.open(fileName);
-
-    myfile << "Job " << jobType << endl;
-    printVector(durationsOfIterations, *&myfile);
-    myfile << endl;
-
-    myfile.close();
-}
-
-long run(Job* job) {
-    cout << "starting execution jobs " << job->getJobId() << endl;
-
-    int average = 0;
-
-    vector<double> jobTime(iterationCount);
+long run(vector<Job*> jobs) {
+     int average = 0;
 
     for (int i = 0; i < iterationCount; i++) {
-        double tmp = 1.0;
+        vector<thread> threads;
+        pthread_barrier_t barrier;
+        pthread_barrier_init(&barrier, NULL, jobs.size() + 1);
+
+        for (size_t c = 0; c < jobs.size(); c++) {
+            threads.push_back(thread(executeJob, jobs[c], &barrier));
+            
+            // Жесткая привязка каждого воркера к своему ядру сокета (0-3)
+            cpu_set_t cpuset;
+            CPU_ZERO(&cpuset);
+            CPU_SET(coresNumbers[c % coresNumbers.size()], &cpuset);
+            pthread_setaffinity_np(threads.back().native_handle(), sizeof(cpu_set_t), &cpuset);
+        }
+
+        pthread_barrier_wait(&barrier);
         high_resolution_clock::time_point startTime = high_resolution_clock::now();
 
-        job->execute(&tmp, false);
+        for (thread& t: threads) {
+            t.join();
+        }
 
         high_resolution_clock::time_point endTime = high_resolution_clock::now();
         duration<double, std::milli> time = endTime - startTime;
+        pthread_barrier_destroy(&barrier);
 
-        cout << "iteration " << i << " time: " << time.count() << endl;
+        cout << "iteration " << i << " time: " << time.count() << " ms" << endl;
 
-        jobTime[i] = time.count();
-
-if (i > 0) {
-        average += time.count();
+        if (i > 1) {
+            average += time.count();
+        }
     }
-}
 
-    printData(jobTime, job->getJobId());
+    long result = (long)((double)average / (iterationCount - 2));
 
-    long result = (long)((double)average / (iterationCount - 1));
-
-    cout << "average time for job [" << job->getJobId() << "] is " << result << endl << endl;
+    cout << "average time is " << result << endl << endl;
     return result;
 }
 
 int main() {
     srand(unsigned(time(0)));
 
-    for (int i = 0; i < jobs.size(); i++) {
-        string type = jobs[i].type;
-        Job* job;
-        if (type == "COPY") {
-            job = MklCopyJob::create(jobs[i].size);
+    // Значения по умолчанию
+    string type = "";
+    int size = -1;
+    int cores = -1;
+
+    // Парсинг флагов командной строки
+    for (int i = 1; i < argc; i++) {
+        string arg = argv[i];
+        if (arg == "--type" && i + 1 < argc) {
+            type = argv[++i];
+        } else if (arg == "--size" && i + 1 < argc) {
+            size = stoi(argv[++i]);
+        } else if (arg == "--cores" && i + 1 < argc) {
+            cores = stoi(argv[++i]);
         }
-        else if (type == "QR") {
-            job = MklQrJob::create(jobs[i].size);
-        }
-        else if (type == "SUM") {
-            job = MklSumJob::create(jobs[i].size);
-        }
-        else if (type == "DOT") {
-            job = MklDotJob::create(jobs[i].size);
-        }
-        else if (type == "GEMV") {
-            job = MklGemvJob::create(jobs[i].size);
-        }
-        else {
-            job = MklXpyJob::create(jobs[i].size);
-        }
-        run(job);
+    }
+
+    #ifdef USE_MKL
+    mkl_set_num_threads(1);
+    #endif
+
+    // Вычисляем корректный размер подзадачи в зависимости от типа
+    int targetSize = size;
+    if (type == "GEMV" || type == "QR") {
+        // Квадратичное деление площади матрицы на число ядер
+        targetSize = static_cast<int>(size / std::sqrt(cores));
+    } else {
+        // Линейное деление векторов
+        targetSize = size / cores;
+    }
+
+    vector<Job*> jobs;
+    for (int i = 0; i < cores; i++) {
+        Job* job = nullptr;
+        if (type == "COPY")      job = MklCopyJob::create(targetSize);
+        else if (type == "QR")   job = MklQrJob::create(targetSize);
+        else if (type == "SUM")  job = MklSumJob::create(targetSize);
+        else if (type == "DOT")  job = MklDotJob::create(targetSize);
+        else if (type == "GEMV") job = MklGemvJob::create(targetSize);
+        else                     job = MklXpyJob::create(targetSize);
+        jobs.push_back(job);
+    }
+
+    cout << "Starting execution: " << cores << "x [" << jobs[0]->getJobId() << "]" << endl;
+
+    // Запуск эксперимента
+    run(jobs, to_string(size) + "_" + type + "_cores_" + to_string(cores));
+
+    // Освобождение памяти
+    for (Job* job : jobs) {
         delete job;
     }
 
