@@ -12,7 +12,7 @@
 using namespace std;
 using namespace std::chrono;
 
-const int iterationCount = 7;
+const int iterationCount = 1;
 
 vector<int> coresNumbers = {
      0, 1, 2, 3
@@ -20,15 +20,19 @@ vector<int> coresNumbers = {
 
 void executeJob(Job* job, pthread_barrier_t* barrier) {
 pthread_barrier_wait(barrier);
-    GLOBAL_EXECUTION_FLAG = false; 
+ high_resolution_clock::time_point startTime = high_resolution_clock::now();
     double tmp = 0;
     job->execute(&tmp, true);
+ high_resolution_clock::time_point endTime = high_resolution_clock::now();
+        duration<double, std::milli> time = endTime - startTime;
+cout << "Finished job " << job->getJobId() << " " << time.count() << endl;
 }
 
 long run(vector<Job*> jobs) {
      int average = 0;
 
     for (int i = 0; i < iterationCount; i++) {
+        GLOBAL_EXECUTION_FLAG = false;
         vector<thread> threads;
         pthread_barrier_t barrier;
         pthread_barrier_init(&barrier, NULL, jobs.size() + 1);
@@ -56,18 +60,18 @@ long run(vector<Job*> jobs) {
 
         cout << "iteration " << i << " time: " << time.count() << " ms" << endl;
 
-        if (i > 1) {
-            average += time.count();
-        }
+        
+        average += time.count();
+        
     }
 
-    long result = (long)((double)average / (iterationCount - 2));
+    long result = (long)((double)average / iterationCount);
 
     cout << "average time is " << result << endl << endl;
     return result;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     srand(unsigned(time(0)));
 
     // Значения по умолчанию
@@ -105,18 +109,23 @@ int main() {
     for (int i = 0; i < cores; i++) {
         Job* job = nullptr;
         if (type == "COPY")      job = MklCopyJob::create(targetSize);
-        else if (type == "QR")   job = MklQrJob::create(targetSize);
+        else if (type == "MUL")   job = MklMulJob::create(targetSize);
         else if (type == "SUM")  job = MklSumJob::create(targetSize);
         else if (type == "DOT")  job = MklDotJob::create(targetSize);
         else if (type == "GEMV") job = MklGemvJob::create(targetSize);
+        else if (type == "QR")   job = MklQrJob::create(targetSize);
         else                     job = MklXpyJob::create(targetSize);
         jobs.push_back(job);
     }
+//    jobs.push_back(MklSumJob::create(60));
+//    jobs.push_back(MklXpyJob::create(60));
+//    jobs.push_back(MklDotJob::create(84));
+//    jobs.push_back(MklSumJob::create(60));
 
     cout << "Starting execution: " << cores << "x [" << jobs[0]->getJobId() << "]" << endl;
 
     // Запуск эксперимента
-    run(jobs, to_string(size) + "_" + type + "_cores_" + to_string(cores));
+    run(jobs);
 
     // Освобождение памяти
     for (Job* job : jobs) {

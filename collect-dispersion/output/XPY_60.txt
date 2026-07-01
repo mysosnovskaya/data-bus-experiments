@@ -1,0 +1,142 @@
+==========================================================
+Запуск серии тестов для типа: XPY, размер: 60
+Дата запуска: Ср июл  1 05:35:10 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: XPY, размер: 60
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+60_XPY::x : 0x7efd4e1eb010
+60_XPY::y : 0x7efd31827010
+Starting execution: 1x [60_XPY]
+iteration 0 time: 30005.1 ms
+iteration 1 time: 30000 ms
+iteration 2 time: 29998.6 ms
+iteration 3 time: 29994.5 ms
+iteration 4 time: 29989.2 ms
+average time is 29997
+
+execution completed
+
+ Performance counter stats for './a.out --type XPY --size 60 --cores 1':
+
+     7 502 648 955      LLC-loads:u                                                   (50,00%)
+     1 572 537 598      LLC-load-misses:u         #   20,96% of all LL-cache accesses  (50,00%)
+        14 978 644      LLC-stores:u                                                  (50,00%)
+            30 356      LLC-store-misses:u                                            (50,00%)
+
+     150,646386594 seconds time elapsed
+
+     150,238501000 seconds user
+       0,392959000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+30_XPY::x : 0x7f83c7fe4010
+30_XPY::y : 0x7f83b9b02010
+30_XPY::x : 0x7f83ab620010
+30_XPY::y : 0x7f839d13e010
+Starting execution: 2x [30_XPY]
+iteration 0 time: 27425.3 ms
+iteration 1 time: 27435.4 ms
+iteration 2 time: 27409.5 ms
+iteration 3 time: 27394.8 ms
+iteration 4 time: 27400.9 ms
+average time is 27412
+
+execution completed
+
+ Performance counter stats for './a.out --type XPY --size 60 --cores 2':
+
+     7 503 749 107      LLC-loads:u                                                   (50,00%)
+     2 263 645 363      LLC-load-misses:u         #   30,17% of all LL-cache accesses  (50,00%)
+        14 834 414      LLC-stores:u                                                  (50,00%)
+            77 843      LLC-store-misses:u                                            (50,00%)
+
+     137,739483516 seconds time elapsed
+
+     274,348033000 seconds user
+       0,393975000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+20_XPY::x : 0x7f5bce9ca010
+20_XPY::y : 0x7f5bc5133010
+20_XPY::x : 0x7f5bbb89c010
+20_XPY::y : 0x7f5bb2005010
+20_XPY::x : 0x7f5ba876e010
+20_XPY::y : 0x7f5b9eed7010
+Starting execution: 3x [20_XPY]
+iteration 0 time: 26757.6 ms
+iteration 1 time: 26752.4 ms
+iteration 2 time: 26761.3 ms
+iteration 3 time: 26758.3 ms
+iteration 4 time: 26759.5 ms
+average time is 26757
+
+execution completed
+
+ Performance counter stats for './a.out --type XPY --size 60 --cores 3':
+
+     7 505 239 710      LLC-loads:u                                                   (50,00%)
+     2 287 978 632      LLC-load-misses:u         #   30,49% of all LL-cache accesses  (50,00%)
+        14 990 005      LLC-stores:u                                                  (50,00%)
+            61 000      LLC-store-misses:u                                            (50,00%)
+
+     134,465415178 seconds time elapsed
+
+     357,357123000 seconds user
+       0,405963000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+15_XPY::x : 0x7fa48217e010
+15_XPY::y : 0x7fa47af0d010
+15_XPY::x : 0x7fa473c9c010
+15_XPY::y : 0x7fa46ca2b010
+15_XPY::x : 0x7fa4657ba010
+15_XPY::y : 0x7fa45e549010
+15_XPY::x : 0x7fa4572d8010
+15_XPY::y : 0x7fa450067010
+Starting execution: 4x [15_XPY]
+iteration 0 time: 26667.6 ms
+iteration 1 time: 26658.1 ms
+iteration 2 time: 26655.8 ms
+iteration 3 time: 26658.7 ms
+iteration 4 time: 26651.1 ms
+average time is 26657
+
+execution completed
+
+ Performance counter stats for './a.out --type XPY --size 60 --cores 4':
+
+     7 506 405 139      LLC-loads:u                                                   (50,00%)
+     2 571 611 404      LLC-load-misses:u         #   34,26% of all LL-cache accesses  (50,00%)
+        14 750 054      LLC-stores:u                                                  (50,00%)
+            48 290      LLC-store-misses:u                                            (50,00%)
+
+     133,961920479 seconds time elapsed
+
+     529,510591000 seconds user
+       1,627774000 seconds sys
+
+
+
+==========================================================
+Тестирование для XPY (60) завершено!
+==========================================================
+
+Тестирование для XPY (60) завершено!

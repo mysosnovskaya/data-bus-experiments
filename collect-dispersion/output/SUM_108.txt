@@ -1,0 +1,132 @@
+==========================================================
+Запуск серии тестов для типа: SUM, размер: 108
+Дата запуска: Ср июл  1 05:03:52 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: SUM, размер: 108
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+108_SUM::x : 0x7f5a94fbb010
+Starting execution: 1x [108_SUM]
+iteration 0 time: 25331.8 ms
+iteration 1 time: 25337.6 ms
+iteration 2 time: 25333.9 ms
+iteration 3 time: 25333 ms
+iteration 4 time: 25340.4 ms
+average time is 25334
+
+execution completed
+
+ Performance counter stats for './a.out --type SUM --size 108 --cores 1':
+
+     6 751 243 126      LLC-loads:u                                                   (50,00%)
+       937 200 510      LLC-load-misses:u         #   13,88% of all LL-cache accesses  (50,00%)
+        13 278 150      LLC-stores:u                                                  (50,00%)
+             1 263      LLC-store-misses:u                                            (50,00%)
+
+     127,169952082 seconds time elapsed
+
+     126,805037000 seconds user
+       0,353972000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+54_SUM::x : 0x7f90f88c8010
+54_SUM::x : 0x7f90deccb010
+Starting execution: 2x [54_SUM]
+iteration 0 time: 20240.6 ms
+iteration 1 time: 20239.1 ms
+iteration 2 time: 20252.5 ms
+iteration 3 time: 20251.2 ms
+iteration 4 time: 20253.9 ms
+average time is 20247
+
+execution completed
+
+ Performance counter stats for './a.out --type SUM --size 108 --cores 2':
+
+     6 753 314 598      LLC-loads:u                                                   (50,00%)
+     1 105 112 787      LLC-load-misses:u         #   16,36% of all LL-cache accesses  (50,00%)
+        13 189 565      LLC-stores:u                                                  (50,00%)
+               412      LLC-store-misses:u                                            (50,00%)
+
+     101,730794974 seconds time elapsed
+
+     202,318624000 seconds user
+       0,352980000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+36_SUM::x : 0x7fb58a044010
+36_SUM::x : 0x7fb578d9b010
+36_SUM::x : 0x7fb567af2010
+Starting execution: 3x [36_SUM]
+iteration 0 time: 15828.7 ms
+iteration 1 time: 15821.1 ms
+iteration 2 time: 15807.5 ms
+iteration 3 time: 15811.1 ms
+iteration 4 time: 15818.3 ms
+average time is 15817
+
+execution completed
+
+ Performance counter stats for './a.out --type SUM --size 108 --cores 3':
+
+     6 752 113 565      LLC-loads:u                                                   (50,00%)
+       825 674 167      LLC-load-misses:u         #   12,23% of all LL-cache accesses  (50,00%)
+        13 303 495      LLC-stores:u                                                  (50,00%)
+               561      LLC-store-misses:u                                            (50,00%)
+
+      79,584832452 seconds time elapsed
+
+     213,382697000 seconds user
+       0,362970000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+27_SUM::x : 0x7ff5fd658010
+27_SUM::x : 0x7ff5f0859010
+27_SUM::x : 0x7ff5e3a5a010
+27_SUM::x : 0x7ff5d6c5b010
+Starting execution: 4x [27_SUM]
+iteration 0 time: 13701.7 ms
+iteration 1 time: 13700.2 ms
+iteration 2 time: 13694.8 ms
+iteration 3 time: 13699.1 ms
+iteration 4 time: 13708.9 ms
+average time is 13700
+
+execution completed
+
+ Performance counter stats for './a.out --type SUM --size 108 --cores 4':
+
+     6 752 693 762      LLC-loads:u                                                   (50,00%)
+       700 500 466      LLC-load-misses:u         #   10,37% of all LL-cache accesses  (50,00%)
+        13 182 736      LLC-stores:u                                                  (50,00%)
+             1 019      LLC-store-misses:u                                            (50,00%)
+
+      68,998905806 seconds time elapsed
+
+     272,844725000 seconds user
+       0,994893000 seconds sys
+
+
+
+==========================================================
+Тестирование для SUM (108) завершено!
+==========================================================
+
+Тестирование для SUM (108) завершено!

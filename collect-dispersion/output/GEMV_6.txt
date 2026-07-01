@@ -1,0 +1,152 @@
+==========================================================
+Запуск серии тестов для типа: GEMV, размер: 6
+Дата запуска: Ср июл  1 05:44:34 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: GEMV, размер: 6
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+6_GEMV::a : 0x7f3f81352010
+6_GEMV::x : 0x570dc0
+6_GEMV::y : 0x57c950
+Starting execution: 1x [6_GEMV]
+iteration 0 time: 8069.95 ms
+iteration 1 time: 8062.6 ms
+iteration 2 time: 8065.09 ms
+iteration 3 time: 8065.69 ms
+iteration 4 time: 8059.5 ms
+average time is 8064
+
+execution completed
+
+ Performance counter stats for './a.out --type GEMV --size 6 --cores 1':
+
+     2 825 076 593      LLC-loads:u                                                   (50,00%)
+       138 037 246      LLC-load-misses:u         #    4,89% of all LL-cache accesses  (50,00%)
+         4 415 801      LLC-stores:u                                                  (50,01%)
+               315      LLC-store-misses:u                                            (50,00%)
+
+      40,485995808 seconds time elapsed
+
+      40,361570000 seconds user
+       0,119986000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+4_GEMV::a : 0x7f140409b010
+4_GEMV::x : 0x2253dc0
+4_GEMV::y : 0x225bad0
+4_GEMV::a : 0x7f13fc688010
+4_GEMV::x : 0x2263800
+4_GEMV::y : 0x226b510
+Starting execution: 2x [4_GEMV]
+iteration 0 time: 6012.99 ms
+iteration 1 time: 6007 ms
+iteration 2 time: 6010.06 ms
+iteration 3 time: 6008.43 ms
+iteration 4 time: 6010.84 ms
+average time is 6009
+
+execution completed
+
+ Performance counter stats for './a.out --type GEMV --size 6 --cores 2':
+
+     2 516 617 118      LLC-loads:u                                                   (50,01%)
+       151 646 074      LLC-load-misses:u         #    6,03% of all LL-cache accesses  (50,00%)
+         3 978 858      LLC-stores:u                                                  (50,00%)
+             8 777      LLC-store-misses:u                                            (50,01%)
+
+      30,196749429 seconds time elapsed
+
+      60,005799000 seconds user
+       0,109994000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+3_GEMV::a : 0x7f0885ebb010
+3_GEMV::x : 0xbf4dc0
+3_GEMV::y : 0xbfab90
+3_GEMV::a : 0x7f0881a10010
+3_GEMV::x : 0xc00980
+3_GEMV::y : 0xc06750
+3_GEMV::a : 0x7f087d565010
+3_GEMV::x : 0xc0c570
+3_GEMV::y : 0xc12340
+Starting execution: 3x [3_GEMV]
+iteration 0 time: 3983.79 ms
+iteration 1 time: 3982.24 ms
+iteration 2 time: 3980.35 ms
+iteration 3 time: 3980.26 ms
+iteration 4 time: 3982.01 ms
+average time is 3981
+
+execution completed
+
+ Performance counter stats for './a.out --type GEMV --size 6 --cores 3':
+
+     2 127 762 498      LLC-loads:u                                                   (50,00%)
+       139 707 902      LLC-load-misses:u         #    6,57% of all LL-cache accesses  (50,01%)
+         3 278 762      LLC-stores:u                                                  (50,01%)
+            33 539      LLC-store-misses:u                                            (50,00%)
+
+      20,038849245 seconds time elapsed
+
+      54,143942000 seconds user
+       0,104992000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+3_GEMV::a : 0x7f64440c3010
+3_GEMV::x : 0x2048dc0
+3_GEMV::y : 0x204eb90
+3_GEMV::a : 0x7f643fc18010
+3_GEMV::x : 0x2054980
+3_GEMV::y : 0x205a750
+3_GEMV::a : 0x7f643b76d010
+3_GEMV::x : 0x2060570
+3_GEMV::y : 0x2066340
+3_GEMV::a : 0x7f64372c2010
+3_GEMV::x : 0x206c170
+3_GEMV::y : 0x2071f40
+Starting execution: 4x [3_GEMV]
+iteration 0 time: 4623.99 ms
+iteration 1 time: 4615.39 ms
+iteration 2 time: 4621.25 ms
+iteration 3 time: 4618.58 ms
+iteration 4 time: 4619.65 ms
+average time is 4619
+
+execution completed
+
+ Performance counter stats for './a.out --type GEMV --size 6 --cores 4':
+
+     2 836 794 359      LLC-loads:u                                                   (50,00%)
+       200 240 483      LLC-load-misses:u         #    7,06% of all LL-cache accesses  (50,00%)
+         4 447 293      LLC-stores:u                                                  (50,00%)
+            68 722      LLC-store-misses:u                                            (50,00%)
+
+      23,267278830 seconds time elapsed
+
+      91,904429000 seconds user
+       0,340942000 seconds sys
+
+
+
+==========================================================
+Тестирование для GEMV (6) завершено!
+==========================================================
+
+Тестирование для GEMV (6) завершено!

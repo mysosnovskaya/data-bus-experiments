@@ -83,17 +83,17 @@ public:
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-        cerr << getJobId() << "::execute()" << endl;
+//        cerr << getJobId() << "::execute()" << endl;
 
         for (int i = 0; i < 100; i++) {
-            if (GLOBAL_EXECUTION_FLAG) {
-                *percentOfExecution = (double)i / 100;
-                return i;
-            }
+//            if (GLOBAL_EXECUTION_FLAG) {
+//                *percentOfExecution = (double)i / 100;
+//                return i;
+//            }
             cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
                 size, size, size, 1.0, x, size, y, size, 0.0, z, size);
         }
-        GLOBAL_EXECUTION_FLAG = changeFlagTo;
+//        GLOBAL_EXECUTION_FLAG = changeFlagTo;
         *percentOfExecution = 1.0;
         return 100;
     }
@@ -151,13 +151,13 @@ public:
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-        cerr << getJobId() << "::execute()" << endl;
+  //      cerr << getJobId() << "::execute()" << endl;
 
         for (int i = 0; i < 100; i++) {
-            if (GLOBAL_EXECUTION_FLAG) {
-                *percentOfExecution = (double)i / 100;
-                return i;
-            }
+  //          if (GLOBAL_EXECUTION_FLAG) {
+  //              *percentOfExecution = (double)i / 100;
+  //              return i;
+  //          }
             if (count % 2 == 0) {
                 cblas_dcopy(size, x, 1, y, 1);
             }
@@ -165,7 +165,7 @@ public:
                 cblas_dcopy(size, y, 1, x, 1);
             }
         }
-        GLOBAL_EXECUTION_FLAG = changeFlagTo;
+    //    GLOBAL_EXECUTION_FLAG = changeFlagTo;
         *percentOfExecution = 1.0;
         count++;
         return 100;
@@ -207,12 +207,12 @@ public:
         double* x = (double*)mkl_malloc(size * size * sizeof(double), 64);
         double* y = (double*)mkl_malloc(size * sizeof(double), 64);
 
-        for (int i = 0; i < size * size; i++) {
-            x[i] = (double) i + 5;
-        }
-        for (int i = 0; i < size; i++) {
-            y[i] = (double) i + 6;
-        }
+//        for (int i = 0; i < size * size; i++) {
+//            x[i] = (double) i + 5;
+//        }
+//        for (int i = 0; i < size; i++) {
+//            y[i] = (double) i + 6;
+ //       }
 
         MklQrJob* job = new MklQrJob(size, x, y);
 
@@ -223,16 +223,16 @@ public:
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-        cerr << getJobId() << "::execute()" << endl;
+    //    cerr << getJobId() << "::execute()" << endl;
 
         for (int i = 0; i < 100; i++) {
-            if (GLOBAL_EXECUTION_FLAG) {
-                *percentOfExecution = (double)i / 100;
-                return i;
-            }
+      //      if (GLOBAL_EXECUTION_FLAG) {
+      //          *percentOfExecution = (double)i / 100;
+      //          return i;
+      //      }
             LAPACKE_dgeqrf(LAPACK_ROW_MAJOR, size, size, x, size, y);
         }
-        GLOBAL_EXECUTION_FLAG = changeFlagTo;
+     //   GLOBAL_EXECUTION_FLAG = changeFlagTo;
         *percentOfExecution = 1.0;
         return 100;
     }
@@ -283,17 +283,17 @@ public:
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-        cerr << getJobId() << "::execute()" << endl;
+      //  cerr << getJobId() << "::execute()" << endl;
 
         for (int i = 0; i < 100; i++) {
-            if (GLOBAL_EXECUTION_FLAG) {
-                *percentOfExecution = (double)i / 100;
-                return i;
-            }
+//            if (GLOBAL_EXECUTION_FLAG) {
+//                *percentOfExecution = (double)i / 100;
+ //               return i;
+ //           }
             // Computes the sum of magnitudes of the vector elements.
             cblas_dasum(size, x, 1);
         }
-        GLOBAL_EXECUTION_FLAG = changeFlagTo;
+ //       GLOBAL_EXECUTION_FLAG = changeFlagTo;
         *percentOfExecution = 1.0;
         return 100;
     }
@@ -348,17 +348,17 @@ public:
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-        cerr << getJobId() << "::execute()" << endl;
+        //cerr << getJobId() << "::execute()" << endl;
 
         for (int i = 0; i < 100; i++) {
-            if (GLOBAL_EXECUTION_FLAG) {
-                *percentOfExecution = (double)i / 100;
-                return i;
-            }
+       //     if (GLOBAL_EXECUTION_FLAG) {
+       //         *percentOfExecution = (double)i / 100;
+       //         return i;
+       //     }
             //Computes a vector-scalar product and adds the result to a vector. y := a*x + y
             cblas_daxpy(size, 3.5, x, 1, y, 1);
         }
-        GLOBAL_EXECUTION_FLAG = changeFlagTo;
+       // GLOBAL_EXECUTION_FLAG = changeFlagTo;
         *percentOfExecution = 1.0;
         return 100;
     }
@@ -428,17 +428,17 @@ public:
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-        cerr << getJobId() << "::execute()" << endl;
+ //       cerr << getJobId() << "::execute()" << endl;
 
         for (int i = 0; i < 100; i++) {
-            if (GLOBAL_EXECUTION_FLAG) {
-                *percentOfExecution = (double)i / 100;
-                return i;
-            }
+//            if (GLOBAL_EXECUTION_FLAG) {
+ //               *percentOfExecution = (double)i / 100;
+ //               return i;
+ //           }
             // Умножение Row-Major матрицы на вектор
             cblas_dgemv(CblasRowMajor, CblasNoTrans, size, size, 1.0, a, size, x, 1, 0.0, y, 1);
         }
-        GLOBAL_EXECUTION_FLAG = changeFlagTo;
+   //     GLOBAL_EXECUTION_FLAG = changeFlagTo;
         *percentOfExecution = 1.0;
         return 100;
     }
@@ -500,17 +500,17 @@ for (long i = 0; i < scaledSize; i++) {
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-        cerr << getJobId() << "::execute()" << endl;
+   //     cerr << getJobId() << "::execute()" << endl;
 
         for (int i = 0; i < 100; i++) {
-            if (GLOBAL_EXECUTION_FLAG) {
-                *percentOfExecution = (double)i / 100;
-                return i;
-            }
+//            if (GLOBAL_EXECUTION_FLAG) {
+//                *percentOfExecution = (double)i / 100;
+//                return i;
+//            }
             // Считаем и пишем в volatile переменную, нагружая только каналы чтения шины
             dummy_res = cblas_ddot(size, x, 1, y, 1);
         }
-        GLOBAL_EXECUTION_FLAG = changeFlagTo;
+  //      GLOBAL_EXECUTION_FLAG = changeFlagTo;
         *percentOfExecution = 1.0;
         return 100;
     }
