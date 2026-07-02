@@ -1,6 +1,6 @@
 ==========================================================
 Запуск серии тестов для типа: COPY, размер: 12
-Дата запуска: Ср июл  1 04:27:14 +06 2026
+Дата запуска: Чт июл  2 01:40:45 +06 2026
 ==========================================================
 
 ==========================================================
@@ -10,128 +10,178 @@
 ----------------------------------------------------------
 Шаг: Запуск на 1 ядр(ах/е)...
 ----------------------------------------------------------
-12_COPY::x : 0x7ff4d6d78010
-12_COPY::y : 0x7ff4d11ea010
+12_COPY::x : 0x7f5296263010
+12_COPY::y : 0x7f52906d5010
 Starting execution: 1x [12_COPY]
-iteration 0 time: 5478.41 ms
-iteration 1 time: 5484.1 ms
-iteration 2 time: 5480.77 ms
-iteration 3 time: 5480.75 ms
-iteration 4 time: 5482.45 ms
-average time is 5480
+Finished job 12_COPY 5475.9
+iteration 0 time: 5476.16 ms
+Finished job 12_COPY 5479.11
+iteration 1 time: 5479.28 ms
+Finished job 12_COPY 5470
+iteration 2 time: 5470.16 ms
+Finished job 12_COPY 5467.82
+iteration 3 time: 5468.01 ms
+Finished job 12_COPY 5468.05
+iteration 4 time: 5468.21 ms
+average time is 5472
 
 execution completed
 
  Performance counter stats for './a.out --type COPY --size 12 --cores 1':
 
-       750 427 896      LLC-loads:u                                                   (49,99%)
-        48 308 610      LLC-load-misses:u         #    6,44% of all LL-cache accesses  (50,00%)
-       138 369 508      LLC-stores:u                                                  (50,01%)
-       116 457 572      LLC-store-misses:u                                            (50,00%)
+       750 551 685      LLC-loads:u                                                   (50,00%)
+        48 508 575      LLC-load-misses:u         #    6,46% of all LL-cache accesses  (50,00%)
+       138 498 172      LLC-stores:u                                                  (50,00%)
+       116 332 583      LLC-store-misses:u                                            (50,00%)
 
-      27,546724769 seconds time elapsed
+      27,502320195 seconds time elapsed
 
-      27,459702000 seconds user
-       0,084992000 seconds sys
+      27,416344000 seconds user
+       0,083994000 seconds sys
 
 
 
 ----------------------------------------------------------
 Шаг: Запуск на 2 ядр(ах/е)...
 ----------------------------------------------------------
-6_COPY::x : 0x7f7ecd8fa010
-6_COPY::y : 0x7f7ecab33010
-6_COPY::x : 0x7f7ec7d6c010
-6_COPY::y : 0x7f7ec4fa5010
+6_COPY::x : 0x7f4b3a9ee010
+6_COPY::y : 0x7f4b37c27010
+6_COPY::x : 0x7f4b34e60010
+6_COPY::y : 0x7f4b32099010
 Starting execution: 2x [6_COPY]
-iteration 0 time: 5447.35 ms
-iteration 1 time: 5426.21 ms
-iteration 2 time: 5422.63 ms
-iteration 3 time: 5444 ms
-iteration 4 time: 5420.14 ms
-average time is 5431
+Finished job 6_COPY 5398.47
+Finished job 6_COPY 5420.74
+iteration 0 time: 5420.93 ms
+Finished job 6_COPY 5397.92
+Finished job 6_COPY 5420.4
+iteration 1 time: 5420.59 ms
+Finished job 6_COPY 5395.55
+Finished job 6_COPY 5418.75
+iteration 2 time: 5418.94 ms
+Finished job 6_COPY 5396.78
+Finished job 6_COPY 5418.83
+iteration 3 time: 5419.09 ms
+Finished job 6_COPY 5393.27
+Finished job 6_COPY 5414.55
+iteration 4 time: 5414.77 ms
+average time is 5418
 
 execution completed
 
  Performance counter stats for './a.out --type COPY --size 12 --cores 2':
 
-       750 857 841      LLC-loads:u                                                   (50,00%)
-       120 984 458      LLC-load-misses:u         #   16,11% of all LL-cache accesses  (50,00%)
-       132 831 670      LLC-stores:u                                                  (50,00%)
-       111 658 361      LLC-store-misses:u                                            (50,01%)
+       751 043 267      LLC-loads:u                                                   (50,00%)
+       121 296 611      LLC-load-misses:u         #   16,15% of all LL-cache accesses  (50,01%)
+       133 413 621      LLC-stores:u                                                  (50,00%)
+       111 828 757      LLC-store-misses:u                                            (49,99%)
 
-      27,301572730 seconds time elapsed
+      27,239537944 seconds time elapsed
 
-      54,360232000 seconds user
-       0,091991000 seconds sys
+      54,123905000 seconds user
+       0,095990000 seconds sys
 
 
 
 ----------------------------------------------------------
 Шаг: Запуск на 3 ядр(ах/е)...
 ----------------------------------------------------------
-4_COPY::x : 0x7fcbec430010
-4_COPY::y : 0x7fcbea5ab010
-4_COPY::x : 0x7fcbe8726010
-4_COPY::y : 0x7fcbe68a1010
-4_COPY::x : 0x7fcbe4a1c010
-4_COPY::y : 0x7fcbe2b97010
+4_COPY::x : 0x7f4ef5452010
+4_COPY::y : 0x7f4ef35cd010
+4_COPY::x : 0x7f4ef1748010
+4_COPY::y : 0x7f4eef8c3010
+4_COPY::x : 0x7f4eeda3e010
+4_COPY::y : 0x7f4eebbb9010
 Starting execution: 3x [4_COPY]
-iteration 0 time: 4954.89 ms
-iteration 1 time: 4946.64 ms
-iteration 2 time: 4952.91 ms
-iteration 3 time: 4943.23 ms
-iteration 4 time: 4952.89 ms
-average time is 4949
+Finished job 4_COPY 3668.59
+Finished job 4_COPY 5406.69
+Finished job 4_COPY 5411.66
+iteration 0 time: 5411.67 ms
+Finished job 4_COPY 3678.6
+Finished job 4_COPY 5422.05
+Finished job 4_COPY 5430.97
+iteration 1 time: 5428.99 ms
+Finished job 4_COPY 3665.01
+Finished job 4_COPY 5397.93
+Finished job 4_COPY 5410.21
+iteration 2 time: 5410.39 ms
+Finished job 4_COPY 3681.95
+Finished job 4_COPY 5414.65
+Finished job 4_COPY 5430.11
+iteration 3 time: 5430.28 ms
+Finished job 4_COPY 3678.67
+Finished job 4_COPY 5420.92
+Finished job 4_COPY 5432.4
+iteration 4 time: 5432.58 ms
+average time is 5422
 
 execution completed
 
  Performance counter stats for './a.out --type COPY --size 12 --cores 3':
 
-       751 088 353      LLC-loads:u                                                   (50,00%)
-       113 403 893      LLC-load-misses:u         #   15,10% of all LL-cache accesses  (50,01%)
-       131 340 634      LLC-stores:u                                                  (50,01%)
-       111 799 206      LLC-store-misses:u                                            (50,00%)
+       752 266 885      LLC-loads:u                                                   (50,00%)
+       245 499 895      LLC-load-misses:u         #   32,63% of all LL-cache accesses  (50,01%)
+       146 499 824      LLC-stores:u                                                  (50,01%)
+       125 897 375      LLC-store-misses:u                                            (49,99%)
 
-      24,896282034 seconds time elapsed
+      27,263180292 seconds time elapsed
 
-      65,366035000 seconds user
-       0,092991000 seconds sys
+      72,596940000 seconds user
+       0,098991000 seconds sys
 
 
 
 ----------------------------------------------------------
 Шаг: Запуск на 4 ядр(ах/е)...
 ----------------------------------------------------------
-3_COPY::x : 0x7f6b26fde010
-3_COPY::y : 0x7f6b258fa010
-3_COPY::x : 0x7f6b24216010
-3_COPY::y : 0x7f6b22b32010
-3_COPY::x : 0x7f6b2144e010
-3_COPY::y : 0x7f6b1fd6a010
-3_COPY::x : 0x7f6b1e686010
-3_COPY::y : 0x7f6b1cfa2010
+3_COPY::x : 0x7fb43ecf7010
+3_COPY::y : 0x7fb43d613010
+3_COPY::x : 0x7fb43bf2f010
+3_COPY::y : 0x7fb43a84b010
+3_COPY::x : 0x7fb439167010
+3_COPY::y : 0x7fb437a83010
+3_COPY::x : 0x7fb43639f010
+3_COPY::y : 0x7fb434cbb010
 Starting execution: 4x [3_COPY]
-iteration 0 time: 4726.54 ms
-iteration 1 time: 4717.17 ms
-iteration 2 time: 4723.58 ms
-iteration 3 time: 4720.41 ms
-iteration 4 time: 4767.05 ms
-average time is 4730
+Finished job 3_COPY 5438.73
+Finished job 3_COPY 5441.79
+Finished job 3_COPY 5443.94
+Finished job 3_COPY 5448.49
+iteration 0 time: 5448.67 ms
+Finished job 3_COPY 5427.5
+Finished job 3_COPY 5443.21
+Finished job 3_COPY 5446.53
+Finished job 3_COPY 5449.93
+iteration 1 time: 5450.17 ms
+Finished job 3_COPY 5404.84
+Finished job 3_COPY 5424.21
+Finished job 3_COPY 5426.7
+Finished job 3_COPY 5430.26
+iteration 2 time: 5430.43 ms
+Finished job 3_COPY 5418.91
+Finished job 3_COPY 5437.69
+Finished job 3_COPY 5438.68
+Finished job 3_COPY 5442.08
+iteration 3 time: 5442.24 ms
+Finished job 3_COPY 5403.8
+Finished job 3_COPY 5420.09
+Finished job 3_COPY 5423.43
+Finished job 3_COPY 5426.76
+iteration 4 time: 5426.94 ms
+average time is 5439
 
 execution completed
 
  Performance counter stats for './a.out --type COPY --size 12 --cores 4':
 
-       751 571 465      LLC-loads:u                                                   (50,00%)
-       142 263 240      LLC-load-misses:u         #   18,93% of all LL-cache accesses  (50,00%)
-       128 905 013      LLC-stores:u                                                  (50,00%)
-       109 674 440      LLC-store-misses:u                                            (50,00%)
+       752 078 346      LLC-loads:u                                                   (50,01%)
+       338 504 003      LLC-load-misses:u         #   45,01% of all LL-cache accesses  (50,00%)
+       128 622 042      LLC-stores:u                                                  (49,99%)
+       112 885 057      LLC-store-misses:u                                            (50,00%)
 
-      23,806760396 seconds time elapsed
+      27,351918253 seconds time elapsed
 
-      94,156015000 seconds user
-       0,104985000 seconds sys
+     108,666385000 seconds user
+       0,110975000 seconds sys
 
 
 

@@ -1,6 +1,6 @@
 ==========================================================
 Запуск серии тестов для типа: DOT, размер: 12
-Дата запуска: Ср июл  1 05:54:18 +06 2026
+Дата запуска: Чт июл  2 03:14:37 +06 2026
 ==========================================================
 
 ==========================================================
@@ -10,128 +10,178 @@
 ----------------------------------------------------------
 Шаг: Запуск на 1 ядр(ах/е)...
 ----------------------------------------------------------
-12_DOT::x : 0x7f5d6830b010
-12_DOT::y : 0x7f5d6277d010
+12_DOT::x : 0x7f2746aef010
+12_DOT::y : 0x7f2740f61010
 Starting execution: 1x [12_DOT]
-iteration 0 time: 5255.77 ms
-iteration 1 time: 5247.67 ms
-iteration 2 time: 5253.01 ms
-iteration 3 time: 5249.06 ms
-iteration 4 time: 5252.39 ms
-average time is 5251
+Finished job 12_DOT 5269.98
+iteration 0 time: 5270.37 ms
+Finished job 12_DOT 5260.73
+iteration 1 time: 5260.92 ms
+Finished job 12_DOT 5263.92
+iteration 2 time: 5264.07 ms
+Finished job 12_DOT 5261.92
+iteration 3 time: 5262.05 ms
+Finished job 12_DOT 5265.54
+iteration 4 time: 5265.69 ms
+average time is 5264
 
 execution completed
 
  Performance counter stats for './a.out --type DOT --size 12 --cores 1':
 
-     1 500 546 462      LLC-loads:u                                                   (50,02%)
-       310 663 817      LLC-load-misses:u         #   20,70% of all LL-cache accesses  (50,00%)
-         2 997 665      LLC-stores:u                                                  (49,99%)
-            11 193      LLC-store-misses:u                                            (50,00%)
+     1 500 268 769      LLC-loads:u                                                   (49,99%)
+       309 844 739      LLC-load-misses:u         #   20,65% of all LL-cache accesses  (50,00%)
+         2 971 781      LLC-stores:u                                                  (50,01%)
+            10 550      LLC-store-misses:u                                            (50,01%)
 
-      26,399748915 seconds time elapsed
+      26,465161276 seconds time elapsed
 
-      26,311729000 seconds user
-       0,085995000 seconds sys
+      26,378288000 seconds user
+       0,084991000 seconds sys
 
 
 
 ----------------------------------------------------------
 Шаг: Запуск на 2 ядр(ах/е)...
 ----------------------------------------------------------
-6_DOT::x : 0x7fe1c8ffe010
-6_DOT::y : 0x7fe1c6237010
-6_DOT::x : 0x7fe1c3470010
-6_DOT::y : 0x7fe1c06a9010
+6_DOT::x : 0x7feee6cda010
+6_DOT::y : 0x7feee3f13010
+6_DOT::x : 0x7feee114c010
+6_DOT::y : 0x7feede385010
 Starting execution: 2x [6_DOT]
-iteration 0 time: 4490.15 ms
-iteration 1 time: 4486.61 ms
-iteration 2 time: 4484.5 ms
-iteration 3 time: 4524.12 ms
-iteration 4 time: 4486.31 ms
-average time is 4494
+Finished job 6_DOT 4458.7
+Finished job 6_DOT 4483.71
+iteration 0 time: 4483.9 ms
+Finished job 6_DOT 4457.56
+Finished job 6_DOT 4480.63
+iteration 1 time: 4480.82 ms
+Finished job 6_DOT 4456.19
+Finished job 6_DOT 4478.53
+iteration 2 time: 4478.71 ms
+Finished job 6_DOT 4457.93
+Finished job 6_DOT 4481.18
+iteration 3 time: 4481.37 ms
+Finished job 6_DOT 4457.48
+Finished job 6_DOT 4481
+iteration 4 time: 4481.18 ms
+average time is 4480
 
 execution completed
 
  Performance counter stats for './a.out --type DOT --size 12 --cores 2':
 
-     1 500 801 351      LLC-loads:u                                                   (50,00%)
-       344 765 659      LLC-load-misses:u         #   22,97% of all LL-cache accesses  (50,00%)
-         2 720 590      LLC-stores:u                                                  (50,00%)
-             6 823      LLC-store-misses:u                                            (50,01%)
+     1 501 003 376      LLC-loads:u                                                   (50,00%)
+       345 858 405      LLC-load-misses:u         #   23,04% of all LL-cache accesses  (50,01%)
+         2 899 274      LLC-stores:u                                                  (50,01%)
+             7 098      LLC-store-misses:u                                            (50,00%)
 
-      22,615259551 seconds time elapsed
+      22,546716366 seconds time elapsed
 
-      44,902320000 seconds user
-       0,083991000 seconds sys
+      44,745893000 seconds user
+       0,087993000 seconds sys
 
 
 
 ----------------------------------------------------------
 Шаг: Запуск на 3 ядр(ах/е)...
 ----------------------------------------------------------
-4_DOT::x : 0x7fc50ced1010
-4_DOT::y : 0x7fc50b04c010
-4_DOT::x : 0x7fc5091c7010
-4_DOT::y : 0x7fc507342010
-4_DOT::x : 0x7fc5054bd010
-4_DOT::y : 0x7fc503638010
+4_DOT::x : 0x7f3fdc79c010
+4_DOT::y : 0x7f3fda917010
+4_DOT::x : 0x7f3fd8a92010
+4_DOT::y : 0x7f3fd6c0d010
+4_DOT::x : 0x7f3fd4d88010
+4_DOT::y : 0x7f3fd2f03010
 Starting execution: 3x [4_DOT]
-iteration 0 time: 3515.25 ms
-iteration 1 time: 3512.53 ms
-iteration 2 time: 3513.14 ms
-iteration 3 time: 3511.6 ms
-iteration 4 time: 3506.83 ms
-average time is 3511
+Finished job 4_DOT 3171.07
+Finished job 4_DOT 4552.74
+Finished job 4_DOT 4555.22
+iteration 0 time: 4555.38 ms
+Finished job 4_DOT 3158.87
+Finished job 4_DOT 4553.58
+Finished job 4_DOT 4553.92
+iteration 1 time: 4553.99 ms
+Finished job 4_DOT 3167.34
+Finished job 4_DOT 4559.16
+Finished job 4_DOT 4560.75
+iteration 2 time: 4561.01 ms
+Finished job 4_DOT 3166.8
+Finished job 4_DOT 4563.06
+Finished job 4_DOT 4565.1
+iteration 3 time: 4565.26 ms
+Finished job 4_DOT 3162.52
+Finished job 4_DOT 4559.11
+Finished job 4_DOT 4561.72
+iteration 4 time: 4561.89 ms
+average time is 4559
 
 execution completed
 
  Performance counter stats for './a.out --type DOT --size 12 --cores 3':
 
-     1 500 939 068      LLC-loads:u                                                   (50,00%)
-       317 496 325      LLC-load-misses:u         #   21,15% of all LL-cache accesses  (50,00%)
-         2 799 668      LLC-stores:u                                                  (50,00%)
-            12 063      LLC-store-misses:u                                            (50,00%)
+     1 502 689 888      LLC-loads:u                                                   (50,00%)
+       708 523 224      LLC-load-misses:u         #   47,15% of all LL-cache accesses  (50,02%)
+         2 745 215      LLC-stores:u                                                  (50,00%)
+            11 992      LLC-store-misses:u                                            (49,99%)
 
-      17,707311228 seconds time elapsed
+      22,942252856 seconds time elapsed
 
-      47,556981000 seconds user
-       0,090990000 seconds sys
+      61,459537000 seconds user
+       0,095993000 seconds sys
 
 
 
 ----------------------------------------------------------
 Шаг: Запуск на 4 ядр(ах/е)...
 ----------------------------------------------------------
-3_DOT::x : 0x7fadf1000010
-3_DOT::y : 0x7fadef91c010
-3_DOT::x : 0x7fadee238010
-3_DOT::y : 0x7fadecb54010
-3_DOT::x : 0x7fadeb470010
-3_DOT::y : 0x7fade9d8c010
-3_DOT::x : 0x7fade86a8010
-3_DOT::y : 0x7fade6fc4010
+3_DOT::x : 0x7f07ba055010
+3_DOT::y : 0x7f07b8971010
+3_DOT::x : 0x7f07b728d010
+3_DOT::y : 0x7f07b5ba9010
+3_DOT::x : 0x7f07b44c5010
+3_DOT::y : 0x7f07b2de1010
+3_DOT::x : 0x7f07b16fd010
+3_DOT::y : 0x7f07b0019010
 Starting execution: 4x [3_DOT]
-iteration 0 time: 3049.38 ms
-iteration 1 time: 3045.29 ms
-iteration 2 time: 3042.29 ms
-iteration 3 time: 3042.33 ms
-iteration 4 time: 3050.36 ms
-average time is 3045
+Finished job 3_DOT Finished job 4464.73_DOT 
+4464.81
+Finished job 3_DOT 4465.65
+Finished job 3_DOT 4471.48
+iteration 0 time: 4471.66 ms
+Finished job 3_DOT 4457.68
+Finished job 3_DOT 4459.09
+Finished job 3_DOT 4459.83
+Finished job 3_DOT 4464.64
+iteration 1 time: 4464.85 ms
+Finished job 3_DOT 4453.38
+Finished job 3_DOT 4453.97
+Finished job 3_DOT 4455.37
+Finished job 3_DOT 4459.32
+iteration 2 time: 4459.52 ms
+Finished job 3_DOT 4453.75
+Finished job 3_DOT 4454.74
+Finished job 3_DOT 4455.92
+Finished job 3_DOT 4460.38
+iteration 3 time: 4460.56 ms
+Finished job 3_DOT 4456.8
+Finished job 3_DOT 4457.95
+Finished job 3_DOT 4459.2
+Finished job 3_DOT 4463.59
+iteration 4 time: 4463.82 ms
+average time is 4463
 
 execution completed
 
  Performance counter stats for './a.out --type DOT --size 12 --cores 4':
 
-     1 501 264 986      LLC-loads:u                                                   (50,01%)
-       316 262 964      LLC-load-misses:u         #   21,07% of all LL-cache accesses  (50,00%)
-         2 796 548      LLC-stores:u                                                  (50,00%)
-            15 906      LLC-store-misses:u                                            (50,01%)
+     1 501 898 432      LLC-loads:u                                                   (50,02%)
+       914 384 262      LLC-load-misses:u         #   60,88% of all LL-cache accesses  (49,99%)
+         2 726 377      LLC-stores:u                                                  (49,98%)
+            16 292      LLC-store-misses:u                                            (50,02%)
 
-      15,377498718 seconds time elapsed
+      22,472294805 seconds time elapsed
 
-      60,716056000 seconds user
-       0,214964000 seconds sys
+      89,227258000 seconds user
+       0,106982000 seconds sys
 
 
 

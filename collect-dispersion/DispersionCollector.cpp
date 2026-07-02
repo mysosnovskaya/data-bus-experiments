@@ -12,10 +12,10 @@
 using namespace std;
 using namespace std::chrono;
 
-const int iterationCount = 1;
+const int iterationCount = 5;
 
 vector<int> coresNumbers = {
-     0, 1, 2, 3
+     0, 1, 4, 5
 };
 
 void executeJob(Job* job, pthread_barrier_t* barrier) {
