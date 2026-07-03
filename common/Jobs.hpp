@@ -10,6 +10,7 @@
 #else
 #include <cblas64.h>
 #include <lapacke.h>
+#include <cmath>
 #define mkl_malloc(sz, al) malloc(sz)
 #define mkl_free free
 #endif
@@ -47,73 +48,182 @@ public:
     virtual ~Job() {};
 };
 
-
-class MklMulJob : public Job {
+class MklExpJob : public Job {
 private:
     double* x;
     double* y;
-    double* z;
 
 public:
     int size;
-    MklMulJob(int size, double* x, double* y, double* z) :
+    MklExpJob(int size, double* x, double* y) :
         size(size),
         x(x),
-        y(y),
-        z(z) {}
+        y(y) {}
 
-    static MklMulJob* create(int size) {
-        double* x = (double*)mkl_malloc(size * size * sizeof(double), 64);
-        double* y = (double*)mkl_malloc(size * size * sizeof(double), 64);
-        double* z = (double*)mkl_malloc(size * size * sizeof(double), 64);
+    MklExpJob(const MklExpJob &job) { x = job.x; y = job.y; }
 
-        for (int i = 0; i < size * size; i++) {
-            x[i] = (double) i;
-            y[i] = (double) i + 1;
-            z[i] = (double) i + 2;
+    static MklExpJob* create(int size) {
+        long scaledSize = size * 1000000;
+        double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+        double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+
+        // Прогрев обоих массивов + безопасный домен для exp: x в [0, 1)
+        for (long i = 0; i < scaledSize; i++) {
+            x[i] = (double)(i % 1000) * 0.001;
+            y[i] = 0.0;
         }
 
-        MklMulJob* job = new MklMulJob(size, x, y, z);
+        MklExpJob* job = new MklExpJob(scaledSize, x, y);
 
         cerr << job->getJobId() << "::x : " << x << endl;
         cerr << job->getJobId() << "::y : " << y << endl;
-        cerr << job->getJobId() << "::z : " << z << endl;
 
         return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-//        cerr << getJobId() << "::execute()" << endl;
+   //     cerr << getJobId() << "::execute()" << endl;
 
         for (int i = 0; i < 100; i++) {
-//            if (GLOBAL_EXECUTION_FLAG) {
-//                *percentOfExecution = (double)i / 100;
-//                return i;
-//            }
-            cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
-                size, size, size, 1.0, x, size, y, size, 0.0, z, size);
+ //            if (GLOBAL_EXECUTION_FLAG) {
+ //                *percentOfExecution = (double)i / 100;
+ //                return i;
+ //            }
+            // y[i] = exp(x[i]); x не меняется между вызовами → домен стабилен
+            vdExp(size, x, y);
         }
-//        GLOBAL_EXECUTION_FLAG = changeFlagTo;
+  //      GLOBAL_EXECUTION_FLAG = changeFlagTo;
         *percentOfExecution = 1.0;
         return 100;
     }
 
-    int getSize() {
-        return size;
-    }
+    int getSize() { return size / 1000000; }
+    string getType() { return "EXP"; }
+    Job* copy() { return MklExpJob::create(getSize()); }
 
-    string getType() {
-        return "MUL";
-    }
-
-    Job* copy() {
-         return MklMulJob::create(getSize());
-    }
-
-    ~MklMulJob() {
+    ~MklExpJob() {
         mkl_free(x);
         mkl_free(y);
-        mkl_free(z);
+    }
+};
+
+class MklLnJob : public Job {
+private:
+    double* x;
+    double* y;
+
+public:
+    int size;
+    MklLnJob(int size, double* x, double* y) :
+        size(size),
+        x(x),
+        y(y) {}
+
+    MklLnJob(const MklLnJob &job) { x = job.x; y = job.y; }
+
+    static MklLnJob* create(int size) {
+        long scaledSize = size * 1000000;
+        double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+        double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+
+        // sqrt требует x >= 0; заодно прогреваем память
+        for (long i = 0; i < scaledSize; i++) {
+            x[i] = (double)(i % 1000) + 1.0;
+            y[i] = 0.0;
+        }
+
+        MklLnJob* job = new MklLnJob(scaledSize, x, y);
+
+        cerr << job->getJobId() << "::x : " << x << endl;
+        cerr << job->getJobId() << "::y : " << y << endl;
+
+        return job;
+    }
+
+    int execute(double* percentOfExecution, bool changeFlagTo) {
+   //     cerr << getJobId() << "::execute()" << endl;
+
+        for (int i = 0; i < 100; i++) {
+ //            if (GLOBAL_EXECUTION_FLAG) {
+ //                *percentOfExecution = (double)i / 100;
+ //                return i;
+ //            }
+            // y[i] = exp(x[i]); x не меняется между вызовами → домен стабилен
+            vdLn(size, x, y);
+        }
+  //      GLOBAL_EXECUTION_FLAG = changeFlagTo;
+        *percentOfExecution = 1.0;
+        return 100;
+    }
+
+
+    int getSize() { return size / 1000000; }
+    string getType() { return "LN"; }
+    Job* copy() { return MklLnJob::create(getSize()); }
+
+    ~MklLnJob() {
+        mkl_free(x);
+        mkl_free(y);
+    }
+};
+
+class MklSqrtJob : public Job {
+private:
+    double* x;
+    double* y;
+
+public:
+    int size;
+    MklSqrtJob(int size, double* x, double* y) :
+        size(size),
+        x(x),
+        y(y) {}
+
+    MklSqrtJob(const MklSqrtJob &job) { x = job.x; y = job.y; }
+
+    static MklSqrtJob* create(int size) {
+        long scaledSize = size * 1000000;
+        double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+        double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
+
+        // sqrt требует x >= 0; заодно прогреваем память
+        for (long i = 0; i < scaledSize; i++) {
+            x[i] = (double)(i % 1000) + 1.0;
+            y[i] = 0.0;
+        }
+
+        MklSqrtJob* job = new MklSqrtJob(scaledSize, x, y);
+
+        cerr << job->getJobId() << "::x : " << x << endl;
+        cerr << job->getJobId() << "::y : " << y << endl;
+
+        return job;
+    }
+
+    int execute(double* percentOfExecution, bool changeFlagTo) {
+   //     cerr << getJobId() << "::execute()" << endl;
+
+        for (int i = 0; i < 100; i++) {
+ //            if (GLOBAL_EXECUTION_FLAG) {
+ //                *percentOfExecution = (double)i / 100;
+ //                return i;
+ //            }
+            // y[i] = exp(x[i]); x не меняется между вызовами → домен стабилен
+            vdSqrt(size, x, y);
+        }
+  //      GLOBAL_EXECUTION_FLAG = changeFlagTo;
+        *percentOfExecution = 1.0;
+        return 100;
+    }
+
+
+    int getSize() { return size / 1000000; }
+    string getType() { return "SQRT"; }
+    Job* copy() { return MklSqrtJob::create(getSize()); }
+
+    ~MklSqrtJob() {
+        mkl_free(x);
+        mkl_free(y);
     }
 };
 
@@ -189,72 +299,6 @@ public:
     }
 };
 
-class MklQrJob : public Job {
-private:
-    double* x;
-    double* y;
-
-public:
-    int size;
-    MklQrJob(int size, double* x, double* y) :
-        size(size),
-        x(x),
-        y(y) {}
-
-    MklQrJob(const MklQrJob &job) {x = job.x; y = job.y; }
-
-    static MklQrJob* create(int size) {
-        double* x = (double*)mkl_malloc(size * size * sizeof(double), 64);
-        double* y = (double*)mkl_malloc(size * sizeof(double), 64);
-
-//        for (int i = 0; i < size * size; i++) {
-//            x[i] = (double) i + 5;
-//        }
-//        for (int i = 0; i < size; i++) {
-//            y[i] = (double) i + 6;
- //       }
-
-        MklQrJob* job = new MklQrJob(size, x, y);
-
-        cerr << job->getJobId() << "::x : " << x << endl;
-        cerr << job->getJobId() << "::y : " << y << endl;
-
-        return job;
-    }
-
-    int execute(double* percentOfExecution, bool changeFlagTo) {
-    //    cerr << getJobId() << "::execute()" << endl;
-
-        for (int i = 0; i < 100; i++) {
-      //      if (GLOBAL_EXECUTION_FLAG) {
-      //          *percentOfExecution = (double)i / 100;
-      //          return i;
-      //      }
-            LAPACKE_dgeqrf(LAPACK_ROW_MAJOR, size, size, x, size, y);
-        }
-     //   GLOBAL_EXECUTION_FLAG = changeFlagTo;
-        *percentOfExecution = 1.0;
-        return 100;
-    }
-
-    int getSize() {
-        return size;
-    }
-
-    string getType() {
-        return "QR";
-    }
-
-    Job* copy() {
-         return MklQrJob::create(getSize());
-    }
-
-    ~MklQrJob() {
-        mkl_free(x);
-        mkl_free(y);
-    }
-};
-
 class MklSumJob : public Job {
 private:
     double* x;
@@ -286,8 +330,8 @@ public:
       //  cerr << getJobId() << "::execute()" << endl;
 
         for (int i = 0; i < 100; i++) {
-//            if (GLOBAL_EXECUTION_FLAG) {
-//                *percentOfExecution = (double)i / 100;
+ //            if (GLOBAL_EXECUTION_FLAG) {
+ //                *percentOfExecution = (double)i / 100;
  //               return i;
  //           }
             // Computes the sum of magnitudes of the vector elements.
@@ -381,90 +425,6 @@ public:
     }
 };
 
-class MklGemvJob : public Job {
-private:
-    double* a; // Матрица A
-    double* x; // Вектор x
-    double* y; // Вектор y
-
-public:
-    int size;
-    MklGemvJob(int size, double* a, double* x, double* y) :
-        size(size),
-        a(a),
-        x(x),
-        y(y) {}
-
-    MklGemvJob(const MklGemvJob &job) { a = job.a; x = job.x; y = job.y; }
-
-    static MklGemvJob* create(int size) {
-        long scaledSize = size * 1000; // Для GEMV size=15 даст 15 000 элементов
-        
-        // Выделяем память под квадратную матрицу (scaledSize * scaledSize)
-        double* a = (double*)mkl_malloc(scaledSize * scaledSize * sizeof(double), 64);
-        double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
-        double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
-
-
-    // ОБЯЗАТЕЛЬНО "прогреваем" память записью, как мы сделали в DOT!
-    // Иначе снова сработает Lazy Allocation и шина будет пустой.
-    for (long i = 0; i < scaledSize; i++) {
-        x[i] = 1.0;
-        y[i] = 0.0;
-    }
-    // Заполняем всю матрицу единицами
-    for (long i = 0; i < scaledSize * scaledSize; i++) {
-        a[i] = 0.5;
-    }
-
-
-        MklGemvJob* job = new MklGemvJob(scaledSize, a, x, y);
-
-        cerr << job->getJobId() << "::a : " << a << endl;
-        cerr << job->getJobId() << "::x : " << x << endl;
-        cerr << job->getJobId() << "::y : " << y << endl;
-
-        return job;
-    }
-
-    int execute(double* percentOfExecution, bool changeFlagTo) {
- //       cerr << getJobId() << "::execute()" << endl;
-
-        for (int i = 0; i < 100; i++) {
-//            if (GLOBAL_EXECUTION_FLAG) {
- //               *percentOfExecution = (double)i / 100;
- //               return i;
- //           }
-            // Умножение Row-Major матрицы на вектор
-            cblas_dgemv(CblasRowMajor, CblasNoTrans, size, size, 1.0, a, size, x, 1, 0.0, y, 1);
-        }
-   //     GLOBAL_EXECUTION_FLAG = changeFlagTo;
-        *percentOfExecution = 1.0;
-        return 100;
-    }
-
-    int getSize() {
-        return size / 1000;
-    }
-
-    string getType() {
-        return "GEMV";
-    }
-
-    Job* copy() {
-         return MklGemvJob::create(getSize());
-    }
-
-    ~MklGemvJob() {
-        mkl_free(a);
-        mkl_free(x);
-        mkl_free(y);
-    }
-};
-
-// ============================================================================
-// 3. DOT JOB (cblas_ddot) - Скалярное произведение векторов (чистое чтение)
-// ============================================================================
 class MklDotJob : public Job {
 private:
     double* x;
@@ -486,10 +446,10 @@ public:
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
         double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
 
-for (long i = 0; i < scaledSize; i++) {
-        x[i] = 1.0;
-        y[i] = 2.0;
-    }
+        for (long i = 0; i < scaledSize; i++) {
+            x[i] = 1.0;
+            y[i] = 2.0;
+        }
 
         MklDotJob* job = new MklDotJob(scaledSize, x, y);
 
@@ -503,10 +463,10 @@ for (long i = 0; i < scaledSize; i++) {
    //     cerr << getJobId() << "::execute()" << endl;
 
         for (int i = 0; i < 100; i++) {
-//            if (GLOBAL_EXECUTION_FLAG) {
-//                *percentOfExecution = (double)i / 100;
-//                return i;
-//            }
+ //            if (GLOBAL_EXECUTION_FLAG) {
+ //                *percentOfExecution = (double)i / 100;
+ //                return i;
+ //            }
             // Считаем и пишем в volatile переменную, нагружая только каналы чтения шины
             dummy_res = cblas_ddot(size, x, 1, y, 1);
         }

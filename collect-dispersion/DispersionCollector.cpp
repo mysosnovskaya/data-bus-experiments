@@ -109,11 +109,11 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < cores; i++) {
         Job* job = nullptr;
         if (type == "COPY")      job = MklCopyJob::create(targetSize);
-        else if (type == "MUL")   job = MklMulJob::create(targetSize);
         else if (type == "SUM")  job = MklSumJob::create(targetSize);
         else if (type == "DOT")  job = MklDotJob::create(targetSize);
-        else if (type == "GEMV") job = MklGemvJob::create(targetSize);
-        else if (type == "QR")   job = MklQrJob::create(targetSize);
+        else if (type == "EXP")  job = MklExpJob::create(targetSize);
+        else if (type == "SQRT") job = MklSqrtJob::create(targetSize);
+        else if (type == "LN")   job = MklLnJob::create(targetSize);
         else                     job = MklXpyJob::create(targetSize);
         jobs.push_back(job);
     }
