@@ -111,9 +111,12 @@ int main(int argc, char* argv[]) {
         if (type == "COPY")      job = MklCopyJob::create(targetSize);
         else if (type == "SUM")  job = MklSumJob::create(targetSize);
         else if (type == "DOT")  job = MklDotJob::create(targetSize);
-        else if (type == "EXP")  job = MklExpJob::create(targetSize);
-        else if (type == "SQRT") job = MklSqrtJob::create(targetSize);
-        else if (type == "LN")   job = MklLnJob::create(targetSize);
+        else if (type == "EXPX")  job = MklExpJob::create(targetSize);
+        else if (type == "SQRTX") job = MklSqrtJob::create(targetSize);
+        else if (type == "LNX")   job = MklLnJob::create(targetSize);
+        else if (type == "ERF")    job = MklErfJob::create(targetSize);
+        else if (type == "TGAMMA") job = MklTgammaJob::create(targetSize);
+        else if (type == "POW")    job = MklPowJob::create(targetSize);
         else                     job = MklXpyJob::create(targetSize);
         jobs.push_back(job);
     }
