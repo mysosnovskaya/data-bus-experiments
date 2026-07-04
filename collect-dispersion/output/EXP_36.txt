@@ -1,0 +1,192 @@
+==========================================================
+Запуск серии тестов для типа: EXP, размер: 36
+Дата запуска: Сб июл  4 04:00:31 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: EXP, размер: 36
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+36_EXP::x : 0x7f9dbcb91010
+36_EXP::y : 0x7f9dab8e8010
+Starting execution: 1x [36_EXP]
+Finished job 36_EXP 23455.9
+iteration 0 time: 23456.3 ms
+Finished job 36_EXP 23385.8
+iteration 1 time: 23385.9 ms
+Finished job 36_EXP 23378.4
+iteration 2 time: 23378.6 ms
+Finished job 36_EXP 23380.1
+iteration 3 time: 23380.3 ms
+Finished job 36_EXP 23389
+iteration 4 time: 23389.2 ms
+average time is 23397
+
+execution completed
+
+ Performance counter stats for './a.out --type EXP --size 36 --cores 1':
+
+     2 257 586 240      LLC-loads:u                                                   (50,00%)
+        48 865 757      LLC-load-misses:u         #    2,16% of all LL-cache accesses  (50,00%)
+     2 254 400 947      LLC-stores:u                                                  (50,00%)
+        73 627 922      LLC-store-misses:u                                            (50,00%)
+
+     117,235426683 seconds time elapsed
+
+     117,011517000 seconds user
+       0,209977000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+18_EXP::x : 0x7f36ee85e010
+18_EXP::y : 0x7f36e5f09010
+18_EXP::x : 0x7f36dd5b4010
+18_EXP::y : 0x7f36d4c5f010
+Starting execution: 2x [18_EXP]
+Finished job 18_EXP 17254.5
+Finished job 18_EXP 17257.7
+iteration 0 time: 17258 ms
+Finished job 18_EXP 17201.8
+Finished job 18_EXP 17210.7
+iteration 1 time: 17210.9 ms
+Finished job 18_EXP 17134.2
+Finished job 18_EXP 17213
+iteration 2 time: 17213.2 ms
+Finished job 18_EXP 17131.3
+Finished job 18_EXP 17209
+iteration 3 time: 17209.1 ms
+Finished job 18_EXP 17140.7
+Finished job 18_EXP 17219
+iteration 4 time: 17219.2 ms
+average time is 17221
+
+execution completed
+
+ Performance counter stats for './a.out --type EXP --size 36 --cores 2':
+
+     2 256 690 658      LLC-loads:u                                                   (50,00%)
+        76 585 297      LLC-load-misses:u         #    3,39% of all LL-cache accesses  (50,00%)
+     2 254 083 889      LLC-stores:u                                                  (50,00%)
+        81 866 960      LLC-store-misses:u                                            (50,00%)
+
+      86,357912429 seconds time elapsed
+
+     171,938453000 seconds user
+       0,269981000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+12_EXP::x : 0x7f69448f2010
+12_EXP::y : 0x7f693ed64010
+12_EXP::x : 0x7f69391d6010
+12_EXP::y : 0x7f6933648010
+12_EXP::x : 0x7f692daba010
+12_EXP::y : 0x7f6927f2c010
+Starting execution: 3x [12_EXP]
+Finished job 12_EXP 12639.2
+Finished job 12_EXP 17413.4
+Finished job 12_EXP 17482.4
+iteration 0 time: 17482.1 ms
+Finished job 12_EXP 12606.1
+Finished job 12_EXP 17362.2
+Finished job 12_EXP 17435.4
+iteration 1 time: 17435.6 ms
+Finished job 12_EXP 12619.2
+Finished job 12_EXP 17376
+Finished job 12_EXP 17447.6
+iteration 2 time: 17447.8 ms
+Finished job 12_EXP 12622.1
+Finished job 12_EXP 17380.3
+Finished job 12_EXP 17454.5
+iteration 3 time: 17454.7 ms
+Finished job 12_EXP 12607.9
+Finished job 12_EXP 17380.8
+Finished job 12_EXP 17452.8
+iteration 4 time: 17453 ms
+average time is 17454
+
+execution completed
+
+ Performance counter stats for './a.out --type EXP --size 36 --cores 3':
+
+     2 257 848 891      LLC-loads:u                                                   (50,00%)
+       226 945 485      LLC-load-misses:u         #   10,05% of all LL-cache accesses  (50,00%)
+     2 254 551 523      LLC-stores:u                                                  (50,00%)
+       197 004 972      LLC-store-misses:u                                            (50,00%)
+
+      87,523265355 seconds time elapsed
+
+     237,157221000 seconds user
+       0,357977000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+9_EXP::x : 0x7f8850ed9010
+9_EXP::y : 0x7f884ca2e010
+9_EXP::x : 0x7f8848583010
+9_EXP::y : 0x7f88440d8010
+9_EXP::x : 0x7f883fc2d010
+9_EXP::y : 0x7f883b782010
+9_EXP::x : 0x7f88372d7010
+9_EXP::y : 0x7f8832e2c010
+Starting execution: 4x [9_EXP]
+Finished job 9_EXP 16670.6
+Finished job 9_EXP 16747
+Finished job 9_EXP 16752.1
+Finished job 9_EXP 16763.6
+iteration 0 time: 16763.7 ms
+Finished job 9_EXP 16672.4
+Finished job 9_EXP 16698.9
+Finished job 9_EXP 16715.8
+Finished job 9_EXP 16717
+iteration 1 time: 16717.2 ms
+Finished job 9_EXP 16676.3
+Finished job 9_EXP 16710
+Finished job 9_EXP 16728.9
+Finished job 9_EXP 16730.9
+iteration 2 time: 16731.1 ms
+Finished job 9_EXP 16677.3
+Finished job 9_EXP 16705
+Finished job 9_EXP 16725.9
+Finished job 9_EXP 16727.8
+iteration 3 time: 16728 ms
+Finished job 9_EXP 16665.5
+Finished job 9_EXP 16695.4
+Finished job 9_EXP 16714.7
+Finished job 9_EXP 16716.3
+iteration 4 time: 16716.5 ms
+average time is 16730
+
+execution completed
+
+ Performance counter stats for './a.out --type EXP --size 36 --cores 4':
+
+     2 260 027 152      LLC-loads:u                                                   (49,99%)
+       287 314 501      LLC-load-misses:u         #   12,71% of all LL-cache accesses  (50,01%)
+     2 252 466 093      LLC-stores:u                                                  (50,01%)
+       289 398 705      LLC-store-misses:u                                            (49,99%)
+
+      83,905774612 seconds time elapsed
+
+     333,944972000 seconds user
+       0,457912000 seconds sys
+
+
+
+==========================================================
+Тестирование для EXP (36) завершено!
+==========================================================
+
+Тестирование для EXP (36) завершено!

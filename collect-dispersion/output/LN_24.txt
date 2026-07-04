@@ -1,0 +1,192 @@
+==========================================================
+Запуск серии тестов для типа: LN, размер: 24
+Дата запуска: Сб июл  4 03:42:33 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: LN, размер: 24
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+24_LN::x : 0x7f1b1329b010
+24_LN::y : 0x7f1b07b7f010
+Starting execution: 1x [24_LN]
+Finished job 24_LN 19397
+iteration 0 time: 19397.2 ms
+Finished job 24_LN 19348.8
+iteration 1 time: 19349 ms
+Finished job 24_LN 19347.9
+iteration 2 time: 19348.1 ms
+Finished job 24_LN 19341.3
+iteration 3 time: 19341.4 ms
+Finished job 24_LN 19341.2
+iteration 4 time: 19341.4 ms
+average time is 19355
+
+execution completed
+
+ Performance counter stats for './a.out --type LN --size 24 --cores 1':
+
+     1 515 226 390      LLC-loads:u                                                   (50,00%)
+        23 834 040      LLC-load-misses:u         #    1,57% of all LL-cache accesses  (50,00%)
+     1 502 944 446      LLC-stores:u                                                  (50,00%)
+        46 809 274      LLC-store-misses:u                                            (50,00%)
+
+      96,943361104 seconds time elapsed
+
+      96,787333000 seconds user
+       0,146986000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+12_LN::x : 0x7ffa78924010
+12_LN::y : 0x7ffa72d96010
+12_LN::x : 0x7ffa6d208010
+12_LN::y : 0x7ffa6767a010
+Starting execution: 2x [12_LN]
+Finished job 12_LN 11673.1
+Finished job 12_LN 11679.2
+iteration 0 time: 11679.5 ms
+Finished job 12_LN 11630.8
+Finished job 12_LN 11640
+iteration 1 time: 11640.2 ms
+Finished job 12_LN 11631.1
+Finished job 12_LN 11639.8
+iteration 2 time: 11640 ms
+Finished job 12_LN 11604.3
+Finished job 12_LN 11656
+iteration 3 time: 11656.2 ms
+Finished job 12_LN 11609
+Finished job 12_LN 11659
+iteration 4 time: 11659.2 ms
+average time is 11654
+
+execution completed
+
+ Performance counter stats for './a.out --type LN --size 24 --cores 2':
+
+     1 525 299 862      LLC-loads:u                                                   (50,00%)
+        24 533 766      LLC-load-misses:u         #    1,61% of all LL-cache accesses  (50,00%)
+     1 502 609 864      LLC-stores:u                                                  (50,00%)
+        49 455 449      LLC-store-misses:u                                            (50,00%)
+
+      58,445921111 seconds time elapsed
+
+     116,391250000 seconds user
+       0,195985000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+8_LN::x : 0x7f96340c3010
+8_LN::y : 0x7f96303b9010
+8_LN::x : 0x7f962c6af010
+8_LN::y : 0x7f96289a5010
+8_LN::x : 0x7f9624c9b010
+8_LN::y : 0x7f9620f91010
+Starting execution: 3x [8_LN]
+Finished job 8_LN 8609.83
+Finished job 8_LN 11542.3
+Finished job 8_LN 11595.8
+iteration 0 time: 11596 ms
+Finished job 8_LN 8573.71
+Finished job 8_LN 11540.4
+Finished job 8_LN 11582.7
+iteration 1 time: 11582.8 ms
+Finished job 8_LN 8570.55
+Finished job 8_LN 11529.9
+Finished job 8_LN 11573
+iteration 2 time: 11573.2 ms
+Finished job 8_LN 8562.26
+Finished job 8_LN 11515.2
+Finished job 8_LN 11558.2
+iteration 3 time: 11558.4 ms
+Finished job 8_LN 8567.41
+Finished job 8_LN 11529.5
+Finished job 8_LN 11571.7
+iteration 4 time: 11571.9 ms
+average time is 11576
+
+execution completed
+
+ Performance counter stats for './a.out --type LN --size 24 --cores 3':
+
+     1 530 845 531      LLC-loads:u                                                   (50,00%)
+        52 669 545      LLC-load-misses:u         #    3,44% of all LL-cache accesses  (50,01%)
+     1 502 114 291      LLC-stores:u                                                  (50,00%)
+        81 695 102      LLC-store-misses:u                                            (49,99%)
+
+      58,054499906 seconds time elapsed
+
+     158,343750000 seconds user
+       0,242984000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+6_LN::x : 0x7f33fe5ea010
+6_LN::y : 0x7f33fb823010
+6_LN::x : 0x7f33f8a5c010
+6_LN::y : 0x7f33f5c95010
+6_LN::x : 0x7f33f2ece010
+6_LN::y : 0x7f33f0107010
+6_LN::x : 0x7f33ed340010
+6_LN::y : 0x7f33ea579010
+Starting execution: 4x [6_LN]
+Finished job 6_LN 11132.6
+Finished job 6_LN 11158.2
+Finished job 6_LN 11159.6
+Finished job 6_LN 11175.6
+iteration 0 time: 11175.8 ms
+Finished job 6_LN 11132.6
+Finished job 6_LN 11159.4
+Finished job 6_LN 11161.5
+Finished job 6_LN 11176.6
+iteration 1 time: 11176.8 ms
+Finished job 6_LN 11103.2
+Finished job 6_LN 11134.2
+Finished job 6_LN 11135
+Finished job 6_LN 11149.2
+iteration 2 time: 11149.3 ms
+Finished job 6_LN 11126.9
+Finished job Finished job 6_LN 6_LN 11157.111157.1
+
+Finished job 6_LN 11173.7
+iteration 3 time: 11173.9 ms
+Finished job 6_LN 11133.9
+Finished job 6_LN 11161.6
+Finished job 6_LN 11163.7
+Finished job 6_LN 11180.4
+iteration 4 time: 11180.6 ms
+average time is 11170
+
+execution completed
+
+ Performance counter stats for './a.out --type LN --size 24 --cores 4':
+
+     1 542 351 730      LLC-loads:u                                                   (50,00%)
+        85 461 731      LLC-load-misses:u         #    5,54% of all LL-cache accesses  (50,01%)
+     1 501 472 498      LLC-stores:u                                                  (50,00%)
+       133 110 932      LLC-store-misses:u                                            (49,99%)
+
+      56,028906472 seconds time elapsed
+
+     222,880224000 seconds user
+       0,287943000 seconds sys
+
+
+
+==========================================================
+Тестирование для LN (24) завершено!
+==========================================================
+
+Тестирование для LN (24) завершено!

@@ -10,6 +10,7 @@
 #else
 #include <cblas64.h>
 #include <lapacke.h>
+#include <mkl_vml_functions.h>
 #include <cmath>
 #define mkl_malloc(sz, al) malloc(sz)
 #define mkl_free free

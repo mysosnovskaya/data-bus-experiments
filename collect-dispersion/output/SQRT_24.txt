@@ -1,0 +1,192 @@
+==========================================================
+Запуск серии тестов для типа: SQRT, размер: 24
+Дата запуска: Сб июл  4 03:26:48 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: SQRT, размер: 24
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+24_SQRT::x : 0x7f0dd6cea010
+24_SQRT::y : 0x7f0dcb5ce010
+Starting execution: 1x [24_SQRT]
+Finished job 24_SQRT 21732.3
+iteration 0 time: 21732.5 ms
+Finished job 24_SQRT 21699.3
+iteration 1 time: 21699.5 ms
+Finished job 24_SQRT 21697
+iteration 2 time: 21697.1 ms
+Finished job 24_SQRT 21706.3
+iteration 3 time: 21706.4 ms
+Finished job 24_SQRT 21695.5
+iteration 4 time: 21695.9 ms
+average time is 21705
+
+execution completed
+
+ Performance counter stats for './a.out --type SQRT --size 24 --cores 1':
+
+     1 502 196 411      LLC-loads:u                                                   (50,00%)
+       137 702 829      LLC-load-misses:u         #    9,17% of all LL-cache accesses  (50,00%)
+     1 502 775 232      LLC-stores:u                                                  (50,00%)
+        46 810 550      LLC-store-misses:u                                            (50,00%)
+
+     108,697997004 seconds time elapsed
+
+     108,544867000 seconds user
+       0,141984000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+12_SQRT::x : 0x7f1dabb26010
+12_SQRT::y : 0x7f1da5f98010
+12_SQRT::x : 0x7f1da040a010
+12_SQRT::y : 0x7f1d9a87c010
+Starting execution: 2x [12_SQRT]
+Finished job 12_SQRT 12527.7
+Finished job 12_SQRT 12571.3
+iteration 0 time: 12571.6 ms
+Finished job 12_SQRT 12528.6
+Finished job 12_SQRT 12572.5
+iteration 1 time: 12572.7 ms
+Finished job 12_SQRT 12513.2
+Finished job 12_SQRT 12557.7
+iteration 2 time: 12557.9 ms
+Finished job 12_SQRT 12510.1
+Finished job 12_SQRT 12552.2
+iteration 3 time: 12552.3 ms
+Finished job 12_SQRT 12507.1
+Finished job 12_SQRT 12549.8
+iteration 4 time: 12549.9 ms
+average time is 12560
+
+execution completed
+
+ Performance counter stats for './a.out --type SQRT --size 24 --cores 2':
+
+     1 502 163 571      LLC-loads:u                                                   (50,00%)
+       175 490 098      LLC-load-misses:u         #   11,68% of all LL-cache accesses  (50,00%)
+     1 502 766 925      LLC-stores:u                                                  (50,00%)
+        46 883 680      LLC-store-misses:u                                            (50,00%)
+
+      62,973733129 seconds time elapsed
+
+     125,376311000 seconds user
+       0,176989000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+8_SQRT::x : 0x7f7dd258f010
+8_SQRT::y : 0x7f7dce885010
+8_SQRT::x : 0x7f7dcab7b010
+8_SQRT::y : 0x7f7dc6e71010
+8_SQRT::x : 0x7f7dc3167010
+8_SQRT::y : 0x7f7dbf45d010
+Starting execution: 3x [8_SQRT]
+Finished job 8_SQRT 9289.67
+Finished job 8_SQRT 11927.7
+Finished job 8_SQRT 11953.8
+iteration 0 time: 11953.9 ms
+Finished job 8_SQRT 9284.99
+Finished job 8_SQRT 11924.1
+Finished job 8_SQRT 11964.1
+iteration 1 time: 11964.3 ms
+Finished job 8_SQRT 9281.93
+Finished job 8_SQRT 11920.1
+Finished job 8_SQRT 11961.9
+iteration 2 time: 11962.1 ms
+Finished job 8_SQRT 9270.4
+Finished job 8_SQRT 11901
+Finished job 8_SQRT 11942.9
+iteration 3 time: 11943.1 ms
+Finished job 8_SQRT 9281.28
+Finished job 8_SQRT 11918.8
+Finished job 8_SQRT 11961.4
+iteration 4 time: 11961.5 ms
+average time is 11956
+
+execution completed
+
+ Performance counter stats for './a.out --type SQRT --size 24 --cores 3':
+
+     1 502 482 713      LLC-loads:u                                                   (50,00%)
+       263 844 621      LLC-load-misses:u         #   17,56% of all LL-cache accesses  (50,00%)
+     1 503 254 403      LLC-stores:u                                                  (50,00%)
+        82 391 126      LLC-store-misses:u                                            (50,00%)
+
+      59,954637424 seconds time elapsed
+
+     165,705173000 seconds user
+       0,242981000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+6_SQRT::x : 0x7f4fe5722010
+6_SQRT::y : 0x7f4fe295b010
+6_SQRT::x : 0x7f4fdfb94010
+6_SQRT::y : 0x7f4fdcdcd010
+6_SQRT::x : 0x7f4fda006010
+6_SQRT::y : 0x7f4fd723f010
+6_SQRT::x : 0x7f4fd4478010
+6_SQRT::y : 0x7f4fd16b1010
+Starting execution: 4x [6_SQRT]
+Finished job 6_SQRT 11157.8
+Finished job 6_SQRT 11164.2
+Finished job 6_SQRT 11187
+Finished job 6_SQRT 11191.7
+iteration 0 time: 11191.8 ms
+Finished job 6_SQRT 11120.9
+Finished job 6_SQRT 11132.2
+Finished job 6_SQRT 11151.2
+Finished job 6_SQRT 11151.6
+iteration 1 time: 11151.7 ms
+Finished job 6_SQRT 11141.9
+Finished job 6_SQRT 11153.5
+Finished job 6_SQRT 11173.6
+Finished job 6_SQRT 11174.3
+iteration 2 time: 11174.5 ms
+Finished job 6_SQRT 11123.7
+Finished job 6_SQRT 11129.9
+Finished job 6_SQRT 11151.7
+Finished job 6_SQRT 11152.3
+iteration 3 time: 11152.5 ms
+Finished job 6_SQRT 11124.2
+Finished job 6_SQRT 11135.8
+Finished job 6_SQRT 11151.5
+Finished job 6_SQRT 11153.4
+iteration 4 time: 11153.5 ms
+average time is 11164
+
+execution completed
+
+ Performance counter stats for './a.out --type SQRT --size 24 --cores 4':
+
+     1 501 877 457      LLC-loads:u                                                   (50,00%)
+       230 281 869      LLC-load-misses:u         #   15,33% of all LL-cache accesses  (49,99%)
+     1 504 790 452      LLC-stores:u                                                  (50,01%)
+       140 029 554      LLC-store-misses:u                                            (50,01%)
+
+      55,994956295 seconds time elapsed
+
+     222,868254000 seconds user
+       0,289945000 seconds sys
+
+
+
+==========================================================
+Тестирование для SQRT (24) завершено!
+==========================================================
+
+Тестирование для SQRT (24) завершено!
