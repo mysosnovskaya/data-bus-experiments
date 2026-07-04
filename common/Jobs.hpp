@@ -332,6 +332,7 @@ public:
     ~MklLnJob() {
         mkl_free(x);
         mkl_free(y);
+    }
 };
 
 class MklSqrtJob : public Job {
