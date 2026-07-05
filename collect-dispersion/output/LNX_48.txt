@@ -1,0 +1,182 @@
+==========================================================
+Запуск серии тестов для типа: LNX, размер: 48
+Дата запуска: Вс июл  5 03:22:08 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: LNX, размер: 48
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+48_LNX::x : 0x7fdb2397d010
+Starting execution: 1x [48_LNX]
+Finished job 48_LNX 73119.8
+iteration 0 time: 73120 ms
+Finished job 48_LNX 64125.6
+iteration 1 time: 64125.9 ms
+Finished job 48_LNX 64155.7
+iteration 2 time: 64155.9 ms
+Finished job 48_LNX 64188.3
+iteration 3 time: 64188.5 ms
+Finished job 48_LNX 64153.7
+iteration 4 time: 64153.9 ms
+average time is 65948
+
+execution completed
+
+ Performance counter stats for './a.out --type LNX --size 48 --cores 1':
+
+     3 006 530 760      LLC-loads:u                                                   (50,00%)
+        46 969 222      LLC-load-misses:u         #    1,56% of all LL-cache accesses  (50,00%)
+         6 111 786      LLC-stores:u                                                  (50,00%)
+             4 401      LLC-store-misses:u                                            (50,00%)
+
+     330,065527780 seconds time elapsed
+
+     329,872871000 seconds user
+       0,161984000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+24_LNX::x : 0x7fa0ff7ec010
+24_LNX::x : 0x7fa0f40d0010
+Starting execution: 2x [24_LNX]
+Finished job 24_LNX 36296.2
+Finished job 24_LNX 36311.6
+iteration 0 time: 36311.9 ms
+Finished job 24_LNX 31771.9
+Finished job 24_LNX 31777.9
+iteration 1 time: 31778.1 ms
+Finished job 24_LNX 31732.2
+Finished job 24_LNX 31861.2
+iteration 2 time: 31861.4 ms
+Finished job 24_LNX 31723.8
+Finished job 24_LNX 31845.6
+iteration 3 time: 31845.8 ms
+Finished job 24_LNX 31733.7
+Finished job 24_LNX 31866.2
+iteration 4 time: 31866.4 ms
+average time is 32732
+
+execution completed
+
+ Performance counter stats for './a.out --type LNX --size 48 --cores 2':
+
+     3 006 514 461      LLC-loads:u                                                   (50,00%)
+        46 994 397      LLC-load-misses:u         #    1,56% of all LL-cache accesses  (50,00%)
+         6 132 244      LLC-stores:u                                                  (50,00%)
+             5 125      LLC-store-misses:u                                            (50,00%)
+
+     163,987881804 seconds time elapsed
+
+     327,062629000 seconds user
+       0,167993000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+16_LNX::x : 0x7efd16722010
+16_LNX::x : 0x7efd0ed0f010
+16_LNX::x : 0x7efd072fc010
+Starting execution: 3x [16_LNX]
+Finished job 16_LNX 24473.5
+Finished job 16_LNX 24602.1
+Finished job 16_LNX 24663.5
+iteration 0 time: 24663.8 ms
+Finished job 16_LNX 21397.5
+Finished job 16_LNX 21398.6
+Finished job 16_LNX 21472.5
+iteration 1 time: 21472.7 ms
+Finished job 16_LNX 21369.6
+Finished job 16_LNX 21390.2
+Finished job 16_LNX 21490.9
+iteration 2 time: 21491.1 ms
+Finished job 16_LNX 21385.7
+Finished job 16_LNX 21386.7
+Finished job 16_LNX 21460.9
+iteration 3 time: 21461.1 ms
+Finished job 16_LNX 21408.1
+Finished job 16_LNX 21408.8
+Finished job 16_LNX 21484.4
+iteration 4 time: 21484.6 ms
+average time is 22114
+
+execution completed
+
+ Performance counter stats for './a.out --type LNX --size 48 --cores 3':
+
+     3 008 966 909      LLC-loads:u                                                   (50,00%)
+        47 140 494      LLC-load-misses:u         #    1,57% of all LL-cache accesses  (50,01%)
+         5 993 650      LLC-stores:u                                                  (50,00%)
+             5 018      LLC-store-misses:u                                            (50,00%)
+
+     110,897187999 seconds time elapsed
+
+     330,940929000 seconds user
+       0,163993000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+12_LNX::x : 0x7f24d6cb2010
+12_LNX::x : 0x7f24d1124010
+12_LNX::x : 0x7f24cb596010
+12_LNX::x : 0x7f24c5a08010
+Starting execution: 4x [12_LNX]
+Finished job 12_LNX 20818.4
+Finished job 12_LNX 20826.1
+Finished job 12_LNX 20860.5
+Finished job 12_LNX 20878.3
+iteration 0 time: 20878.6 ms
+Finished job 12_LNX 18329
+Finished job 12_LNX 18330.4
+Finished job 12_LNX 18341.5
+Finished job 12_LNX 18410
+iteration 1 time: 18410.2 ms
+Finished job 12_LNX 18338.6
+Finished job 12_LNX 18338.9
+Finished job 12_LNX 18351
+Finished job 12_LNX 18421.1
+iteration 2 time: 18421.3 ms
+Finished job 12_LNX 18316.7
+Finished job 12_LNX 18319.6
+Finished job 12_LNX 18334.1
+Finished job 12_LNX 18398.9
+iteration 3 time: 18399.1 ms
+Finished job 12_LNX 18315.2
+Finished job 12_LNX 18316
+Finished job 12_LNX 18328.3
+Finished job 12_LNX 18395.4
+iteration 4 time: 18395.6 ms
+average time is 18900
+
+execution completed
+
+ Performance counter stats for './a.out --type LNX --size 48 --cores 4':
+
+     3 008 235 967      LLC-loads:u                                                   (50,01%)
+        52 963 006      LLC-load-misses:u         #    1,76% of all LL-cache accesses  (50,00%)
+         6 128 584      LLC-stores:u                                                  (49,99%)
+             5 227      LLC-store-misses:u                                            (50,00%)
+
+      94,831758235 seconds time elapsed
+
+     377,057468000 seconds user
+       0,175970000 seconds sys
+
+
+
+==========================================================
+Тестирование для LNX (48) завершено!
+==========================================================
+
+Тестирование для LNX (48) завершено!

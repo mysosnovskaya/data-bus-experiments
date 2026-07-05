@@ -1,0 +1,182 @@
+==========================================================
+Запуск серии тестов для типа: SQRTX, размер: 24
+Дата запуска: Вс июл  5 01:41:43 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: SQRTX, размер: 24
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+24_SQRTX::x : 0x7f9211ab0010
+Starting execution: 1x [24_SQRTX]
+Finished job 24_SQRTX 18112.8
+iteration 0 time: 18113.2 ms
+Finished job 24_SQRTX 18111
+iteration 1 time: 18111.2 ms
+Finished job 24_SQRTX 18104.7
+iteration 2 time: 18104.9 ms
+Finished job 24_SQRTX 18101.3
+iteration 3 time: 18101.5 ms
+Finished job 24_SQRTX 18106.9
+iteration 4 time: 18107.1 ms
+average time is 18107
+
+execution completed
+
+ Performance counter stats for './a.out --type SQRTX --size 24 --cores 1':
+
+     1 501 578 888      LLC-loads:u                                                   (50,00%)
+        23 492 767      LLC-load-misses:u         #    1,56% of all LL-cache accesses  (50,00%)
+         2 992 415      LLC-stores:u                                                  (50,00%)
+             2 251      LLC-store-misses:u                                            (50,00%)
+
+      90,705205486 seconds time elapsed
+
+      90,614528000 seconds user
+       0,080992000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+12_SQRTX::x : 0x7f8e3bf20010
+12_SQRTX::x : 0x7f8e36392010
+Starting execution: 2x [12_SQRTX]
+Finished job 12_SQRTX 9326.78
+Finished job 12_SQRTX 9328.52
+iteration 0 time: 9328.64 ms
+Finished job 12_SQRTX 9318
+Finished job 12_SQRTX 9320.18
+iteration 1 time: 9320.41 ms
+Finished job 12_SQRTX 9319.14
+Finished job 12_SQRTX 9324.38
+iteration 2 time: 9324.58 ms
+Finished job 12_SQRTX 9298.88
+Finished job 12_SQRTX 9336.78
+iteration 3 time: 9336.96 ms
+Finished job 12_SQRTX 9304.39
+Finished job 12_SQRTX 9335.39
+iteration 4 time: 9335.6 ms
+average time is 9328
+
+execution completed
+
+ Performance counter stats for './a.out --type SQRTX --size 24 --cores 2':
+
+     1 501 355 809      LLC-loads:u                                                   (50,00%)
+        23 537 039      LLC-load-misses:u         #    1,57% of all LL-cache accesses  (50,00%)
+         3 033 181      LLC-stores:u                                                  (50,00%)
+             5 009      LLC-store-misses:u                                            (50,00%)
+
+      46,813118517 seconds time elapsed
+
+      93,286539000 seconds user
+       0,087993000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+8_SQRTX::x : 0x7f538deaa010
+8_SQRTX::x : 0x7f538a1a0010
+8_SQRTX::x : 0x7f5386496010
+Starting execution: 3x [8_SQRTX]
+Finished job 8_SQRTX 6967.33
+Finished job 8_SQRTX 9232.01
+Finished job 8_SQRTX 9264.46
+iteration 0 time: 9264.6 ms
+Finished job 8_SQRTX 6959.12
+Finished job 8_SQRTX 9226.32
+Finished job 8_SQRTX 9256.27
+iteration 1 time: 9255.85 ms
+Finished job 8_SQRTX 6951.19
+Finished job 8_SQRTX 9211.32
+Finished job 8_SQRTX 9245.32
+iteration 2 time: 9245.48 ms
+Finished job 8_SQRTX 6968.68
+Finished job 8_SQRTX 9217.44
+Finished job 8_SQRTX 9277.18
+iteration 3 time: 9277.35 ms
+Finished job 8_SQRTX 6967.8
+Finished job 8_SQRTX 9223.67
+Finished job 8_SQRTX 9259.69
+iteration 4 time: 9259.86 ms
+average time is 9260
+
+execution completed
+
+ Performance counter stats for './a.out --type SQRTX --size 24 --cores 3':
+
+     1 501 994 187      LLC-loads:u                                                   (50,00%)
+        41 645 304      LLC-load-misses:u         #    2,77% of all LL-cache accesses  (50,01%)
+         2 938 023      LLC-stores:u                                                  (50,00%)
+             4 824      LLC-store-misses:u                                            (50,00%)
+
+      46,476044306 seconds time elapsed
+
+     127,289891000 seconds user
+       0,101992000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+6_SQRTX::x : 0x7f34572ca010
+6_SQRTX::x : 0x7f3454503010
+6_SQRTX::x : 0x7f345173c010
+6_SQRTX::x : 0x7f344e975010
+Starting execution: 4x [6_SQRTX]
+Finished job 6_SQRTX 9211.39
+Finished job 6_SQRTX 9223.14
+Finished job 6_SQRTX 9238.37
+Finished job 6_SQRTX 9239.24
+iteration 0 time: 9239.38 ms
+Finished job 6_SQRTX 9200.53
+Finished job 6_SQRTX 9209.29
+Finished job 6_SQRTX Finished job 6_SQRTX 9222
+9222.04
+iteration 1 time: 9222.33 ms
+Finished job 6_SQRTX 9213.95
+Finished job 6_SQRTX 9228.84
+Finished job 6_SQRTX 9243.54
+Finished job 6_SQRTX 9249.14
+iteration 2 time: 9249.55 ms
+Finished job 6_SQRTX 9211.01
+Finished job 6_SQRTX 9226.51
+Finished job 6_SQRTX 9238.77
+Finished job 6_SQRTX 9242.58
+iteration 3 time: 9242.76 ms
+Finished job 6_SQRTX 9204.63
+Finished job 6_SQRTX 9219.52
+Finished job 6_SQRTX 9231.49
+Finished job 6_SQRTX 9234.04
+iteration 4 time: 9234.22 ms
+average time is 9237
+
+execution completed
+
+ Performance counter stats for './a.out --type SQRTX --size 24 --cores 4':
+
+     1 504 418 148      LLC-loads:u                                                   (50,00%)
+        75 526 909      LLC-load-misses:u         #    5,02% of all LL-cache accesses  (50,01%)
+         3 116 273      LLC-stores:u                                                  (50,00%)
+             8 961      LLC-store-misses:u                                            (49,99%)
+
+      46,358151897 seconds time elapsed
+
+     184,547913000 seconds user
+       0,094978000 seconds sys
+
+
+
+==========================================================
+Тестирование для SQRTX (24) завершено!
+==========================================================
+
+Тестирование для SQRTX (24) завершено!

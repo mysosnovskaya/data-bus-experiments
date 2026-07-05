@@ -1,0 +1,182 @@
+==========================================================
+Запуск серии тестов для типа: LNX, размер: 24
+Дата запуска: Вс июл  5 01:56:07 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: LNX, размер: 24
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+24_LNX::x : 0x7f7710c2d010
+Starting execution: 1x [24_LNX]
+Finished job 24_LNX 36542.5
+iteration 0 time: 36542.7 ms
+Finished job 24_LNX 32053.7
+iteration 1 time: 32053.9 ms
+Finished job 24_LNX 32079.1
+iteration 2 time: 32079.4 ms
+Finished job 24_LNX 32098.1
+iteration 3 time: 32098.3 ms
+Finished job 24_LNX 32094.5
+iteration 4 time: 32094.7 ms
+average time is 32973
+
+execution completed
+
+ Performance counter stats for './a.out --type LNX --size 24 --cores 1':
+
+     1 503 944 919      LLC-loads:u                                                   (50,00%)
+        23 501 232      LLC-load-misses:u         #    1,56% of all LL-cache accesses  (50,00%)
+         3 077 999      LLC-stores:u                                                  (50,00%)
+             2 901      LLC-store-misses:u                                            (50,00%)
+
+     165,035733678 seconds time elapsed
+
+     164,931179000 seconds user
+       0,088992000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+12_LNX::x : 0x7f1211e9d010
+12_LNX::x : 0x7f120c30f010
+Starting execution: 2x [12_LNX]
+Finished job 12_LNX 18153.6
+Finished job 12_LNX 18169.5
+iteration 0 time: 18169.9 ms
+Finished job 12_LNX 15854.7
+Finished job 12_LNX 15916.7
+iteration 1 time: 15916.9 ms
+Finished job 12_LNX 15862.6
+Finished job 12_LNX 15925
+iteration 2 time: 15925.2 ms
+Finished job 12_LNX 15853
+Finished job 12_LNX 15912.8
+iteration 3 time: 15913 ms
+Finished job 12_LNX 15858.5
+Finished job 12_LNX 15919.2
+iteration 4 time: 15919.4 ms
+average time is 16368
+
+execution completed
+
+ Performance counter stats for './a.out --type LNX --size 24 --cores 2':
+
+     1 503 270 345      LLC-loads:u                                                   (50,00%)
+        23 530 285      LLC-load-misses:u         #    1,57% of all LL-cache accesses  (50,00%)
+         3 112 438      LLC-stores:u                                                  (50,00%)
+             3 166      LLC-store-misses:u                                            (50,00%)
+
+      82,013870930 seconds time elapsed
+
+     163,499201000 seconds user
+       0,088996000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+8_LNX::x : 0x7f52731ec010
+8_LNX::x : 0x7f526f4e2010
+8_LNX::x : 0x7f526b7d8010
+Starting execution: 3x [8_LNX]
+Finished job 8_LNX 12248.1
+Finished job 8_LNX 12321.4
+Finished job 8_LNX 12336.7
+iteration 0 time: 12336.8 ms
+Finished job 8_LNX 10698
+Finished job 8_LNX 10699.8
+Finished job 8_LNX 10736.3
+iteration 1 time: 10736.4 ms
+Finished job 8_LNX 10683.2
+Finished job 8_LNX 10685.2
+Finished job 8_LNX 10721
+iteration 2 time: 10721.2 ms
+Finished job 8_LNX 10689
+Finished job 8_LNX 10698.2
+Finished job 8_LNX 10749.3
+iteration 3 time: 10749.5 ms
+Finished job 8_LNX 10686.9
+Finished job 8_LNX 10688.2
+Finished job 8_LNX 10725.5
+iteration 4 time: 10725.7 ms
+average time is 11053
+
+execution completed
+
+ Performance counter stats for './a.out --type LNX --size 24 --cores 3':
+
+     1 501 882 578      LLC-loads:u                                                   (49,99%)
+        23 653 170      LLC-load-misses:u         #    1,57% of all LL-cache accesses  (50,00%)
+         3 070 685      LLC-stores:u                                                  (50,01%)
+             5 397      LLC-store-misses:u                                            (50,00%)
+
+      55,441786431 seconds time elapsed
+
+     165,432848000 seconds user
+       0,101993000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+6_LNX::x : 0x7ff47b49e010
+6_LNX::x : 0x7ff4786d7010
+6_LNX::x : 0x7ff475910010
+6_LNX::x : 0x7ff472b49010
+Starting execution: 4x [6_LNX]
+Finished job 6_LNX 10431
+Finished job 6_LNX 10439.8
+Finished job 6_LNX 10455.2
+Finished job 6_LNX 10460.5
+iteration 0 time: 10459.6 ms
+Finished job 6_LNX 9206.17
+Finished job 6_LNX 9211.56
+Finished job 6_LNX 9230
+Finished job 6_LNX 9235.72
+iteration 1 time: 9235.87 ms
+Finished job 6_LNX 9199.42
+Finished job 6_LNX 9206.89
+Finished job 6_LNX 9217.85
+Finished job 6_LNX 9227.49
+iteration 2 time: 9227.69 ms
+Finished job 6_LNX 9194.86
+Finished job 6_LNX 9202.68
+Finished job 6_LNX 9213.81
+Finished job 6_LNX 9224.34
+iteration 3 time: 9224.5 ms
+Finished job 6_LNX 9206
+Finished job 6_LNX 9206.87
+Finished job 6_LNX 9210.19
+Finished job 6_LNX 9244.8
+iteration 4 time: 9244.98 ms
+average time is 9477
+
+execution completed
+
+ Performance counter stats for './a.out --type LNX --size 24 --cores 4':
+
+     1 504 326 665      LLC-loads:u                                                   (49,99%)
+        26 696 781      LLC-load-misses:u         #    1,77% of all LL-cache accesses  (50,00%)
+         2 936 601      LLC-stores:u                                                  (50,01%)
+             4 319      LLC-store-misses:u                                            (50,00%)
+
+      47,564576061 seconds time elapsed
+
+     189,261593000 seconds user
+       0,105982000 seconds sys
+
+
+
+==========================================================
+Тестирование для LNX (24) завершено!
+==========================================================
+
+Тестирование для LNX (24) завершено!

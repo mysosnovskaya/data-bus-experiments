@@ -1,0 +1,202 @@
+==========================================================
+Запуск серии тестов для типа: POW, размер: 6
+Дата запуска: Вс июл  5 01:17:11 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: POW, размер: 6
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+6_POW::a : 0x7fbb9f140010
+6_POW::b : 0x7fbb9c379010
+6_POW::y : 0x7fbb995b2010
+Starting execution: 1x [6_POW]
+Finished job 6_POW 12008.5
+iteration 0 time: 12008.7 ms
+Finished job 6_POW 11993.6
+iteration 1 time: 11993.7 ms
+Finished job 6_POW 11988.2
+iteration 2 time: 11988.4 ms
+Finished job 6_POW 11987.2
+iteration 3 time: 11987.4 ms
+Finished job 6_POW 11984.9
+iteration 4 time: 11985 ms
+average time is 11992
+
+execution completed
+
+ Performance counter stats for './a.out --type POW --size 6 --cores 1':
+
+     1 959 813 168      LLC-loads:u                                                   (50,00%)
+        11 793 686      LLC-load-misses:u         #    0,60% of all LL-cache accesses  (50,00%)
+       376 961 372      LLC-stores:u                                                  (50,01%)
+        11 686 992      LLC-store-misses:u                                            (50,00%)
+
+      60,056356185 seconds time elapsed
+
+      59,989090000 seconds user
+       0,061993000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+3_POW::a : 0x7f80fd8ea010
+3_POW::b : 0x7f80fc206010
+3_POW::y : 0x7f80fab22010
+3_POW::a : 0x7f80f943e010
+3_POW::b : 0x7f80f7d5a010
+3_POW::y : 0x7f80f6676010
+Starting execution: 2x [3_POW]
+Finished job 3_POW 6144.36
+Finished job 3_POW 6163.94
+iteration 0 time: 6164.12 ms
+Finished job 3_POW 6130.01
+Finished job 3_POW 6154.91
+iteration 1 time: 6155.11 ms
+Finished job 3_POW 6130.81
+Finished job 3_POW 6151.37
+iteration 2 time: 6151.54 ms
+Finished job 3_POW 6129.95
+Finished job 3_POW 6154.18
+iteration 3 time: 6154.36 ms
+Finished job 3_POW 6130.84
+Finished job 3_POW 6151.81
+iteration 4 time: 6151.99 ms
+average time is 6155
+
+execution completed
+
+ Performance counter stats for './a.out --type POW --size 6 --cores 2':
+
+     1 964 384 936      LLC-loads:u                                                   (50,00%)
+        11 825 114      LLC-load-misses:u         #    0,60% of all LL-cache accesses  (50,00%)
+       376 869 057      LLC-stores:u                                                  (50,01%)
+        11 678 683      LLC-store-misses:u                                            (50,00%)
+
+      30,874356640 seconds time elapsed
+
+      61,469691000 seconds user
+       0,068996000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+2_POW::a : 0x7f1b348ac010
+2_POW::b : 0x7f1b33969010
+2_POW::y : 0x7f1b32a26010
+2_POW::a : 0x7f1b31ae3010
+2_POW::b : 0x7f1b30ba0010
+2_POW::y : 0x7f1b2fc5d010
+2_POW::a : 0x7f1b2ed1a010
+2_POW::b : 0x7f1b2ddd7010
+2_POW::y : 0x7f1b2ce94010
+Starting execution: 3x [2_POW]
+Finished job 2_POW 4333.28
+Finished job 2_POW 4348.38
+Finished job 2_POW 4357.65
+iteration 0 time: 4357.81 ms
+Finished job 2_POW 4314
+Finished job 2_POW 4337.02
+Finished job 2_POW 4352.72
+iteration 1 time: 4352.89 ms
+Finished job 2_POW 4320
+Finished job 2_POW 4343.01
+Finished job 2_POW 4358.95
+iteration 2 time: 4359.11 ms
+Finished job 2_POW 4319.57
+Finished job 2_POW 4343.2
+Finished job 2_POW 4359.17
+iteration 3 time: 4359.3 ms
+Finished job 2_POW 4316.59
+Finished job 2_POW 4344.62
+Finished job 2_POW 4355
+iteration 4 time: 4355.3 ms
+average time is 4356
+
+execution completed
+
+ Performance counter stats for './a.out --type POW --size 6 --cores 3':
+
+     1 972 027 637      LLC-loads:u                                                   (49,99%)
+        14 399 921      LLC-load-misses:u         #    0,73% of all LL-cache accesses  (50,01%)
+       376 374 038      LLC-stores:u                                                  (50,01%)
+        12 073 000      LLC-store-misses:u                                            (50,00%)
+
+      21,884126411 seconds time elapsed
+
+      65,115661000 seconds user
+       0,085999000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+1_POW::a : 0x7f894b465010
+1_POW::b : 0x7f894acc3010
+1_POW::y : 0x7f894a521010
+1_POW::a : 0x7f8949d7f010
+1_POW::b : 0x7f89495dd010
+1_POW::y : 0x7f8948e3b010
+1_POW::a : 0x7f8948699010
+1_POW::b : 0x7f8947ef7010
+1_POW::y : 0x7f8947755010
+1_POW::a : 0x7f8946fb3010
+1_POW::b : 0x7f8946811010
+1_POW::y : 0x7f894606f010
+Starting execution: 4x [1_POW]
+Finished job 1_POW 2581.34
+Finished job 1_POW 2589.34
+Finished job 1_POW 2589.88
+Finished job 1_POW 2590.98
+iteration 0 time: 2589.86 ms
+Finished job 1_POW 2576.72
+Finished job 1_POW 2584.23
+Finished job 1_POW 2585.01
+Finished job 1_POW 2585.84
+iteration 1 time: 2585.99 ms
+Finished job 1_POW 2577.18
+Finished job 1_POW 2584.34
+Finished job 1_POW 2584.94
+Finished job 1_POW 2585.48
+iteration 2 time: 2585.52 ms
+Finished job 1_POW 2571.31
+Finished job 1_POW 2578.57
+Finished job 1_POW 2579.91
+Finished job 1_POW 2580.19
+iteration 3 time: 2580.22 ms
+Finished job 1_POW 2574.49
+Finished job 1_POW 2581.22
+Finished job 1_POW 2582.56
+Finished job 1_POW 2582.91
+iteration 4 time: 2582.95 ms
+average time is 2584
+
+execution completed
+
+ Performance counter stats for './a.out --type POW --size 6 --cores 4':
+
+     1 316 265 454      LLC-loads:u                                                   (50,01%)
+        16 097 987      LLC-load-misses:u         #    1,22% of all LL-cache accesses  (50,01%)
+       250 953 075      LLC-stores:u                                                  (50,00%)
+        12 288 396      LLC-store-misses:u                                            (50,00%)
+
+      13,000531029 seconds time elapsed
+
+      51,638970000 seconds user
+       0,078989000 seconds sys
+
+
+
+==========================================================
+Тестирование для POW (6) завершено!
+==========================================================
+
+Тестирование для POW (6) завершено!

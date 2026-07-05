@@ -1,0 +1,192 @@
+==========================================================
+Запуск серии тестов для типа: TGAMMA, размер: 6
+Дата запуска: Вс июл  5 01:32:53 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: TGAMMA, размер: 6
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+6_TGAMMA::x : 0x7f1291879010
+6_TGAMMA::y : 0x7f128eab2010
+Starting execution: 1x [6_TGAMMA]
+Finished job 6_TGAMMA 33903
+iteration 0 time: 33903.2 ms
+Finished job 6_TGAMMA 33884.5
+iteration 1 time: 33884.7 ms
+Finished job 6_TGAMMA 33888.7
+iteration 2 time: 33889 ms
+Finished job 6_TGAMMA 33878.6
+iteration 3 time: 33878.8 ms
+Finished job 6_TGAMMA 33888.9
+iteration 4 time: 33889.1 ms
+average time is 33888
+
+execution completed
+
+ Performance counter stats for './a.out --type TGAMMA --size 6 --cores 1':
+
+       388 572 655      LLC-loads:u                                                   (50,00%)
+         5 920 841      LLC-load-misses:u         #    1,52% of all LL-cache accesses  (50,00%)
+       375 697 320      LLC-stores:u                                                  (50,00%)
+        11 686 968      LLC-store-misses:u                                            (50,00%)
+
+     169,496321770 seconds time elapsed
+
+     169,435349000 seconds user
+       0,046996000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+3_TGAMMA::x : 0x7f001418b010
+3_TGAMMA::y : 0x7f0012aa7010
+3_TGAMMA::x : 0x7f00113c3010
+3_TGAMMA::y : 0x7f000fcdf010
+Starting execution: 2x [3_TGAMMA]
+Finished job 3_TGAMMA 16938.5
+Finished job 3_TGAMMA 16996.8
+iteration 0 time: 16997 ms
+Finished job 3_TGAMMA 16924.9
+Finished job 3_TGAMMA 16985.1
+iteration 1 time: 16985.3 ms
+Finished job 3_TGAMMA 16927.2
+Finished job 3_TGAMMA 16985.5
+iteration 2 time: 16985.7 ms
+Finished job 3_TGAMMA 16927.2
+Finished job 3_TGAMMA 16984.9
+iteration 3 time: 16985 ms
+Finished job 3_TGAMMA 16927.6
+Finished job 3_TGAMMA 16984.2
+iteration 4 time: 16984.4 ms
+average time is 16987
+
+execution completed
+
+ Performance counter stats for './a.out --type TGAMMA --size 6 --cores 2':
+
+       387 685 473      LLC-loads:u                                                   (50,00%)
+         5 936 459      LLC-load-misses:u         #    1,53% of all LL-cache accesses  (50,00%)
+       375 681 900      LLC-stores:u                                                  (50,00%)
+        11 673 782      LLC-store-misses:u                                            (50,00%)
+
+      84,990505373 seconds time elapsed
+
+     169,575218000 seconds user
+       0,054997000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+2_TGAMMA::x : 0x7f01fff59010
+2_TGAMMA::y : 0x7f01ff016010
+2_TGAMMA::x : 0x7f01fe0d3010
+2_TGAMMA::y : 0x7f01fd190010
+2_TGAMMA::x : 0x7f01fc24d010
+2_TGAMMA::y : 0x7f01fb30a010
+Starting execution: 3x [2_TGAMMA]
+Finished job 2_TGAMMA 11331.6
+Finished job 2_TGAMMA 11353.8
+Finished job 2_TGAMMA 11355.1
+iteration 0 time: 11355.3 ms
+Finished job 2_TGAMMA 11322.8
+Finished job 2_TGAMMA 11343.2
+Finished job 2_TGAMMA 11344.8
+iteration 1 time: 11345 ms
+Finished job 2_TGAMMA 11304.3
+Finished job 2_TGAMMA 11336.2
+Finished job 2_TGAMMA 11339.8
+iteration 2 time: 11340 ms
+Finished job 2_TGAMMA 11312.2
+Finished job 2_TGAMMA 11335
+Finished job 2_TGAMMA 11338.2
+iteration 3 time: 11338.4 ms
+Finished job 2_TGAMMA 11310.3
+Finished job 2_TGAMMA 11324.8
+Finished job 2_TGAMMA 11338.8
+iteration 4 time: 11339 ms
+average time is 11343
+
+execution completed
+
+ Performance counter stats for './a.out --type TGAMMA --size 6 --cores 3':
+
+       388 078 979      LLC-loads:u                                                   (50,00%)
+         5 988 078      LLC-load-misses:u         #    1,54% of all LL-cache accesses  (50,00%)
+       375 363 542      LLC-stores:u                                                  (50,00%)
+        11 677 322      LLC-store-misses:u                                            (50,00%)
+
+      56,772058045 seconds time elapsed
+
+     169,978082000 seconds user
+       0,061998000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+1_TGAMMA::x : 0x7fb0affc7010
+1_TGAMMA::y : 0x7fb0af825010
+1_TGAMMA::x : 0x7fb0af083010
+1_TGAMMA::y : 0x7fb0ae8e1010
+1_TGAMMA::x : 0x7fb0ae13f010
+1_TGAMMA::y : 0x7fb0ad99d010
+1_TGAMMA::x : 0x7fb0ad1fb010
+1_TGAMMA::y : 0x7fb0aca59010
+Starting execution: 4x [1_TGAMMA]
+Finished job 1_TGAMMA 5674.07
+Finished job 1_TGAMMA 5674.28
+Finished job 1_TGAMMA 5677.54
+Finished job 1_TGAMMA 5693.77
+iteration 0 time: 5693.84 ms
+Finished job 1_TGAMMA 5661.66
+Finished job 1_TGAMMA 5662.96
+Finished job 1_TGAMMA 5664.56
+Finished job 1_TGAMMA 5681.33
+iteration 1 time: 5681.45 ms
+Finished job 1_TGAMMA 5665.5
+Finished job 1_TGAMMA 5666.02
+Finished job 1_TGAMMA 5672.05
+Finished job 1_TGAMMA 5686.49
+iteration 2 time: 5686.79 ms
+Finished job 1_TGAMMA 5662.11
+Finished job 1_TGAMMA 5664.62
+Finished job 1_TGAMMA 5665.39
+Finished job 1_TGAMMA 5681.7
+iteration 3 time: 5681.83 ms
+Finished job 1_TGAMMA Finished job 1_TGAMMA 5663.63
+5663.66
+Finished job 1_TGAMMA 5665.62
+Finished job 1_TGAMMA 5684.01
+iteration 4 time: 5684.17 ms
+average time is 5685
+
+execution completed
+
+ Performance counter stats for './a.out --type TGAMMA --size 6 --cores 4':
+
+       258 825 594      LLC-loads:u                                                   (50,01%)
+         4 036 013      LLC-load-misses:u         #    1,56% of all LL-cache accesses  (50,01%)
+       249 922 531      LLC-stores:u                                                  (49,99%)
+         7 794 545      LLC-store-misses:u                                            (49,99%)
+
+      28,470274928 seconds time elapsed
+
+     113,417150000 seconds user
+       0,043994000 seconds sys
+
+
+
+==========================================================
+Тестирование для TGAMMA (6) завершено!
+==========================================================
+
+Тестирование для TGAMMA (6) завершено!

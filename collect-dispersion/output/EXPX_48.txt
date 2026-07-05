@@ -1,0 +1,182 @@
+==========================================================
+Запуск серии тестов для типа: EXPX, размер: 48
+Дата запуска: Вс июл  5 02:26:28 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: EXPX, размер: 48
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+48_EXPX::x : 0x7f0777cee010
+Starting execution: 1x [48_EXPX]
+Finished job 48_EXPX 62120.8
+iteration 0 time: 62121 ms
+Finished job 48_EXPX 53054
+iteration 1 time: 53054.3 ms
+Finished job 48_EXPX 53045.6
+iteration 2 time: 53045.8 ms
+Finished job 48_EXPX 53069.6
+iteration 3 time: 53069.8 ms
+Finished job 48_EXPX 53059.8
+iteration 4 time: 53060 ms
+average time is 54869
+
+execution completed
+
+ Performance counter stats for './a.out --type EXPX --size 48 --cores 1':
+
+     3 004 195 083      LLC-loads:u                                                   (50,00%)
+        46 985 479      LLC-load-misses:u         #    1,56% of all LL-cache accesses  (50,00%)
+         6 235 967      LLC-stores:u                                                  (50,00%)
+            12 800      LLC-store-misses:u                                            (50,00%)
+
+     274,670363309 seconds time elapsed
+
+     274,471470000 seconds user
+       0,172984000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+24_EXPX::x : 0x7fdf8638a010
+24_EXPX::x : 0x7fdf7ac6e010
+Starting execution: 2x [24_EXPX]
+Finished job 24_EXPX 31509.3
+Finished job 24_EXPX 31616.8
+iteration 0 time: 31617 ms
+Finished job 24_EXPX 26871.8
+Finished job 24_EXPX 26969.9
+iteration 1 time: 26970.1 ms
+Finished job 24_EXPX 26877.8
+Finished job 24_EXPX 26983.3
+iteration 2 time: 26983.5 ms
+Finished job 24_EXPX 26874.5
+Finished job 24_EXPX 26976.4
+iteration 3 time: 26976.5 ms
+Finished job 24_EXPX 26878.7
+Finished job 24_EXPX 26982.1
+iteration 4 time: 26982.2 ms
+average time is 27905
+
+execution completed
+
+ Performance counter stats for './a.out --type EXPX --size 48 --cores 2':
+
+     3 004 094 340      LLC-loads:u                                                   (50,00%)
+        47 002 294      LLC-load-misses:u         #    1,56% of all LL-cache accesses  (50,00%)
+         6 102 201      LLC-stores:u                                                  (50,00%)
+             7 987      LLC-store-misses:u                                            (50,00%)
+
+     139,849309504 seconds time elapsed
+
+     278,685601000 seconds user
+       0,162992000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+16_EXPX::x : 0x7f8cb36a1010
+16_EXPX::x : 0x7f8cabc8e010
+16_EXPX::x : 0x7f8ca427b010
+Starting execution: 3x [16_EXPX]
+Finished job 16_EXPX 21560.3
+Finished job 16_EXPX 21896.1
+Finished job 16_EXPX 21945.8
+iteration 0 time: 21946 ms
+Finished job 16_EXPX 18442.3
+Finished job 16_EXPX 18681.6
+Finished job 16_EXPX 18748.3
+iteration 1 time: 18748.5 ms
+Finished job 16_EXPX 18430.1
+Finished job 16_EXPX 18670.7
+Finished job 16_EXPX 18736.3
+iteration 2 time: 18736.5 ms
+Finished job 16_EXPX 18440.5
+Finished job 16_EXPX 18680.9
+Finished job 16_EXPX 18745.6
+iteration 3 time: 18745.7 ms
+Finished job 16_EXPX 18421.4
+Finished job 16_EXPX 18674.7
+Finished job 16_EXPX 18719.1
+iteration 4 time: 18719.5 ms
+average time is 19378
+
+execution completed
+
+ Performance counter stats for './a.out --type EXPX --size 48 --cores 3':
+
+     3 007 394 308      LLC-loads:u                                                   (49,99%)
+        49 276 585      LLC-load-misses:u         #    1,64% of all LL-cache accesses  (50,01%)
+         6 084 790      LLC-stores:u                                                  (50,01%)
+            12 059      LLC-store-misses:u                                            (50,00%)
+
+      97,216829596 seconds time elapsed
+
+     288,952921000 seconds user
+       0,148991000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+12_EXPX::x : 0x7f6e05da7010
+12_EXPX::x : 0x7f6e00219010
+12_EXPX::x : 0x7f6dfa68b010
+12_EXPX::x : 0x7f6df4afd010
+Starting execution: 4x [12_EXPX]
+Finished job 12_EXPX 20901.4
+Finished job 12_EXPX 20922.2
+Finished job 12_EXPX 20951.5
+Finished job 12_EXPX 20971.7
+iteration 0 time: 20971.4 ms
+Finished job 12_EXPX 18539.5
+Finished job 12_EXPX 18540.4
+Finished job 12_EXPX 18554.7
+Finished job 12_EXPX 18618.1
+iteration 1 time: 18618.3 ms
+Finished job 12_EXPX 18533.3
+Finished job 12_EXPX 18536.2
+Finished job 12_EXPX 18549.4
+Finished job 12_EXPX 18615.1
+iteration 2 time: 18615.3 ms
+Finished job 12_EXPX 18551.2
+Finished job 12_EXPX 18553.5
+Finished job 12_EXPX 18566
+Finished job 12_EXPX 18632.1
+iteration 3 time: 18632.2 ms
+Finished job 12_EXPX 18563
+Finished job 12_EXPX 18564.1
+Finished job 12_EXPX 18577.9
+Finished job 12_EXPX 18639.5
+iteration 4 time: 18639.7 ms
+average time is 19095
+
+execution completed
+
+ Performance counter stats for './a.out --type EXPX --size 48 --cores 4':
+
+     3 002 469 072      LLC-loads:u                                                   (50,00%)
+        81 407 566      LLC-load-misses:u         #    2,71% of all LL-cache accesses  (50,00%)
+         6 150 320      LLC-stores:u                                                  (50,00%)
+            23 451      LLC-store-misses:u                                            (50,00%)
+
+      95,798891242 seconds time elapsed
+
+     380,958957000 seconds user
+       0,172964000 seconds sys
+
+
+
+==========================================================
+Тестирование для EXPX (48) завершено!
+==========================================================
+
+Тестирование для EXPX (48) завершено!

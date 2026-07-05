@@ -1,0 +1,192 @@
+==========================================================
+Запуск серии тестов для типа: ERF, размер: 36
+Дата запуска: Вс июл  5 01:09:18 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: ERF, размер: 36
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+36_ERF::x : 0x7f5d73073010
+36_ERF::y : 0x7f5d61dca010
+Starting execution: 1x [36_ERF]
+Finished job 36_ERF 38228.7
+iteration 0 time: 38229 ms
+Finished job 36_ERF 38173.4
+iteration 1 time: 38173.8 ms
+Finished job 36_ERF 38163.1
+iteration 2 time: 38163.2 ms
+Finished job 36_ERF 38149
+iteration 3 time: 38149.1 ms
+Finished job 36_ERF 38156.9
+iteration 4 time: 38157 ms
+average time is 38174
+
+execution completed
+
+ Performance counter stats for './a.out --type ERF --size 36 --cores 1':
+
+     2 641 680 953      LLC-loads:u                                                   (50,00%)
+        35 249 803      LLC-load-misses:u         #    1,33% of all LL-cache accesses  (50,00%)
+     2 254 603 668      LLC-stores:u                                                  (50,00%)
+        70 191 898      LLC-store-misses:u                                            (50,00%)
+
+     191,123756240 seconds time elapsed
+
+     190,888694000 seconds user
+       0,216980000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+18_ERF::x : 0x7fdd60fe4010
+18_ERF::y : 0x7fdd5868f010
+18_ERF::x : 0x7fdd4fd3a010
+18_ERF::y : 0x7fdd473e5010
+Starting execution: 2x [18_ERF]
+Finished job 18_ERF 20259.3
+Finished job 18_ERF 20283.2
+iteration 0 time: 20283.6 ms
+Finished job 18_ERF 20173.3
+Finished job 18_ERF 20249
+iteration 1 time: 20249.2 ms
+Finished job 18_ERF 20175.4
+Finished job 18_ERF 20251.1
+iteration 2 time: 20251.3 ms
+Finished job 18_ERF 20180.4
+Finished job 18_ERF 20251.4
+iteration 3 time: 20251.6 ms
+Finished job 18_ERF 20176.6
+Finished job 18_ERF 20243.9
+iteration 4 time: 20244.1 ms
+average time is 20255
+
+execution completed
+
+ Performance counter stats for './a.out --type ERF --size 36 --cores 2':
+
+     2 641 965 636      LLC-loads:u                                                   (50,00%)
+        35 305 294      LLC-load-misses:u         #    1,34% of all LL-cache accesses  (50,00%)
+     2 254 639 012      LLC-stores:u                                                  (50,00%)
+        70 236 106      LLC-store-misses:u                                            (50,00%)
+
+     101,539079027 seconds time elapsed
+
+     202,210941000 seconds user
+       0,282984000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+12_ERF::x : 0x7f6059eea010
+12_ERF::y : 0x7f605435c010
+12_ERF::x : 0x7f604e7ce010
+12_ERF::y : 0x7f6048c40010
+12_ERF::x : 0x7f60430b2010
+12_ERF::y : 0x7f603d524010
+Starting execution: 3x [12_ERF]
+Finished job 12_ERF 14574.5
+Finished job 12_ERF 17731.1
+Finished job 12_ERF 17785.4
+iteration 0 time: 17785.8 ms
+Finished job 12_ERF 14547.8
+Finished job 12_ERF 17721.4
+Finished job 12_ERF 17783.4
+iteration 1 time: 17783.6 ms
+Finished job 12_ERF 14532.9
+Finished job 12_ERF 17699
+Finished job 12_ERF 17763.3
+iteration 2 time: 17763.5 ms
+Finished job 12_ERF 14530.2
+Finished job 12_ERF 17702.2
+Finished job 12_ERF 17766.5
+iteration 3 time: 17766.7 ms
+Finished job 12_ERF 14510.5
+Finished job 12_ERF 17665.1
+Finished job 12_ERF 17735.5
+iteration 4 time: 17735.6 ms
+average time is 17766
+
+execution completed
+
+ Performance counter stats for './a.out --type ERF --size 36 --cores 3':
+
+     2 647 832 838      LLC-loads:u                                                   (50,01%)
+        58 234 707      LLC-load-misses:u         #    2,20% of all LL-cache accesses  (50,00%)
+     2 251 634 074      LLC-stores:u                                                  (49,99%)
+        92 865 798      LLC-store-misses:u                                            (50,00%)
+
+      89,095374623 seconds time elapsed
+
+     249,969205000 seconds user
+       0,327981000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+9_ERF::x : 0x7f74343b6010
+9_ERF::y : 0x7f742ff0b010
+9_ERF::x : 0x7f742ba60010
+9_ERF::y : 0x7f74275b5010
+9_ERF::x : 0x7f742310a010
+9_ERF::y : 0x7f741ec5f010
+9_ERF::x : 0x7f741a7b4010
+9_ERF::y : 0x7f7416309010
+Starting execution: 4x [9_ERF]
+Finished job 9_ERF 16754.7
+Finished job 9_ERF 16763.1
+Finished job 9_ERF 16775.3
+Finished job 9_ERF 16815.6
+iteration 0 time: 16816 ms
+Finished job 9_ERF 16700.3
+Finished job 9_ERF 16714.6
+Finished job 9_ERF 16722.5
+Finished job 9_ERF 16766.9
+iteration 1 time: 16767.1 ms
+Finished job 9_ERF 16730.7
+Finished job 9_ERF 16737.8
+Finished job 9_ERF 16738.8
+Finished job 9_ERF 16800.5
+iteration 2 time: 16800.7 ms
+Finished job 9_ERF 16708.8
+Finished job 9_ERF 16719.9
+Finished job 9_ERF 16734
+Finished job 9_ERF 16775
+iteration 3 time: 16775.2 ms
+Finished job 9_ERF 16715.2
+Finished job 9_ERF 16728
+Finished job 9_ERF 16741
+Finished job 9_ERF 16784.2
+iteration 4 time: 16784.4 ms
+average time is 16788
+
+execution completed
+
+ Performance counter stats for './a.out --type ERF --size 36 --cores 4':
+
+     2 649 223 915      LLC-loads:u                                                   (50,00%)
+        84 413 327      LLC-load-misses:u         #    3,19% of all LL-cache accesses  (50,00%)
+     2 251 926 937      LLC-stores:u                                                  (50,00%)
+       133 163 753      LLC-store-misses:u                                            (50,00%)
+
+      84,205862921 seconds time elapsed
+
+     334,727095000 seconds user
+       0,408926000 seconds sys
+
+
+
+==========================================================
+Тестирование для ERF (36) завершено!
+==========================================================
+
+Тестирование для ERF (36) завершено!

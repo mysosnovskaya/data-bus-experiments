@@ -1,0 +1,182 @@
+==========================================================
+Запуск серии тестов для типа: EXPX, размер: 12
+Дата запуска: Вс июл  5 02:10:57 +06 2026
+==========================================================
+
+==========================================================
+Запуск серии тестов для типа: EXPX, размер: 12
+==========================================================
+
+----------------------------------------------------------
+Шаг: Запуск на 1 ядр(ах/е)...
+----------------------------------------------------------
+12_EXPX::x : 0x7fb07099a010
+Starting execution: 1x [12_EXPX]
+Finished job 12_EXPX 15517.9
+iteration 0 time: 15518.1 ms
+Finished job 12_EXPX 13236.7
+iteration 1 time: 13236.9 ms
+Finished job 12_EXPX 13234.5
+iteration 2 time: 13234.6 ms
+Finished job 12_EXPX 13237.6
+iteration 3 time: 13237.8 ms
+Finished job 12_EXPX 13232.8
+iteration 4 time: 13233 ms
+average time is 13691
+
+execution completed
+
+ Performance counter stats for './a.out --type EXPX --size 12 --cores 1':
+
+       751 071 612      LLC-loads:u                                                   (50,00%)
+        11 774 911      LLC-load-misses:u         #    1,57% of all LL-cache accesses  (50,01%)
+         1 559 396      LLC-stores:u                                                  (50,00%)
+             1 934      LLC-store-misses:u                                            (49,99%)
+
+      68,548495080 seconds time elapsed
+
+      68,491309000 seconds user
+       0,050995000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 2 ядр(ах/е)...
+----------------------------------------------------------
+6_EXPX::x : 0x7f73e6a79010
+6_EXPX::x : 0x7f73e3cb2010
+Starting execution: 2x [6_EXPX]
+Finished job 6_EXPX 7886.65
+Finished job 6_EXPX 7889.9
+iteration 0 time: 7890.03 ms
+Finished job 6_EXPX 6728.77
+Finished job 6_EXPX 6733
+iteration 1 time: 6733.19 ms
+Finished job 6_EXPX 6726.23
+Finished job 6_EXPX 6727.02
+iteration 2 time: 6727.21 ms
+Finished job 6_EXPX 6728.8
+Finished job 6_EXPX 6731.17
+iteration 3 time: 6731.36 ms
+Finished job 6_EXPX 6730.76
+Finished job 6_EXPX 6732.26
+iteration 4 time: 6732.59 ms
+average time is 6962
+
+execution completed
+
+ Performance counter stats for './a.out --type EXPX --size 12 --cores 2':
+
+       751 192 174      LLC-loads:u                                                   (50,00%)
+        11 793 094      LLC-load-misses:u         #    1,57% of all LL-cache accesses  (50,00%)
+         1 476 041      LLC-stores:u                                                  (50,01%)
+             2 359      LLC-store-misses:u                                            (50,01%)
+
+      34,902865430 seconds time elapsed
+
+      69,654802000 seconds user
+       0,045997000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 3 ядр(ах/е)...
+----------------------------------------------------------
+4_EXPX::x : 0x7f142aca5010
+4_EXPX::x : 0x7f1428e20010
+4_EXPX::x : 0x7f1426f9b010
+Starting execution: 3x [4_EXPX]
+Finished job 4_EXPX 5366.35
+Finished job 4_EXPX 5425.24
+Finished job 4_EXPX 5442.26
+iteration 0 time: 5442.45 ms
+Finished job 4_EXPX 4593.54
+Finished job 4_EXPX 4619.63
+Finished job 4_EXPX 4636.57
+iteration 1 time: 4636.74 ms
+Finished job 4_EXPX 4594
+Finished job 4_EXPX 4618.79
+Finished job 4_EXPX 4635.38
+iteration 2 time: 4635.55 ms
+Finished job 4_EXPX 4597.82
+Finished job 4_EXPX 4624.94
+Finished job 4_EXPX 4641.14
+iteration 3 time: 4641.31 ms
+Finished job 4_EXPX 4586.31
+Finished job 4_EXPX 4611.12
+Finished job 4_EXPX 4627.52
+iteration 4 time: 4627.69 ms
+average time is 4796
+
+execution completed
+
+ Performance counter stats for './a.out --type EXPX --size 12 --cores 3':
+
+       750 843 783      LLC-loads:u                                                   (50,00%)
+        12 225 686      LLC-load-misses:u         #    1,63% of all LL-cache accesses  (49,99%)
+         1 461 867      LLC-stores:u                                                  (50,01%)
+             2 575      LLC-store-misses:u                                            (50,01%)
+
+      24,074132137 seconds time elapsed
+
+      71,659047000 seconds user
+       0,050997000 seconds sys
+
+
+
+----------------------------------------------------------
+Шаг: Запуск на 4 ядр(ах/е)...
+----------------------------------------------------------
+3_EXPX::x : 0x7f799c05a010
+3_EXPX::x : 0x7f799a976010
+3_EXPX::x : 0x7f7999292010
+3_EXPX::x : 0x7f7997bae010
+Starting execution: 4x [3_EXPX]
+Finished job 3_EXPX 5129.85
+Finished job 3_EXPX 5135.36
+Finished job 3_EXPX 5137.72
+Finished job 3_EXPX 5142.67
+iteration 0 time: 5142.84 ms
+Finished job 3_EXPX 4536.98
+Finished job 3_EXPX 4541.31
+Finished job 3_EXPX 4543.02
+Finished job 3_EXPX 4547.4
+iteration 1 time: 4547.56 ms
+Finished job 3_EXPX 4543.97
+Finished job 3_EXPX 4550.13
+Finished job 3_EXPX 4550.4
+Finished job 3_EXPX 4558.09
+iteration 2 time: 4558.44 ms
+Finished job 3_EXPX 4538.21
+Finished job 3_EXPX 4542.65
+Finished job 3_EXPX 4546.15
+Finished job 3_EXPX 4550.22
+iteration 3 time: 4550.37 ms
+Finished job 3_EXPX 4545.75
+Finished job 3_EXPX 4551.65
+Finished job 3_EXPX 4552.55
+Finished job 3_EXPX 4559.68
+iteration 4 time: 4559.84 ms
+average time is 4671
+
+execution completed
+
+ Performance counter stats for './a.out --type EXPX --size 12 --cores 4':
+
+       751 105 953      LLC-loads:u                                                   (50,01%)
+        19 646 257      LLC-load-misses:u         #    2,62% of all LL-cache accesses  (50,00%)
+         1 476 355      LLC-stores:u                                                  (50,00%)
+             6 448      LLC-store-misses:u                                            (50,01%)
+
+      23,450444401 seconds time elapsed
+
+      93,318685000 seconds user
+       0,062987000 seconds sys
+
+
+
+==========================================================
+Тестирование для EXPX (12) завершено!
+==========================================================
+
+Тестирование для EXPX (12) завершено!
