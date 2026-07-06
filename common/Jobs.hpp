@@ -127,7 +127,7 @@ public:
     MklTgammaJob(const MklTgammaJob &job) { x = job.x; y = job.y; }
 
     static MklTgammaJob* create(int size) {
-        long scaledSize = size * 1000000;
+        long scaledSize = size * 100000;
         double* x = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
         double* y = (double*)mkl_malloc(scaledSize * sizeof(double), 64);
 
@@ -153,7 +153,7 @@ public:
         return 100;
     }
 
-    int getSize() { return size / 1000000; }
+    int getSize() { return size / 100000; }
     string getType() { return "TGAMMA"; }
     Job* copy() { return MklTgammaJob::create(getSize()); }
 
