@@ -27,14 +27,10 @@ Job* makeJob(const string& type, int targetSize) {
     else if (type == "SUM")    return MklSumJob::create(targetSize);
     else if (type == "DOT")    return MklDotJob::create(targetSize);
     else if (type == "XPY")    return MklXpyJob::create(targetSize);
-    else if (type == "EXPX")   return MklExpJob::create(targetSize);
     else if (type == "SQRTX")  return MklSqrtJob::create(targetSize);
-    else if (type == "LNX")    return MklLnJob::create(targetSize);
     else if (type == "ERF")    return MklErfJob::create(targetSize);
     else if (type == "TGAMMA") return MklTgammaJob::create(targetSize);
     else if (type == "POW")    return MklPowJob::create(targetSize);
-    else if (type == "GEMV")   return MklGemvJob::create(targetSize);
-    else if (type == "QR")     return MklQrJob::create(targetSize);
     else                       return MklXpyJob::create(targetSize);
 }
 
