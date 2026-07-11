@@ -1,8 +1,8 @@
 #!/bin/bash
 # run.sh — прогон конфигураций из configs.txt (сгенерировать: python3 gen_configs.py)
 BIN=./a.out
-CFG=configs.txt
-OUT=results_configs.txt
+CFG=configs2.txt
+OUT=results_configs2.txt
 
 if [ ! -f "$CFG" ]; then
     echo "Не найден $CFG — сначала сгенерируй: python3 gen_configs.py"

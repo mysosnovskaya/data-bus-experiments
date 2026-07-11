@@ -71,7 +71,7 @@ while len(lines) < N_MIX_TARGET and attempts < max_attempts:
     seen.add(key)
     lines.append(job_str)
 
-with open("configs.txt", "w") as f:
+with open("configs2.txt", "w") as f:
     f.write("\n".join(lines) + "\n")
 
 # --- сводка по составу для проверки разнообразия ---
