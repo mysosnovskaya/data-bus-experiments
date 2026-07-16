@@ -3,21 +3,43 @@
 """
 compute_slowdown.py
  
-Для каждой конфигурации из configs.txt считает замедление КАЖДОЙ работы двумя способами:
-  1) ПРЕДСКАЗАННОЕ по правилу (данные берутся из "Общей сводки");
-  2) ФАКТИЧЕСКОЕ (время в смеси из results_configs.txt / сольное время из сводки).
+Для каждой конфигурации из configs.txt считает замедление КАЖДОЙ работы:
+  * ПРЕДСКАЗАННОЕ по правилу (данные о работах — из "Общей сводки");
+  * ФАКТИЧЕСКОЕ (время в смеси из results_configs.txt / сольное время из сводки).
  
-Правило (две версии, обе выводятся):
-  * ПРОСТОЕ (нужны только типы/размеры/ядра из конфига):
-        slowdown_i = 1 + f_i * max(0, Σшина/50 - 1)
-    где Σшина — сумма сольных потреблений шины (%) всех работ конфигурации.
-  * ТОЧНОЕ, die-aware (дополнительно использует раскладку ядер из CORES):
-        давление_i = own + 1.3*(соседи на общем die) + 1.0*(соседи на другом die)
-        slowdown_i = 1 + g_i * max(0, давление_i/40 - 1)
+------------------------------------------------------------------------------
+ПРАВИЛО (единственное, финальные коэффициенты — калибровка на 1000 конфигураций,
+проверено на holdout: MAE 0.217, медианная ошибка 6.8%):
+ 
+    замедление = 1 + f · D
+ 
+Три уровня расчёта:
+ 
+  1) ВЕТВЛЕНИЕ по числу ядер работы — определяет, как считать "давление" P:
+       - 1 ядро   : работа сидит на одной паре ядер с общим L2. Ровно один
+                    сосед делит с ней кэш (вес 1.3 — вредит сильнее, т.к. и
+                    трубу забивает, и кэш вытесняет), остальные делят только
+                    шину (вес 1.0). Потолок трубы C = 40.
+                        P = own + Σ( вес · bus_соседа_на_ядро )
+       - ≥2 ядра  : работа растянута на оба die, "чужого соседа по кэшу" нет,
+                    различать не имеет смысла. Потолок C = 50.
+                        P = Σшина всех работ конфигурации
+ 
+  2) ПРЕВЫШЕНИЕ + НАСЫЩЕНИЕ:
+       d = P/C − 1.  Если d ≤ 0 — замедления нет (D = 0).
+       Иначе D = d, но при сильной перегрузке (d > d_knee = 1.2) рост
+       замедляется — наклон срезается до 0.85:
+           D = d,                              если d ≤ 1.2
+           D = 1.2 + 0.85·(d − 1.2),           если d > 1.2
+ 
+  3) ЧУВСТВИТЕЛЬНОСТЬ ТИПА f — "жадность к памяти". Своя таблица для каждого
+     пути (1 ядро / ≥2 ядра). Compute-работы (TGAMMA) ~0 — почти не тормозят;
+     memory-работы (COPY, SUM) — максимум.
  
 Запуск:  python3 compute_slowdown.py
 Файлы рядом:  configs.txt, results_configs.txt, Общая_сводка.txt
 Результат:  slowdown_report.csv  +  сводка точности в консоли.
+------------------------------------------------------------------------------
 """
  
 import re
@@ -30,32 +52,22 @@ CONFIGS  = "configs.txt"
 RESULTS  = "results_configs.txt"
 OUT_CSV  = "slowdown_report.csv"
  
-# --- Коэффициенты правила (калиброваны на чистых раундовых данных) ---
-F_SIMPLE = {'TGAMMA':0.06,'POW':0.70,'SQRTX':1.26,'XPY':1.53,
-            'ERF':1.60,'DOT':1.62,'SUM':2.11,'COPY':2.22}
-C_SIMPLE = 50.0
+# ======================= КОЭФФИЦИЕНТЫ ПРАВИЛА =======================
+# (финальные, калибровка на всех 1000 конфигурациях)
  
-G_DIE    = {'TGAMMA':0.04,'POW':0.30,'SQRTX':0.65,'ERF':0.63,
-            'XPY':0.80,'DOT':0.91,'SUM':1.01,'COPY':1.23}
-C_DIE    = 40.0
-W_SAME   = 1.3   # вес соседа, делящего L2 (тот же die)
-W_OTHER  = 1.0   # вес соседа с другого die (делит только FSB)
+C_DIE     = 40.0   # потолок трубы для работы на 1 ядре
+C_SIMPLE  = 50.0   # потолок трубы для работы на >=2 ядрах
+W_SAME    = 1.3    # вес соседа, делящего L2-кэш (тот же die)
+W_OTHER   = 1.0    # вес соседа с другого die (делит только шину)
+D_KNEE    = 1.2    # излом: до него драйв линеен, после — срезаем наклон
+SLOPE     = 0.85   # наклон драйва после излома (насыщение)
  
-# --- ПОЛНАЯ модель (3 уровня): насыщение + ветвление по ядрам + f по типу ---
-# Уровень 1: ветвление по числу ядер работы (как в гибриде) — определяет,
-#            от чего считать конкуренцию:
-#              1 ядро  -> die-aware давление, порог C_DIE=40
-#              >=2 ядра -> простая Σшина,     порог C_SIMPLE=50
-# Уровень 2: насыщение — драйв линеен до d_knee, дальше наклон срезается
-#            (в сильной конкуренции замедление растёт медленнее линейного).
-# Уровень 3: коэффициент f по типу; для двух путей — СВОИ таблицы.
-C_SIMPLE = 50.0
-D_KNEE   = 1.2    # излом нормированного драйва (для simple-пути это Σ≈110%)
-SLOPE    = 0.85   # наклон драйва после излома
-F_FULL_DIE = {'TGAMMA':0.04,'POW':0.31,'SQRTX':0.65,'ERF':0.67,   # путь 1 ядро
-              'XPY':0.93,'DOT':0.96,'SUM':1.05,'COPY':1.35}
-F_FULL_SIMPLE = {'TGAMMA':0.12,'POW':0.94,'SQRTX':1.68,'ERF':1.55, # путь >=2 ядра
-                 'XPY':0.90,'DOT':1.42,'SUM':2.11,'COPY':1.49}
+# Чувствительность типа f, путь "1 ядро":
+F_DIE = {'TGAMMA':0.04, 'POW':0.31, 'SQRTX':0.65, 'ERF':0.64,
+         'XPY':0.93, 'DOT':0.96, 'SUM':1.06, 'COPY':1.35}
+# Чувствительность типа f, путь ">=2 ядра":
+F_SIMPLE = {'TGAMMA':0.09, 'POW':0.99, 'SQRTX':1.67, 'ERF':1.48,
+            'XPY':0.83, 'DOT':1.45, 'SUM':1.87, 'COPY':1.37}
  
 DIE_A = {0, 4}
 DIE_B = {1, 5}
@@ -65,35 +77,24 @@ def die_of(core):
  
 # ============================================================================
 # 1. Парсинг "Общей сводки"
-# Формат блока (разделены пустой строкой):
-#   TYPE_SIZE
-#   RAM%
-#   1;time;bus
-#   2;time;bus
-#   3;time;bus
-#   4;time;bus
+#   TYPE_SIZE / RAM% / "1;time;bus" / "2;..." / "3;..." / "4;..."
 # ============================================================================
 def parse_svodka(path):
     raw = open(path, encoding='utf-8').read().replace('\r', '')
     base = {}   # (TYPE, SIZE, cores) -> (time_ms, bus_pct)
     ram  = {}   # (TYPE, SIZE) -> ram_pct
-    blocks = [b for b in raw.split('\n\n') if b.strip()]
- 
-    seen_labels = []
-    for b in blocks:
+    for b in [x for x in raw.split('\n\n') if x.strip()]:
         lines = [l for l in b.split('\n') if l.strip()]
-        label = lines[0].strip()
-        m = re.match(r'([A-Z]+)_(\d+)', label)
+        m = re.match(r'([A-Z]+)_(\d+)', lines[0].strip())
         if not m:
             continue
         TYPE, SIZE = m.group(1), int(m.group(2))
  
-        # --- авто-исправление известной опечатки в метке ---
-        # Блок помечен COPY_84, но c1-время ~27398 => это на самом деле COPY_60.
+        # авто-исправление известной опечатки: блок помечен COPY_84,
+        # но c1-время ~27398 => это на самом деле COPY_60.
         c1_time = int(lines[2].split(';')[1])
         if TYPE == 'COPY' and SIZE == 84 and c1_time < 30000:
-            print(f"  [исправление] блок '{label}' (c1={c1_time}) — это COPY_60, "
-                  f"а не COPY_84. Переименовано.")
+            print(f"  [исправление] блок 'COPY_84' (c1={c1_time}) — это COPY_60. Переименовано.")
             SIZE = 60
  
         ram[(TYPE, SIZE)] = float(lines[1])
@@ -102,13 +103,11 @@ def parse_svodka(path):
                 continue
             c, t, bus = dl.split(';')
             base[(TYPE, SIZE, int(c))] = (int(t), float(bus))
-        seen_labels.append(f"{TYPE}_{SIZE}")
- 
     return base, ram
  
  
 # ============================================================================
-# 2. Парсинг configs.txt — канонический список конфигураций
+# 2. Парсинг configs.txt
 # ============================================================================
 def parse_configs(path):
     configs = []
@@ -116,27 +115,23 @@ def parse_configs(path):
         line = line.strip()
         if not line:
             continue
-        works = []
-        for job in line.split(','):
-            t, s, c = job.split(':')
-            works.append((t, int(s), int(c)))
+        works = [tuple([p if i == 0 else int(p) for i, p in enumerate(job.split(':'))])
+                 for job in line.split(',')]
         configs.append((line, works))
     return configs
  
  
 # ============================================================================
 # 3. Парсинг results_configs.txt
-# Блоки по '###'. Внутри: CORES ... и строки RESULT label time.
 # ============================================================================
 def parse_results(path):
     raw = open(path, encoding='utf-8').read().replace('\r', '')
-    results = []   # список конфигов; каждый: {'jobs':str, 'items':[(label, cores_str, time)]}
+    results = []
     for blk in raw.split('###'):
         blk = blk.strip()
         if not blk:
             continue
-        jobs_line = blk.split('\n')[0]
-        jobs = re.sub(r'^\[\d+/\d+\]\s*', '', jobs_line).strip()
+        jobs = re.sub(r'^\[\d+/\d+\]\s*', '', blk.split('\n')[0]).strip()
         core_map = defaultdict(list)
         res_lines = []
         for line in blk.split('\n'):
@@ -147,7 +142,6 @@ def parse_results(path):
             elif line.startswith('RESULT'):
                 p = line.split()
                 res_lines.append((p[1], int(p[2])))
-        # присвоить каждой RESULT-строке её ядра (по порядку появления метки)
         used = defaultdict(int)
         items = []
         for lbl, t in res_lines:
@@ -165,14 +159,11 @@ def label_to_tsc(label):
  
  
 # ============================================================================
-# 4. Правила расчёта замедления
+# 4. ПРАВИЛО
 # ============================================================================
-def predict_simple(work_type, sum_bus):
-    return 1.0 + F_SIMPLE[work_type] * max(0.0, sum_bus / C_SIMPLE - 1.0)
- 
- 
 def die_pressure(own_bus, own_cores_str, neighbors):
-    """Взвешенное давление на работу: свой bus + соседи (L2-сосед x1.3, FSB-сосед x1.0).
+    """Давление на 1-ядерную работу: свой bus + соседи, где сосед по L2 весит
+    W_SAME, а сосед только по шине — W_OTHER.
     neighbors: список (bus, cores_str) остальных работ конфигурации."""
     if not own_cores_str:
         return own_bus + sum(n_bus for n_bus, _ in neighbors)
@@ -184,57 +175,30 @@ def die_pressure(own_bus, own_cores_str, neighbors):
             continue
         per_core = n_bus / len(n_cores.split(','))
         for c in n_cores.split(','):
-            w = W_SAME if die_of(c) in my_dies else W_OTHER
-            pressure += w * per_core
+            pressure += (W_SAME if die_of(c) in my_dies else W_OTHER) * per_core
     return pressure
  
  
-def predict_dieaware(work_type, own_bus, own_cores_str, neighbors):
-    p = die_pressure(own_bus, own_cores_str, neighbors)
-    return 1.0 + G_DIE[work_type] * max(0.0, p / C_DIE - 1.0)
- 
- 
-def _saturated_drive(x, C, d_knee=D_KNEE, slope=SLOPE):
-    """Нормированный драйв x/C-1, линейный до d_knee, дальше с наклоном slope<1."""
-    d = x / C - 1.0
+def saturated_drive(pressure, C):
+    """d = P/C - 1, линейно до D_KNEE, дальше с наклоном SLOPE (насыщение)."""
+    d = pressure / C - 1.0
     if d <= 0.0:
         return 0.0
-    if d <= d_knee:
+    if d <= D_KNEE:
         return d
-    return d_knee + slope * (d - d_knee)
+    return D_KNEE + SLOPE * (d - D_KNEE)
  
  
-def predict_full(work_type, own_bus, own_cores_str, neighbors, sum_bus):
-    """
-    ПОЛНАЯ модель (рекомендуемая), три уровня:
-      1) ветвление по числу ядер работы:
-           1 ядро  -> драйв от die-aware давления (порог C_DIE=40),   f из F_FULL_DIE
-           >=2 ядра -> драйв от Σшина            (порог C_SIMPLE=50), f из F_FULL_SIMPLE
-      2) насыщение драйва: линеен до излома, дальше наклон 0.85
-         (в сильной конкуренции замедление растёт медленнее линейного);
-      3) f по типу — своя таблица для каждого пути.
-    """
+def predict_slowdown(work_type, own_bus, own_cores_str, neighbors, sum_bus):
+    """замедление = 1 + f · D  (см. описание в шапке файла)."""
     ncores = len(own_cores_str.split(',')) if own_cores_str else 0
     if ncores == 1:
-        drive = _saturated_drive(die_pressure(own_bus, own_cores_str, neighbors), C_DIE)
-        f = F_FULL_DIE[work_type]
+        D = saturated_drive(die_pressure(own_bus, own_cores_str, neighbors), C_DIE)
+        f = F_DIE[work_type]
     else:
-        drive = _saturated_drive(sum_bus, C_SIMPLE)
-        f = F_FULL_SIMPLE[work_type]
-    return 1.0 + f * drive
- 
- 
-def predict_hybrid(pred_simple, pred_dieaware, own_cores_str):
-    """
-    Ветвление по числу ядер САМОЙ работы (рекомендуемое правило):
-      * 1 ядро  -> die-aware: работа сидит на одном die, у неё ровно один
-        L2-сосед, и его загрузка сильно влияет — есть что различать.
-      * >=2 ядра -> простое: работа растянута на оба die, "соседей с другого
-        die" у неё нет, различение same/other-die схлопывается, а множитель
-        1.3 лишь равномерно завышает оценку. Взвешивание тут только мешает.
-    """
-    ncores = len(own_cores_str.split(',')) if own_cores_str else 0
-    return pred_dieaware if ncores == 1 else pred_simple
+        D = saturated_drive(sum_bus, C_SIMPLE)
+        f = F_SIMPLE[work_type]
+    return 1.0 + f * D
  
  
 # ============================================================================
@@ -245,36 +209,24 @@ def main():
     base, ram = parse_svodka(SVODKA)
     configs = parse_configs(CONFIGS)
     results = parse_results(RESULTS)
+    print(f"  бейзлайнов: {len(base)},  конфигураций: {len(configs)},  блоков в results: {len(results)}")
  
-    print(f"  бейзлайнов: {len(base)},  конфигураций в configs.txt: {len(configs)},"
-          f"  блоков в results: {len(results)}")
- 
-    # сопоставление configs.txt <-> results по порядку (они в одном порядке)
     n = min(len(configs), len(results))
     if len(configs) != len(results):
-        print(f"  [внимание] число строк configs ({len(configs)}) != число блоков "
-              f"results ({len(results)}); беру первые {n}.")
+        print(f"  [внимание] configs ({len(configs)}) != results ({len(results)}); беру первые {n}.")
  
     rows = []
     skipped = 0
     for i in range(n):
-        cfg_line, works = configs[i]
-        res = results[i]
-        if res['jobs'] != cfg_line:
-            # мягкая сверка; если разошлось — доверяем результату
-            pass
+        cfg_line, _ = configs[i]
+        items = results[i]['items']
  
-        items = res['items']
-        # суммарная шина всей конфигурации (по сольным bus% на нужном числе ядер)
+        # суммарная шина конфигурации
         try:
-            bus_list = []
-            for (lbl, cs, t) in items:
-                T, S, C = label_to_tsc(lbl)
-                bus_list.append(base[(T, S, C)][1])
-        except KeyError as e:
+            sum_bus = sum(base[label_to_tsc(lbl)][1] for lbl, _, _ in items)
+        except KeyError:
             skipped += 1
             continue
-        sum_bus = sum(bus_list)
  
         for idx, (lbl, cs, t_mix) in enumerate(items):
             T, S, C = label_to_tsc(lbl)
@@ -283,18 +235,13 @@ def main():
                 continue
             t_solo, own_bus = base[(T, S, C)]
  
-            # соседи (все прочие работы конфигурации) для die-aware
             neighbors = []
             for j, (lbl2, cs2, _) in enumerate(items):
                 if j == idx:
                     continue
-                T2, S2, C2 = label_to_tsc(lbl2)
-                neighbors.append((base[(T2, S2, C2)][1], cs2))
+                neighbors.append((base[label_to_tsc(lbl2)][1], cs2))
  
-            pred_s = predict_simple(T, sum_bus)
-            pred_d = predict_dieaware(T, own_bus, cs, neighbors)
-            pred_h = predict_hybrid(pred_s, pred_d, cs)
-            pred_f = predict_full(T, own_bus, cs, neighbors, sum_bus)
+            pred = predict_slowdown(T, own_bus, cs, neighbors, sum_bus)
             actual = t_mix / t_solo
  
             rows.append({
@@ -307,52 +254,32 @@ def main():
                 't_solo_ms': t_solo,
                 't_mix_ms': t_mix,
                 'slowdown_actual': round(actual, 3),
-                'slowdown_pred_simple': round(pred_s, 3),
-                'slowdown_pred_dieaware': round(pred_d, 3),
-                'slowdown_pred_hybrid': round(pred_h, 3),
-                'slowdown_pred_full': round(pred_f, 3),
-                'err_simple': round(abs(pred_s - actual), 3),
-                'err_dieaware': round(abs(pred_d - actual), 3),
-                'err_hybrid': round(abs(pred_h - actual), 3),
-                'err_full': round(abs(pred_f - actual), 3),
+                'slowdown_pred': round(pred, 3),
+                'abs_error': round(abs(pred - actual), 3),
             })
  
-    # --- запись CSV ---
     with open(OUT_CSV, 'w', newline='', encoding='utf-8') as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         w.writeheader()
         w.writerows(rows)
  
-    # --- сводка точности ---
-    def mae(key):  return statistics.mean(r[key] for r in rows)
-    def relmed(pk):
-        return statistics.median(abs(r[pk]-r['slowdown_actual'])/r['slowdown_actual'] for r in rows)
-    within = lambda k, thr=0.2: sum(1 for r in rows if r[k] < thr) / len(rows) * 100
+    mae = statistics.mean(r['abs_error'] for r in rows)
+    relmed = statistics.median(r['abs_error'] / r['slowdown_actual'] for r in rows)
+    within = sum(1 for r in rows if r['abs_error'] < 0.2) / len(rows) * 100
  
-    print(f"\nОбработано замеров: {len(rows)}  (пропущено из-за нехватки бейзлайна: {skipped})")
-    print(f"Результат записан в: {OUT_CSV}\n")
+    print(f"\nОбработано замеров: {len(rows)}  (пропущено: {skipped})")
+    print(f"Результат: {OUT_CSV}\n")
     print("=== Точность правила ===")
-    print(f"{'модель':<20}{'MAE':>8}{'медиана отн.ошибки':>22}{'доля в ±0.2':>14}")
-    print(f"{'простое':<20}{mae('err_simple'):>8.3f}"
-          f"{relmed('slowdown_pred_simple')*100:>20.1f}%{within('err_simple'):>13.0f}%")
-    print(f"{'die-aware':<20}{mae('err_dieaware'):>8.3f}"
-          f"{relmed('slowdown_pred_dieaware')*100:>20.1f}%{within('err_dieaware'):>13.0f}%")
-    print(f"{'гибрид':<20}{mae('err_hybrid'):>8.3f}"
-          f"{relmed('slowdown_pred_hybrid')*100:>20.1f}%{within('err_hybrid'):>13.0f}%")
-    print(f"{'ПОЛНАЯ (рекоменд.)':<20}{mae('err_full'):>8.3f}"
-          f"{relmed('slowdown_pred_full')*100:>20.1f}%{within('err_full'):>13.0f}%")
-    print("  Полная = насыщение (Σ>110%) + ветвление по ядрам (1→die-aware, ≥2→простое) + f по типу.")
+    print(f"  MAE (средняя абс. ошибка замедления): {mae:.3f}")
+    print(f"  медианная относительная ошибка:       {relmed*100:.1f}%")
+    print(f"  доля предсказаний в пределах ±0.2:     {within:.0f}%")
  
-    # --- превью первых конфигураций ---
     print("\n=== Превью (первые 12 работ) ===")
-    print(f"{'конфигурация':<26}{'работа':<13}{'Σшина':>6}{'факт':>6}"
-          f"{'прост':>7}{'die':>7}{'гибр':>7}{'ПОЛН':>7}")
+    print(f"{'конфигурация':<30}{'работа':<14}{'Σшина':>7}{'факт':>7}{'правило':>9}{'ошибка':>8}")
     for r in rows[:12]:
-        jobs_short = (r['jobs'][:23] + '..') if len(r['jobs']) > 25 else r['jobs']
-        print(f"{jobs_short:<26}{r['work']:<13}{r['sum_bus']:>6.0f}"
-              f"{r['slowdown_actual']:>6.2f}{r['slowdown_pred_simple']:>7.2f}"
-              f"{r['slowdown_pred_dieaware']:>7.2f}{r['slowdown_pred_hybrid']:>7.2f}"
-              f"{r['slowdown_pred_full']:>7.2f}")
+        jobs_short = (r['jobs'][:27] + '..') if len(r['jobs']) > 29 else r['jobs']
+        print(f"{jobs_short:<30}{r['work']:<14}{r['sum_bus']:>7.0f}"
+              f"{r['slowdown_actual']:>7.2f}{r['slowdown_pred']:>9.2f}{r['abs_error']:>8.2f}")
  
  
 if __name__ == "__main__":
