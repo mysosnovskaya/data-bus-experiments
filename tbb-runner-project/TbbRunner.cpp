@@ -58,8 +58,8 @@ static Job* makeJob(const string& type, int size) {
     else if (type == "DOT")    return MklDotJob::create(size);
     else if (type == "XPY")    return MklXpyJob::create(size);
     else if (type == "SQRTX")  return MklSqrtJob::create(size);
-    else if (type == "LNX")    return MklLnJob::create(size);
-    else if (type == "EXPX")   return MklExpJob::create(size);
+//    else if (type == "LNX")    return MklLnJob::create(size);
+//    else if (type == "EXPX")   return MklExpJob::create(size);
     else if (type == "ERF")    return MklErfJob::create(size);
     else if (type == "TGAMMA") return MklTgammaJob::create(size);
     else if (type == "POW")    return MklPowJob::create(size);
@@ -204,13 +204,20 @@ int main(int argc, char* argv[]) {
 
     for (const string& nm : names) {
         Project p = parseProject(projDir + "/" + nm, nm);
+        cout << "=== Выполняется проект: " << nm
+             << " (" << p.jobs.size() << " работ) ===" << endl;
         double sum = 0.0;
-        for (int it = 0; it < ITERATION_COUNT; it++)
-            sum += runOnce(p, arena);
+        for (int it = 0; it < ITERATION_COUNT; it++) {
+            double ms = runOnce(p, arena);
+            sum += ms;
+            cout << "  итерация " << it << ": " << (long)ms << " ms" << endl;
+        }
         long avg = (long)(sum / ITERATION_COUNT);
+        cout << "  среднее по " << ITERATION_COUNT << " итерациям: " << avg << " ms" << endl;
+
+        // В файл результатов — ТОЛЬКО имя и среднее.
         out << nm << " " << avg << "\n";
         out.flush();
-        cout << nm << " -> " << avg << " ms" << endl;
     }
     cout << "execution completed -> " << outPath << endl;
     return 0;
