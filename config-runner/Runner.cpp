@@ -17,7 +17,7 @@
 using namespace std;
 using namespace std::chrono;
 
-const int iterationCount = 5;
+const int iterationCount = 3;
 
 // --- Физические ядра, сгруппированные по die (общий L2 внутри пары) ---
 // dieA = {0,4}, dieB = {1,5} — установлено по /proc/cpuinfo и подтверждено
