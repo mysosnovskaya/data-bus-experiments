@@ -82,9 +82,6 @@ public:
 
         MklErfJob* job = new MklErfJob(scaledSize, x, y);
 
-        cerr << job->getJobId() << "::x : " << x << endl;
-        cerr << job->getJobId() << "::y : " << y << endl;
-
         return job;
     }
 
@@ -138,9 +135,6 @@ public:
         }
 
         MklTgammaJob* job = new MklTgammaJob(scaledSize, x, y);
-
-        cerr << job->getJobId() << "::x : " << x << endl;
-        cerr << job->getJobId() << "::y : " << y << endl;
 
         return job;
     }
@@ -201,10 +195,6 @@ public:
 
         MklPowJob* job = new MklPowJob(scaledSize, a, b, y);
 
-        cerr << job->getJobId() << "::a : " << a << endl;
-        cerr << job->getJobId() << "::b : " << b << endl;
-        cerr << job->getJobId() << "::y : " << y << endl;
-
         return job;
     }
 
@@ -250,14 +240,10 @@ public:
 
         MklSqrtJob* job = new MklSqrtJob(scaledSize, x);
 
-        cerr << job->getJobId() << "::x : " << x << endl;
-
         return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-   //     cerr << getJobId() << "::execute()" << endl;
-
         for (int i = 0; i < 100; i++) {
  //            if (GLOBAL_EXECUTION_FLAG) {
  //                *percentOfExecution = (double)i / 100;
@@ -308,15 +294,10 @@ public:
 
         MklCopyJob* job = new MklCopyJob(scaledSize, x, y);
 
-        cerr << job->getJobId() << "::x : " << x << endl;
-        cerr << job->getJobId() << "::y : " << y << endl;
-
         return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-  //      cerr << getJobId() << "::execute()" << endl;
-
         for (int i = 0; i < 100; i++) {
   //          if (GLOBAL_EXECUTION_FLAG) {
   //              *percentOfExecution = (double)i / 100;
@@ -375,14 +356,10 @@ public:
 
         MklSumJob* job = new MklSumJob(scaledSize, x);
 
-        cerr << job->getJobId() << "::x : " << x << endl;
-
         return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-      //  cerr << getJobId() << "::execute()" << endl;
-
         for (int i = 0; i < 100; i++) {
  //            if (GLOBAL_EXECUTION_FLAG) {
  //                *percentOfExecution = (double)i / 100;
@@ -439,15 +416,10 @@ public:
         
         MklXpyJob* job = new MklXpyJob(scaledSize, x, y);
 
-        cerr << job->getJobId() << "::x : " << x << endl;
-        cerr << job->getJobId() << "::y : " << y << endl;
-
         return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-        //cerr << getJobId() << "::execute()" << endl;
-
         for (int i = 0; i < 100; i++) {
        //     if (GLOBAL_EXECUTION_FLAG) {
        //         *percentOfExecution = (double)i / 100;
@@ -507,15 +479,10 @@ public:
 
         MklDotJob* job = new MklDotJob(scaledSize, x, y);
 
-        cerr << job->getJobId() << "::x : " << x << endl;
-        cerr << job->getJobId() << "::y : " << y << endl;
-
         return job;
     }
 
     int execute(double* percentOfExecution, bool changeFlagTo) {
-   //     cerr << getJobId() << "::execute()" << endl;
-
         for (int i = 0; i < 100; i++) {
  //            if (GLOBAL_EXECUTION_FLAG) {
  //                *percentOfExecution = (double)i / 100;

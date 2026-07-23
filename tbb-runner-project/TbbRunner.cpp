@@ -74,12 +74,22 @@ static Job* makeJob(const string& type, int size) {
 //                   (поток с аффинити), ждём завершения всех. Так же, как
 //                   мерились замедления (пул-барьер по ядрам).
 // ---------------------------------------------------------------------------
-static void runJob(const string& type, int size, const vector<int>& cores) {
+static void runJob(const string& type, int size, const vector<int>& cores, int jobId) {
+    printf("job %d_%s_%d started %lld\n", 
+       jobId,
+       type.c_str(), 
+       size, 
+       static_cast<long long>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count()));
     if (cores.empty()) {                          // мода 1, ядро выбирает TBB
         Job* job = makeJob(type, size);
         double tmp = 0.0;
         job->execute(&tmp, false);
         delete job;
+        printf("job %d_%s_%d end %lld\n", 
+            jobId,
+            type.c_str(), 
+            size, 
+            static_cast<long long>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count()));
         return;
     }
     int k = (int)cores.size();                    // мода k
@@ -95,7 +105,14 @@ static void runJob(const string& type, int size, const vector<int>& cores) {
             delete sub;
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+        t.join();
+    }
+    printf("job %d_%s_%d end %lld\n", 
+        jobId,
+        type.c_str(), 
+        size, 
+        static_cast<long long>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count()));
 }
 
 // ---------------------------------------------------------------------------
@@ -156,8 +173,8 @@ static double runOnce(const Project& p, tbb::task_arena& arena) {
         int size = p.jobs[i].second;
         const vector<int>& cores = p.coresOf[i];
         nodes[i] = new continue_node<continue_msg>(
-            g, [type, size, &cores](const continue_msg&) {
-                runJob(type, size, cores);
+            g, [type, size, cores, i](const continue_msg&) { // Убрали амперсанд & перед cores
+                runJob(type, size, cores, i);
             });
         make_edge(node0, *nodes[i]);            // все связаны со стартом
     }
