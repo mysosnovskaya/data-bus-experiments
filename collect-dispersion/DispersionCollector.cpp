@@ -12,10 +12,11 @@
 using namespace std;
 using namespace std::chrono;
 
-const int iterationCount = 5;
+const int iterationCount = 3;
 
 vector<int> coresNumbers = {
-     0, 1, 4, 5
+     0, 4, // one L2-cache
+     1, 5 // other L2-cache
 };
 
 void executeJob(Job* job, pthread_barrier_t* barrier) {
@@ -106,14 +107,14 @@ int main(int argc, char* argv[]) {
     }
 
     vector<Job*> jobs;
-    for (int i = 0; i < cores; i++) {
+    for (int i = 2; i < 3; i++) {
         Job* job = nullptr;
         if (type == "COPY")      job = MklCopyJob::create(targetSize);
         else if (type == "SUM")  job = MklSumJob::create(targetSize);
         else if (type == "DOT")  job = MklDotJob::create(targetSize);
-        else if (type == "EXPX")  job = MklExpJob::create(targetSize);
+//        else if (type == "EXPX")  job = MklExpJob::create(targetSize);
         else if (type == "SQRTX") job = MklSqrtJob::create(targetSize);
-        else if (type == "LNX")   job = MklLnJob::create(targetSize);
+  //      else if (type == "LNX")   job = MklLnJob::create(targetSize);
         else if (type == "ERF")    job = MklErfJob::create(targetSize);
         else if (type == "TGAMMA") job = MklTgammaJob::create(targetSize);
         else if (type == "POW")    job = MklPowJob::create(targetSize);

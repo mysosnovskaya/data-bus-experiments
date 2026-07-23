@@ -79,11 +79,10 @@ vector<vector<int>> assignMixCores(const vector<WorkSpec>& specs, mt19937& rng) 
     vector<vector<int>> result(specs.size());
     size_t ai = 0, bi = 0;
 
-    // Шаг 1: РОВНО 2-ядерные работы — гарантированно по одному ядру с
-    // каждой die-пары.
+    // Шаг 1: РОВНО 2-ядерные работы — гарантированно оба ядра с die-пары.
     for (int idx : order) {
-        if (specs[idx].cores == 2 && ai < poolA.size() && bi < poolB.size()) {
-            result[idx] = { poolA[ai++], poolB[bi++] };
+        if (specs[idx].cores == 2 && ai == 0) {
+            result[idx] = { poolA[ai++], poolA[ai++] };
         }
     }
 
