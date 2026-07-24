@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
     }
 
     vector<Job*> jobs;
-    for (int i = 2; i < 3; i++) {
+    for (int i = 0; i < cores; i++) {
         Job* job = nullptr;
         if (type == "COPY")      job = MklCopyJob::create(targetSize);
         else if (type == "SUM")  job = MklSumJob::create(targetSize);
