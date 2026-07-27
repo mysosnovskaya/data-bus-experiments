@@ -1,6 +1,6 @@
 #!/bin/bash
 
-g++ -O3 -std=c++17 ./TbbRunner.cpp \
+g++ -O3 -std=c++17 ./TbbRunner2.cpp \
   -I/home/sosnovskaya/.local/include \
   -L/home/sosnovskaya/.local/lib \
   -Wl,-rpath,/home/sosnovskaya/.local/lib \

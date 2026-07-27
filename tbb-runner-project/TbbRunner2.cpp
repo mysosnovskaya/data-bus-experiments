@@ -22,7 +22,7 @@ using namespace std::chrono;
 
 static const vector<int> CORE_NUMBERS = {0, 1, 4, 5};
 static const int N_CORES = 4;
-static const int ITERATION_COUNT = 5;   // было 7
+static const int ITERATION_COUNT = 1;   // было 5
 
 // Пары ядер (die), делящие L2-кэш: {0,4} и {1,5}.
 static const set<int> DIE_A_CORES = {0, 4};
