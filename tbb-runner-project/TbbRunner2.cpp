@@ -1,8 +1,13 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 #include <algorithm>
+#include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <filesystem>
 #include <fstream>
+#include <future>
 #include <iostream>
 #include <mutex>
 #include <set>
@@ -22,17 +27,10 @@ using namespace std::chrono;
 
 static const vector<int> CORE_NUMBERS = {0, 1, 4, 5};
 static const int N_CORES = 4;
-static const int ITERATION_COUNT = 1;   // было 5
-
-// Пары ядер (die), делящие L2-кэш: {0,4} и {1,5}.
-static const set<int> DIE_A_CORES = {0, 4};
-static bool inDieA(int c) { return DIE_A_CORES.count(c) > 0; }
-
-static int coreIndexOf(int physCore) {
-    for (int i = 0; i < (int)CORE_NUMBERS.size(); i++)
-        if (CORE_NUMBERS[i] == physCore) return i;
-    return -1;
-}
+// Ядро сокета 1 под главный поток-оркестратор (wait_for_all). Твои процедуры на
+// нём не считаются — только оркестровка, чтобы все 4 ядра сокета 0 были свободны.
+static const int ORCHESTRATOR_CORE = 6;
+static const int ITERATION_COUNT = 1;   // было 7
 
 // Прибить ВЫЗЫВАЮЩИЙ поток к конкретному физическому ядру.
 static void pinThisThreadTo(int physCore) {
@@ -48,7 +46,14 @@ static void pinThisThreadTo(int physCore) {
 class PinningObserver : public tbb::task_scheduler_observer {
 public:
     PinningObserver(tbb::task_arena& a) : tbb::task_scheduler_observer(a) { observe(true); }
-    void on_scheduler_entry(bool) override {
+    void on_scheduler_entry(bool worker) override {
+        if (!worker) {                               // главный поток (если вдруг войдёт)
+            pinThisThreadTo(ORCHESTRATOR_CORE);      // на сокет 1, вне счётных ядер
+            return;
+        }
+        // Прибиваем по индексу СЛОТА арены: в арене на 4 слота это всегда 0..3 —
+        // стабильно, без зависимости от текучки потоков в пуле. Мастер в арену не
+        // входит (enqueue+future), поэтому все 4 слота — счётные воркеры -> {0,1,4,5}.
         int idx = tbb::this_task_arena::current_thread_index();
         if (idx >= 0 && idx < (int)CORE_NUMBERS.size())
             pinThisThreadTo(CORE_NUMBERS[idx]);
@@ -80,26 +85,49 @@ static Job* makeJob(const string& type, int size) {
 //                   (поток с аффинити), ждём завершения всех. Для k=1 —
 //                   полноразмерная работа на одном заданном ядре.
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Раздатчик счётных ядер. Кто бы ни исполнял узел графа (воркер арены), он берёт
+// свободное ядро из {0,1,4,5} и прибивается к нему на время работы, а по окончании
+// возвращает. Это НЕ зависит от PinningObserver и от текучки пула TBB — процедура
+// физически не может уйти на сокет 1. Воркеров максимум 4 (арена на 4 слота),
+// поэтому свободное ядро всегда найдётся.
+// ---------------------------------------------------------------------------
+static std::mutex g_coreMx;
+static vector<int> g_freeCores = {0, 1, 4, 5};
+
+static int acquireCore() {
+    std::lock_guard<std::mutex> lk(g_coreMx);
+    if (g_freeCores.empty()) return -1;          // страховка; при 4 воркерах не бывает
+    int c = g_freeCores.back();
+    g_freeCores.pop_back();
+    return c;
+}
+static void releaseCore(int c) {
+    if (c < 0) return;
+    std::lock_guard<std::mutex> lk(g_coreMx);
+    g_freeCores.push_back(c);
+}
+
 static void runJob(const string& type, int size, const vector<int>& cores, int jobId) {
-    printf("job %d_%s_%d started %lld\n",
-       jobId,
-       type.c_str(),
-       size,
-       static_cast<long long>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count()));
-    if (cores.empty()) {                          // мода 1, ядро выбирает TBB
+    if (cores.empty()) {                          // мода 1: сам прибиваюсь к счётному ядру
+        int myCore = acquireCore();
+        if (myCore >= 0) pinThisThreadTo(myCore); // жёстко на одно из {0,1,4,5}
+        printf("job %d_%s_%d started %lld core=%d\n", jobId, type.c_str(), size,
+            (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(), sched_getcpu());
         Job* job = makeJob(type, size);
         double tmp = 0.0;
         job->execute(&tmp, false);
         delete job;
-        printf("job %d_%s_%d end %lld\n",
-            jobId,
-            type.c_str(),
-            size,
-            static_cast<long long>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count()));
+        releaseCore(myCore);
+        printf("job %d_%s_%d end %lld\n", jobId, type.c_str(), size,
+            (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
         return;
     }
-    int k = (int)cores.size();                    // мода k (k=1 -> одно ядро, полный size)
-    int subSize = size / k;                        // размер подзадачи (как --cores k)
+    // мода k: k подзадач, каждая на своём заданном ядре (для мультимода — позже)
+    printf("job %d_%s_%d started %lld core=%d\n", jobId, type.c_str(), size,
+        (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(), sched_getcpu());
+    int k = (int)cores.size();
+    int subSize = size / k;
     vector<thread> threads;
     threads.reserve(k);
     for (int c : cores) {
@@ -111,14 +139,9 @@ static void runJob(const string& type, int size, const vector<int>& cores, int j
             delete sub;
         });
     }
-    for (auto& t : threads) {
-        t.join();
-    }
-    printf("job %d_%s_%d end %lld\n",
-        jobId,
-        type.c_str(),
-        size,
-        static_cast<long long>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count()));
+    for (auto& t : threads) t.join();
+    printf("job %d_%s_%d end %lld\n", jobId, type.c_str(), size,
+        (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
 }
 
 // ---------------------------------------------------------------------------
@@ -169,153 +192,99 @@ static Project parseProject(const string& path, const string& name) {
 }
 
 // ---------------------------------------------------------------------------
-// Выбор ядер под работу из k ядер по политике пар (die):
-//   k == 1 -> ядро из пары, где больше свободных (реже делим L2 с соседом);
-//   k == 2 -> по одному ядру в каждую пару, если можно, иначе целая пара;
-//   k >= 3 -> любые k свободных.
-// Выбранные ядра удаляются из freeCores.
+// Единый прогон через oneTBB flow graph — ОДИН И ТОТ ЖЕ движок и для базового
+// прогона, и для заданного расписания. Отличается ТОЛЬКО порядок:
+//   * базовый прогон (ORDER пуст) — приоритетов нет, oneTBB выбирает порядок сам;
+//   * расписание (ORDER задан) — приоритет узла = его позиция в перестановке
+//     (ORDER[0] — высший), oneTBB предпочитает готовые узлы по этому приоритету,
+//     сохраняя динамическую загрузку ядер (списочное планирование по приоритету).
+// Граф, арена, потоки, runJob, DEPS — идентичны в обоих случаях.
 // ---------------------------------------------------------------------------
-static vector<int> pickCores(int k, set<int>& freeCores) {
-    vector<int> a, b;               // свободные ядра пары A ({0,4}) и B ({1,5})
-    for (int c : freeCores) (inDieA(c) ? a : b).push_back(c);
-
-    vector<int> chosen;
-    if (k == 1) {
-        vector<int>& src = (a.size() >= b.size() && !a.empty()) ? a : (!b.empty() ? b : a);
-        chosen.push_back(src.front());
-    } else if (k == 2) {
-        if (!a.empty() && !b.empty()) {           // по одному в каждую пару — без общего L2
-            chosen.push_back(a.front());
-            chosen.push_back(b.front());
-        } else {                                  // целая пара с той стороны, где 2 свободны
-            vector<int>& src = (a.size() >= 2) ? a : b;
-            chosen.push_back(src[0]);
-            chosen.push_back(src[1]);
-        }
-    } else {                                      // k == 3 или 4 — берём любые k
-        for (int c : freeCores) {
-            chosen.push_back(c);
-            if ((int)chosen.size() == k) break;
-        }
-    }
-    for (int c : chosen) freeCores.erase(c);
-    return chosen;
-}
-
-// ---------------------------------------------------------------------------
-// Прогон ЗАДАННОГО расписания (есть ORDER). Диспетчер = списочный планировщик:
-// на каждое освобождение ядер берёт готовую работу с наивысшим приоритетом из
-// перестановки, назначает ядра по политике пар и запускает её. Если работа с
-// наивысшим приоритетом требует БОЛЬШЕ ядер, чем свободно, — ЖДЁТ их освобождения
-// (резервирование), не пропуская её работами низшего приоритета. Для одномодального
-// случая (все k=1) ожидание не наступает: свободное ядро всегда берёт работу.
-// Возвращает makespan (мс) — реальное время стенки.
-// ---------------------------------------------------------------------------
-static double runOrdered(const Project& p) {
-    int N = (int)p.jobs.size();
-
-    vector<int> predsRemaining(N, 0);
-    vector<vector<int>> succ(N);
-    for (auto& e : p.deps) { succ[e.first].push_back(e.second); predsRemaining[e.second]++; }
-
-    vector<char> started(N, 0);
-    set<int> freeCores(CORE_NUMBERS.begin(), CORE_NUMBERS.end());
-    int doneCount = 0, runningCount = 0;
-
-    mutex m;
-    condition_variable cv;
-    vector<pair<int, vector<int>>> completions;   // (id, освобождённые ядра)
-    vector<thread> workers;
-
-    auto t0 = high_resolution_clock::now();
-
-    unique_lock<mutex> lk(m);
-    while (doneCount < N) {
-        // Запускаем готовые работы по приоритету, с резервированием ядер.
-        bool startedAny = true;
-        while (startedAny) {
-            startedAny = false;
-            for (int id : p.order) {
-                if (started[id] || predsRemaining[id] > 0) continue;   // не готова
-                int k = p.modeOf[id];
-                if ((int)freeCores.size() >= k) {
-                    vector<int> cores = pickCores(k, freeCores);
-                    started[id] = 1;
-                    runningCount++;
-                    string type = p.jobs[id].first;
-                    int size = p.jobs[id].second;
-                    workers.emplace_back([&m, &cv, &completions, id, type, size, cores]() {
-                        runJob(type, size, cores, id);
-                        {
-                            lock_guard<mutex> g(m);
-                            completions.push_back({id, cores});
-                        }
-                        cv.notify_one();
-                    });
-                    startedAny = true;
-                    break;                     // пересканировать очередь с начала (по приоритету)
-                } else {
-                    // Работа с высшим приоритетом не помещается -> ждём ядра (резервирование).
-                    break;
-                }
-            }
-        }
-
-        // Ждём хотя бы одно завершение и освобождаем его ядра.
-        if (runningCount > 0) {
-            cv.wait(lk, [&]{ return !completions.empty(); });
-            for (auto& c : completions) {
-                doneCount++;
-                runningCount--;
-                for (int cr : c.second) freeCores.insert(cr);
-                for (int s : succ[c.first]) predsRemaining[s]--;
-            }
-            completions.clear();
-        } else if (doneCount < N) {
-            cerr << "Тупик диспетчера в проекте " << p.name << ": проверьте ORDER/DEPS\n";
-            break;
-        }
-    }
-    lk.unlock();
-
-    for (auto& t : workers) t.join();
-
-    auto t1 = high_resolution_clock::now();
-    return duration<double, milli>(t1 - t0).count();
-}
-
-// ---------------------------------------------------------------------------
-// Базовый прогон БЕЗ ORDER: oneTBB flow graph. Узел = работа; рёбра = DEPS;
-// узлы без входящих зависимостей стартуют от node0. Все работы — мода 1
-// (ядро выбирает движок), oneTBB сам решает порядок. Это эталон для сравнения.
-// ---------------------------------------------------------------------------
-static double runOnce(const Project& p, tbb::task_arena& arena) {
+static double runGraph(const Project& p, tbb::task_arena& arena) {
     using namespace tbb::flow;
     int N = (int)p.jobs.size();
+    bool ordered = !p.order.empty();
+
+    // Приоритеты узлов по перестановке (для базового прогона — без приоритетов).
+    vector<node_priority_t> prio(N, no_priority);
+    if (ordered)
+        for (int rank = 0; rank < N; rank++)
+            prio[p.order[rank]] = (node_priority_t)(N - rank);
 
     graph g;
     broadcast_node<continue_msg> node0(g);
+
     vector<continue_node<continue_msg>*> nodes(N);
     for (int i = 0; i < N; i++) {
         const string& type = p.jobs[i].first;
         int size = p.jobs[i].second;
         nodes[i] = new continue_node<continue_msg>(
             g, [type, size, i](const continue_msg&) {
-                runJob(type, size, {}, i);         // мода 1, ядро выбирает TBB
-            });
-        make_edge(node0, *nodes[i]);
+                runJob(type, size, {}, i);         // мода 1, ядро выбирает движок
+            }, prio[i]);
     }
+
+    // Стартовые рёбра — единственное отличие базы от расписания.
+    vector<continue_node<continue_msg>*> fake;
+    if (ordered) {
+        // Фиктивная стартовая «лесенка». В самый первый миг node0 будит узлы разом,
+        // и 4 воркера в гонке хватают что попало — оттого стартовая четвёрка не
+        // совпадала с ORDER. Ставим CORES_COUNT пустых узлов высшего приоритета с
+        // РАЗНЫМИ длительностями 0,1,2,3 мс: они гаснут по очереди, освобождая воркеры
+        // по одному, а не разом. fake[k] будит ровно ORDER[k] — поэтому первые четыре
+        // реальные работы стартуют по очереди и строго ORDER[0..3]. Весь хвост
+        // ORDER[4..] висит на последней ступеньке (fake[CORES_COUNT-1]) и вспыхивает
+        // уже когда старт занят; дальше порядок держат приоритеты (после старта они
+        // и так соблюдались). Стаггер в миллисекунды против работ в секунды делает
+        // стартовую гонку невозможной. Лишние ~3 мс на фоне makespan ничтожны.
+        fake.resize(N_CORES);
+        for (int f = 0; f < N_CORES; f++) {
+            int delayMs = (f == N_CORES - 1) ? 1 : 0;                        // 0,0,0,1 мс
+            fake[f] = new continue_node<continue_msg>(
+                g, [delayMs, f](const continue_msg&) {
+                    printf("fake %d started %lld delay_ms=%d\n", f,
+                        (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(), delayMs);
+                    if (delayMs > 0) std::this_thread::sleep_for(std::chrono::milliseconds(delayMs));
+                    printf("fake %d end %lld\n", f,
+                        (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
+                },
+                (node_priority_t)(N + 1));          // выше любого реального приоритета
+            make_edge(node0, *fake[f]);
+        }
+        // Первые CORES_COUNT реальных работ: fake[k] -> ORDER[k], строго по одной.
+        int head = std::min(N, N_CORES);
+        for (int rank = 0; rank < head; rank++)
+            make_edge(*fake[rank], *nodes[p.order[rank]]);
+        // Хвост ORDER[CORES_COUNT..] — на последнюю (самую позднюю) ступеньку.
+        for (int rank = N_CORES; rank < N; rank++)
+            make_edge(*fake[N_CORES - 1], *nodes[p.order[rank]]);
+    } else {
+        // База: node0 будит все реальные узлы разом — «родной» порядок oneTBB.
+        for (int i = 0; i < N; i++)
+            make_edge(node0, *nodes[i]);
+    }
+
+    // Частичный порядок задачи (DEPS) — поверх, одинаково для базы и расписания.
     for (auto& e : p.deps)
         make_edge(*nodes[e.first], *nodes[e.second]);
 
     auto t0 = high_resolution_clock::now();
-    arena.execute([&]{
+    // Главный поток НЕ входит в арену: он ждёт на future (futex, сон) и НЕ считает.
+    // Оркестровку крутит РАБОЧИЙ поток арены; wait_for_all заставляет его участвовать
+    // в счёте графа, поэтому считают все 4 воркера на {0,1,4,5}. Маска процесса из 5
+    // ядер даёт пулу поднять именно 4 воркера (при маске из 4 их было бы 3).
+    std::promise<void> finished;
+    std::future<void> fut = finished.get_future();
+    arena.enqueue([&]{
         node0.try_put(continue_msg());
         g.wait_for_all();
+        finished.set_value();
     });
+    fut.wait();
     auto t1 = high_resolution_clock::now();
 
     for (int i = 0; i < N; i++) delete nodes[i];
+    for (auto* f : fake) delete f;
     return duration<double, milli>(t1 - t0).count();
 }
 
@@ -327,11 +296,28 @@ int main(int argc, char* argv[]) {
     string projDir = argv[1];
     string outPath = argv[2];
 
+    // Запереть процесс на ядрах {0,1,4,5} (счётные, сокет 0) + одно ядро сокета 1
+    // под оркестратор. Без запирания потоки TBB расползаются на оба сокета (две FSB,
+    // четыре L2) и memory-работы идут вдвое быстрее — нечестно. Счёт идёт только на
+    // четырёх ядрах сокета 0; пятое ядро нужно лишь главному потоку, который висит
+    // в wait_for_all и процедур не считает, чтобы он не отнимал счётное ядро.
+    {
+        cpu_set_t mask; CPU_ZERO(&mask);
+        for (int c : CORE_NUMBERS) CPU_SET(c, &mask);
+        CPU_SET(ORCHESTRATOR_CORE, &mask);   // +1 ядро сокета 1 под оркестратор
+        if (sched_setaffinity(0, sizeof(mask), &mask) < 0)
+            cerr << "Не удалось запереть процесс на ядрах сокета 0\n";
+    }
+
     #ifdef USE_MKL
     mkl_set_num_threads(1);   // каждая (под)задача — однопоточный BLAS/VML
     #endif
 
-    tbb::global_control gc(tbb::global_control::max_allowed_parallelism, N_CORES);
+    // Арена на 4 слота = 4 счётных воркера на {0,1,4,5}. Главный поток в арену НЕ
+    // входит (enqueue + future), поэтому слот ему не нужен. Маска из 5 ядер +
+    // global_control на N_CORES+1 нужны, чтобы пул поднял 4 воркера при живом
+    // главном потоке (иначе, при 4 ядрах в маске, воркеров было бы лишь 3).
+    tbb::global_control gc(tbb::global_control::max_allowed_parallelism, N_CORES + 1);
     tbb::task_arena arena(N_CORES);
     PinningObserver observer(arena);
 
@@ -353,7 +339,7 @@ int main(int argc, char* argv[]) {
              << (ordered ? "перестановка ORDER" : "базовый прогон oneTBB") << ") ===" << endl;
         double sum = 0.0;
         for (int it = 0; it < ITERATION_COUNT; it++) {
-            double ms = ordered ? runOrdered(p) : runOnce(p, arena);
+            double ms = runGraph(p, arena);
             sum += ms;
             cout << "  итерация " << it << ": " << (long)ms << " ms" << endl;
         }

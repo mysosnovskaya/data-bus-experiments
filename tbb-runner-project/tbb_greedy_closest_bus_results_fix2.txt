@@ -1,0 +1,7 @@
+# project  avg_makespan_ms (oneTBB, 1 прогонов)
+no_po_1.txt 1633188
+no_po_2.txt 1716722
+no_po_3.txt 1761255
+no_po_4.txt 1701901
+no_po_5.txt 1843239
+no_po_6.txt 1683754

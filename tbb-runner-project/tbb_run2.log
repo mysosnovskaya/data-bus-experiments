@@ -1,0 +1,8 @@
+nohup: ввод игнорируется
+=== Выполняется проект: no_po_1.txt (100 работ, перестановка ORDER) ===
+job 1_DOT_84 started 1785199089362 core=1
+job 8_TGAMMA_120 started 1785199089362 core=5
+job 0_ERF_24 started 1785199089362 core=4
+job 10_DOT_36 started 1785199089362 core=0
+job 10_DOT_36 end 1785199131867
+job 3_SUM_84 started 1785199131868 core=0
