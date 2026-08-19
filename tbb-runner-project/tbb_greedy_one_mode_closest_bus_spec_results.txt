@@ -1,0 +1,25 @@
+# project  avg_makespan_ms (oneTBB, 1 прогонов)
+no_po_balanced_1.txt 1722852
+no_po_balanced_2.txt 1607631
+no_po_balanced_3.txt 1643857
+no_po_compute-heavy_1.txt 1601538
+no_po_compute-heavy_2.txt 1522533
+no_po_compute-heavy_3.txt 1554850
+no_po_cpu30_memory70_1.txt 1834350
+no_po_cpu30_memory70_2.txt 2088994
+no_po_cpu30_memory70_3.txt 1920213
+no_po_cpu50_memory50_1.txt 1567140
+no_po_cpu50_memory50_2.txt 1721154
+no_po_cpu50_memory50_3.txt 1602529
+no_po_cpu_1.txt 1252184
+no_po_cpu_2.txt 1156282
+no_po_cpu_3.txt 1113277
+no_po_memory50_cpu50_1.txt 1741572
+no_po_memory50_cpu50_2.txt 1671654
+no_po_memory50_cpu50_3.txt 1598544
+no_po_memory_1.txt 2419901
+no_po_memory_2.txt 2406269
+no_po_memory_3.txt 2355004
+no_po_memory_heavy_1.txt 1975479
+no_po_memory_heavy_2.txt 1771283
+no_po_memory_heavy_3.txt 1993705

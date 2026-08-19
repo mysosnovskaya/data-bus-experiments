@@ -17,6 +17,8 @@
 #include <vector>
 #include <pthread.h>
 #include <sched.h>
+#include <cerrno>
+#include <cstring>
 
 #include "../common/Jobs.hpp"
 #include <tbb/tbb.h>
@@ -30,13 +32,14 @@ static const int N_CORES = 4;
 // Ядро сокета 1 под главный поток-оркестратор (wait_for_all). Твои процедуры на
 // нём не считаются — только оркестровка, чтобы все 4 ядра сокета 0 были свободны.
 static const int ORCHESTRATOR_CORE = 6;
-static const int ITERATION_COUNT = 3;   // было 7
+static const int ITERATION_COUNT = 1;   // было 7
 
 // Прибить ВЫЗЫВАЮЩИЙ поток к конкретному физическому ядру.
 static void pinThisThreadTo(int physCore) {
     cpu_set_t cs; CPU_ZERO(&cs); CPU_SET(physCore, &cs);
     if (sched_setaffinity(0, sizeof(cs), &cs) < 0)
-        cerr << "Unable to set affinity to core " << physCore << endl;
+        printf("!!! ПИННИНГ НЕ УДАЛСЯ: ядро %d, errno=%d (%s)\n",
+               physCore, errno, strerror(errno));
 }
 
 // ---------------------------------------------------------------------------
@@ -106,6 +109,96 @@ static void releaseCore(int c) {
     if (c < 0) return;
     std::lock_guard<std::mutex> lk(g_coreMx);
     g_freeCores.push_back(c);
+}
+
+// ---------------------------------------------------------------------------
+// Выделение НАБОРА из k счётных ядер (ждём, пока освободятся). Всё-или-ничего:
+// ждущий поток НЕ держит ни одного ядра, поэтому взаимная блокировка невозможна —
+// занятые ядра держат только реально идущие работы, а они обязательно завершатся.
+// Простой при ожидании нормален: он заложен в расписание, раз там многоядерная работа.
+// Политика для k=2: по возможности по ядру с КАЖДОЙ пары (на общей паре два потока
+// делят L2 и работа идёт заметно медленнее); если нельзя — берём что есть.
+// ---------------------------------------------------------------------------
+static std::condition_variable g_coreCv;
+
+static int dieOf(int core) { return (core == 0 || core == 4) ? 0 : 1; }
+
+static vector<int> acquireCores(int k) {
+    std::unique_lock<std::mutex> lk(g_coreMx);
+    g_coreCv.wait(lk, [k] { return (int)g_freeCores.size() >= k; });
+
+    vector<int> byDie[2];
+    for (int c : g_freeCores) byDie[dieOf(c)].push_back(c);
+
+    vector<int> got;
+    if (k == 2 && !byDie[0].empty() && !byDie[1].empty()) {
+        got.push_back(byDie[0].back());
+        got.push_back(byDie[1].back());
+    } else {
+        for (int c : g_freeCores) {
+            got.push_back(c);
+            if ((int)got.size() == k) break;
+        }
+    }
+    for (int c : got)
+        g_freeCores.erase(std::find(g_freeCores.begin(), g_freeCores.end(), c));
+    return got;
+}
+
+static void releaseCores(const vector<int>& cores) {
+    {
+        std::lock_guard<std::mutex> lk(g_coreMx);
+        for (int c : cores) g_freeCores.push_back(c);
+    }
+    g_coreCv.notify_all();
+}
+
+// ---------------------------------------------------------------------------
+// ПАРАЛЛЕЛЬНЫЙ РЕЖИМ БАЗЫ: работа предъявляется как N_CORES независимых кусков
+// размера size/N_CORES, а сколько воркеров реально в неё впряжётся — решает САМ
+// планировщик TBB (work stealing). Мы не назначаем число ядер, лишь даём
+// возможность распараллелить.
+//
+// simple_partitioner + grainsize 1 обязательны: с auto_partitioner TBB вправе
+// слепить куски в одну задачу и отдать одному воркеру — в логе вышло бы «TBB не
+// параллелит», хотя это артефакт нарезки, а не решение планировщика.
+//
+// ПИННИНГ: каждый кусок берёт счётное ядро ИЗ ПУЛА и держит его до конца куска —
+// тем же механизмом, что одномодальный путь. Пул гарантирует, что ядро занято
+// ровно одним потоком. (Пиннинг по current_thread_index() оказался неверен:
+// слот 0 арены резервируется под мастера, поэтому ядро CORE_NUMBERS[0] не
+// доставалось никому, индексы конфликтовали — два потока садились на одно ядро,
+// а поток без индекса оставался на ядре сокета 1.)
+// ---------------------------------------------------------------------------
+static void runJobTbbParallel(const string& type, int size, int jobId) {
+    const int pieces = N_CORES;
+    const int subSize = size / pieces;
+
+    printf("job %d_%s_%d started %lld\n", jobId, type.c_str(), size,
+        (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
+
+    tbb::parallel_for(tbb::blocked_range<int>(0, pieces, 1),
+        [&type, subSize, jobId](const tbb::blocked_range<int>& r) {
+            for (int piece = r.begin(); piece != r.end(); ++piece) {
+                vector<int> my = acquireCores(1);      // ждём свободное счётное ядро
+                pinThisThreadTo(my[0]);
+                int gotCpu = sched_getcpu();
+                printf("  piece %d of job %d started %lld core=%d want=%d%s\n", piece, jobId,
+                    (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(),
+                    gotCpu, my[0], (gotCpu == my[0] ? "" : "  <<< НЕСОВПАДЕНИЕ"));
+                Job* sub = makeJob(type, subSize);
+                double tmp = 0.0;
+                sub->execute(&tmp, false);
+                delete sub;
+                printf("  piece %d of job %d end %lld core=%d\n", piece, jobId,
+                    (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(),
+                    sched_getcpu());
+                releaseCores(my);
+            }
+        }, tbb::simple_partitioner());
+
+    printf("job %d_%s_%d end %lld\n", jobId, type.c_str(), size,
+        (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
 }
 
 static void runJob(const string& type, int size, const vector<int>& cores, int jobId) {
@@ -200,7 +293,7 @@ static Project parseProject(const string& path, const string& name) {
 //     сохраняя динамическую загрузку ядер (списочное планирование по приоритету).
 // Граф, арена, потоки, runJob, DEPS — идентичны в обоих случаях.
 // ---------------------------------------------------------------------------
-static double runGraph(const Project& p, tbb::task_arena& arena) {
+static double runGraph(const Project& p, tbb::task_arena& arena, bool tbbParallel) {
     using namespace tbb::flow;
     int N = (int)p.jobs.size();
     bool ordered = !p.order.empty();
@@ -218,9 +311,20 @@ static double runGraph(const Project& p, tbb::task_arena& arena) {
     for (int i = 0; i < N; i++) {
         const string& type = p.jobs[i].first;
         int size = p.jobs[i].second;
+        int k = p.modeOf[i];
         nodes[i] = new continue_node<continue_msg>(
-            g, [type, size, i](const continue_msg&) {
-                runJob(type, size, {}, i);         // мода 1, ядро выбирает движок
+            g, [type, size, i, k, tbbParallel](const continue_msg&) {
+                if (tbbParallel) {
+                    // База с распараллеливанием: число ядер под работу выбирает TBB.
+                    runJobTbbParallel(type, size, i);
+                } else if (k > 1) {
+                    // Расписание с MODES: берём ровно k ядер (ждём, если надо).
+                    vector<int> cores = acquireCores(k);
+                    runJob(type, size, cores, i);
+                    releaseCores(cores);
+                } else {
+                    runJob(type, size, {}, i);     // мода 1, ядро выбирает движок
+                }
             }, prio[i]);
     }
 
@@ -290,11 +394,17 @@ static double runGraph(const Project& p, tbb::task_arena& arena) {
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
-        cerr << "usage: " << argv[0] << " <папка_с_проектами> <файл_результатов>\n";
+        cerr << "usage: " << argv[0] << " <папка_с_проектами> <файл_результатов> [--parallel]\n"
+             << "  --parallel: в БАЗОВОМ прогоне разрешить TBB самому распараллеливать работы\n";
         return 1;
     }
+    printf("BUILD: пиннинг из пула ядер, версия 2 (%s %s)\n", __DATE__, __TIME__);
     string projDir = argv[1];
     string outPath = argv[2];
+    // --parallel: в БАЗОВОМ прогоне работа предъявляет свою параллельность, а сколько
+    // ядер под неё выделить — решает планировщик TBB. Для расписаний (есть ORDER)
+    // флаг игнорируется: там число ядер задаёт секция MODES.
+    bool parallelFlag = (argc > 3 && string(argv[3]) == "--parallel");
 
     // Запереть процесс на ядрах {0,1,4,5} (счётные, сокет 0) + одно ядро сокета 1
     // под оркестратор. Без запирания потоки TBB расползаются на оба сокета (две FSB,
@@ -334,12 +444,14 @@ int main(int argc, char* argv[]) {
     for (const string& nm : names) {
         Project p = parseProject(projDir + "/" + nm, nm);
         bool ordered = !p.order.empty();
+        bool tbbParallel = parallelFlag && !ordered;   // распараллеливание — только для базы
         cout << "=== Выполняется проект: " << nm
              << " (" << p.jobs.size() << " работ, "
-             << (ordered ? "перестановка ORDER" : "базовый прогон oneTBB") << ") ===" << endl;
+             << (ordered ? "перестановка ORDER" : "базовый прогон oneTBB")
+             << (tbbParallel ? ", TBB сам распараллеливает" : "") << ") ===" << endl;
         double sum = 0.0;
         for (int it = 0; it < ITERATION_COUNT; it++) {
-            double ms = runGraph(p, arena);
+            double ms = runGraph(p, arena, tbbParallel);
             sum += ms;
             cout << "  итерация " << it << ": " << (long)ms << " ms" << endl;
         }
@@ -352,3 +464,4 @@ int main(int argc, char* argv[]) {
     cout << "execution completed -> " << outPath << endl;
     return 0;
 }
+
