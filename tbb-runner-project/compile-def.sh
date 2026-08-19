@@ -1,6 +1,6 @@
 #!/bin/bash
 
-g++ -O3 -std=c++17 ./TbbRunnerParallel2.cpp \
+g++ -O3 -std=c++17 ./TbbRunner2.cpp \
   -I/home/sosnovskaya/.local/include \
   -L/home/sosnovskaya/.local/lib \
   -Wl,-rpath,/home/sosnovskaya/.local/lib \
@@ -9,4 +9,4 @@ g++ -O3 -std=c++17 ./TbbRunnerParallel2.cpp \
   /home/sosnovskaya/.local/lib/libmkl_core.so.2 \
   /home/sosnovskaya/.local/lib/libtbb.so \
   -lpthread -lm -ldl \
-  -o a_parallel2.out && chmod +x a_parallel2.out
+  -o a.out && chmod +x a.out
