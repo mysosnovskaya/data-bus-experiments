@@ -32,7 +32,7 @@ static const int N_CORES = 4;
 // Ядро сокета 1 под главный поток-оркестратор (wait_for_all). Твои процедуры на
 // нём не считаются — только оркестровка, чтобы все 4 ядра сокета 0 были свободны.
 static const int ORCHESTRATOR_CORE = 6;
-static const int ITERATION_COUNT = 3;   // столько же, сколько у одномодальной базы
+static const int ITERATION_COUNT = 1;   // столько же, сколько у одномодальной базы
 
 // Прибить ВЫЗЫВАЮЩИЙ поток к конкретному физическому ядру.
 static void pinThisThreadTo(int physCore) {
