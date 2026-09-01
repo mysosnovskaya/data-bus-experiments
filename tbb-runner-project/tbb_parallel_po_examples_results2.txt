@@ -1,0 +1,13 @@
+# project  avg_makespan_ms (oneTBB, 1 прогонов)
+chains2_balanced_1.txt 1869760
+chains2_compute-heavy_1.txt 1529277
+chains2_cpu_1.txt 1682795
+chains2_memory_1.txt 2243859
+chains2_memory_heavy_1.txt 1901436
+chains3_balanced_1.txt 1724221
+chains3_compute-heavy_1.txt 1553455
+chains3_cpu_1.txt 1640644
+chains3_memory_1.txt 2322667
+chains3_memory_heavy_1.txt 1942235
+chains4_balanced_1.txt 1569893
+chains4_compute-heavy_1.txt 1406968
