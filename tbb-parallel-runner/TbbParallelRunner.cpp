@@ -95,14 +95,20 @@ static void pinThisThreadTo(int physCore) {
 // ---------------------------------------------------------------------------
 class PinningObserver : public tbb::task_scheduler_observer {
 public:
+    atomic<int> slotsSeen[N_CORES];
+
     explicit PinningObserver(tbb::task_arena& arena) : tbb::task_scheduler_observer(arena) {
+        for (int i = 0; i < N_CORES; i++) slotsSeen[i] = 0;
         observe(true);
     }
 
     void on_scheduler_entry(bool) override {
+        // Слот 0 арены зарезервирован под внешний поток (он в арену не входит),
+        // поэтому рабочие потоки занимают слоты 1..N_CORES — их и привязываем.
         int slot = tbb::this_task_arena::current_thread_index();
-        if (slot >= 0 && slot < N_CORES) {
-            pinThisThreadTo(CORE_NUMBERS[slot]);
+        if (slot >= 1 && slot <= N_CORES) {
+            slotsSeen[slot - 1]++;
+            pinThisThreadTo(CORE_NUMBERS[slot - 1]);
         }
     }
 };
@@ -181,7 +187,7 @@ static void runJobNatural(const string& type, int size, int jobId) {
     for (int iteration = 0; iteration < Job::ITERATION_COUNT; iteration++) {
         tbb::parallel_for(tbb::blocked_range<long>(0, scaledSize),
             [&job, &stats, iteration](const tbb::blocked_range<long>& range) {
-                int slot = tbb::this_task_arena::current_thread_index();
+                int slot = tbb::this_task_arena::current_thread_index() - 1;
                 if (slot < 0 || slot >= N_CORES) slot = 0;
 
                 auto t0 = steady_clock::now();
@@ -228,41 +234,49 @@ static void runJobNatural(const string& type, int size, int jobId) {
 // ---------------------------------------------------------------------------
 static double runGraph(const Project& project, tbb::task_arena& arena) {
     int jobCount = (int) project.jobs.size();
+    double elapsedMs = 0.0;
 
-    graph g;
-    broadcast_node<continue_msg> start(g);
-    vector<continue_node<continue_msg>*> nodes(jobCount);
-
-    for (int i = 0; i < jobCount; i++) {
-        const string& type = project.jobs[i].first;
-        int size = project.jobs[i].second;
-        nodes[i] = new continue_node<continue_msg>(g, [type, size, i](const continue_msg&) {
-            runJobNatural(type, size, i);
-        });
-    }
-
-    vector<bool> hasPredecessor(jobCount, false);
-    for (auto& edge : project.deps) {
-        make_edge(*nodes[edge.first], *nodes[edge.second]);
-        hasPredecessor[edge.second] = true;
-    }
-    for (int i = 0; i < jobCount; i++) {
-        if (!hasPredecessor[i]) make_edge(start, *nodes[i]);
-    }
-
-    auto t0 = steady_clock::now();
     promise<void> done;
-    future<void> future = done.get_future();
+    future<void> finished = done.get_future();
+
+    // Граф СТРОИТСЯ И ИСПОЛНЯЕТСЯ ВНУТРИ АРЕНЫ. Это принципиально: объект graph
+    // привязывается к арене того потока, который его создал. Если построить граф
+    // в главном потоке (он в арену не входит), задачи графа уходят в его неявную
+    // арену, воркеры нашей арены их не видят, и весь граф исполняется одним
+    // потоком — работы идут строго последовательно.
     arena.enqueue([&] {
+        auto t0 = steady_clock::now();
+
+        graph g;
+        broadcast_node<continue_msg> start(g);
+        vector<continue_node<continue_msg>*> nodes(jobCount);
+
+        for (int i = 0; i < jobCount; i++) {
+            const string& type = project.jobs[i].first;
+            int size = project.jobs[i].second;
+            nodes[i] = new continue_node<continue_msg>(g, [type, size, i](const continue_msg&) {
+                runJobNatural(type, size, i);
+            });
+        }
+
+        vector<bool> hasPredecessor(jobCount, false);
+        for (auto& edge : project.deps) {
+            make_edge(*nodes[edge.first], *nodes[edge.second]);
+            hasPredecessor[edge.second] = true;
+        }
+        for (int i = 0; i < jobCount; i++) {
+            if (!hasPredecessor[i]) make_edge(start, *nodes[i]);
+        }
+
         start.try_put(continue_msg());
         g.wait_for_all();
+
+        elapsedMs = duration<double, milli>(steady_clock::now() - t0).count();
+        for (int i = 0; i < jobCount; i++) delete nodes[i];
         done.set_value();
     });
-    future.wait();
-    auto t1 = steady_clock::now();
-
-    for (int i = 0; i < jobCount; i++) delete nodes[i];
-    return duration<double, milli>(t1 - t0).count();
+    finished.wait();
+    return elapsedMs;
 }
 
 int main(int argc, char** argv) {
@@ -286,15 +300,45 @@ int main(int argc, char** argv) {
     }
     pinThisThreadTo(ORCHESTRATOR_CORE);
 
-    // Все N_CORES слотов арены отданы рабочим потокам (второй аргумент 0):
-    // по умолчанию один слот резервируется под внешний поток, а наш главный
-    // поток в арену не входит — он ждёт на future.
-    tbb::global_control control(tbb::global_control::max_allowed_parallelism, N_CORES + 1);
-    tbb::task_arena arena(N_CORES, 0);
+    // Один слот арены по умолчанию резервируется под внешний поток, а наш главный
+    // поток в арену не входит (он спит на future). Поэтому берём N_CORES+1 слот:
+    // резервный остаётся пустым, а рабочих потоков получается ровно N_CORES.
+    // Отбирать резерв через task_arena(N_CORES, 0) нельзя: в связке с enqueue
+    // арена тогда поднимает всего один поток.
+    tbb::global_control control(tbb::global_control::max_allowed_parallelism, N_CORES + 2);
+    tbb::task_arena arena(N_CORES + 1);
     PinningObserver observer(arena);
 
     printf("BUILD: естественное распараллеливание oneTBB (parallel_for по данным, auto_partitioner)\n");
     printf("Счётных ядер: %d, слотов арены: %d\n", N_CORES, arena.max_concurrency());
+
+    // Самопроверка: короткая параллельная нагрузка. Если реально работает меньше
+    // потоков, чем ядер, всё дальнейшее измерять бессмысленно — видно сразу,
+    // а не через десятки секунд на первой же работе.
+    {
+        atomic<int> busyBySlot[N_CORES];
+        for (int i = 0; i < N_CORES; i++) busyBySlot[i] = 0;
+        promise<void> ready;
+        future<void> readyFuture = ready.get_future();
+        arena.enqueue([&] {
+            tbb::parallel_for(0, 4 * 1000, [&](int) {
+                int slot = tbb::this_task_arena::current_thread_index() - 1;
+                if (slot >= 0 && slot < N_CORES) busyBySlot[slot]++;
+                volatile double sink = 0.0;
+                for (int k = 0; k < 20000; k++) sink += k * 0.5;
+            });
+            ready.set_value();
+        });
+        readyFuture.wait();
+        int active = 0;
+        printf("Самопроверка параллельности — задач на слот:");
+        for (int i = 0; i < N_CORES; i++) {
+            printf(" слот%d=%d", i, busyBySlot[i].load());
+            if (busyBySlot[i] > 0) active++;
+        }
+        printf("  => реально работало потоков: %d из %d%s\n", active, N_CORES,
+               active < N_CORES ? "   <<< ВНИМАНИЕ: параллельности нет" : "");
+    }
     fflush(stdout);
 
     vector<string> names;

@@ -1,0 +1,21 @@
+# project  avg_makespan_ms (естественный oneTBB, 1 прогонов)
+chains3_balanced_1.txt  1632854
+chains3_compute-heavy_1.txt  1437753
+chains3_cpu_1.txt  1317930
+chains3_memory_1.txt  2332835
+chains3_memory_heavy_1.txt  1950700
+chains4_balanced_1.txt  1547386
+chains4_compute-heavy_1.txt  1369012
+chains4_cpu_1.txt  1126855
+chains4_memory_1.txt  2151599
+chains4_memory_heavy_1.txt  2123799
+layered3_balanced_1.txt  1674341
+layered3_compute-heavy_1.txt  1582792
+layered3_cpu_1.txt  1170192
+layered3_memory_1.txt  2242813
+layered3_memory_heavy_1.txt  1825191
+tree_balanced_1.txt  1594217
+tree_compute-heavy_1.txt  1544355
+tree_cpu_1.txt  1048866
+tree_memory_1.txt  2181660
+tree_memory_heavy_1.txt  2045985
