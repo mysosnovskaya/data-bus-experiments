@@ -96,6 +96,17 @@ static Job* makeJob(const string& type, int size) {
 // поэтому свободное ядро всегда найдётся.
 // ---------------------------------------------------------------------------
 static std::mutex g_coreMx;
+
+// ---------------------------------------------------------------------------
+// Выделение НАБОРА из k счётных ядер (ждём, пока освободятся). Всё-или-ничего:
+// ждущий поток НЕ держит ни одного ядра, поэтому взаимная блокировка невозможна —
+// занятые ядра держат только реально идущие работы, а они обязательно завершатся.
+// Простой при ожидании нормален: он заложен в расписание, раз там многоядерная работа.
+// Политика для k=2: по возможности по ядру с КАЖДОЙ пары (на общей паре два потока
+// делят L2 и работа идёт заметно медленнее); если нельзя — берём что есть.
+// ---------------------------------------------------------------------------
+static std::condition_variable g_coreCv;
+
 static vector<int> g_freeCores = {0, 1, 4, 5};
 
 static int acquireCore() {
@@ -109,17 +120,9 @@ static void releaseCore(int c) {
     if (c < 0) return;
     std::lock_guard<std::mutex> lk(g_coreMx);
     g_freeCores.push_back(c);
+    g_coreCv.notify_all();
 }
 
-// ---------------------------------------------------------------------------
-// Выделение НАБОРА из k счётных ядер (ждём, пока освободятся). Всё-или-ничего:
-// ждущий поток НЕ держит ни одного ядра, поэтому взаимная блокировка невозможна —
-// занятые ядра держат только реально идущие работы, а они обязательно завершатся.
-// Простой при ожидании нормален: он заложен в расписание, раз там многоядерная работа.
-// Политика для k=2: по возможности по ядру с КАЖДОЙ пары (на общей паре два потока
-// делят L2 и работа идёт заметно медленнее); если нельзя — берём что есть.
-// ---------------------------------------------------------------------------
-static std::condition_variable g_coreCv;
 // Счётчик РЕАЛЬНЫХ ожиданий ядра. Блокировка внутри TBB-задачи — сомнительный
 // приём (спящий воркер выбывает из пула, планировщик об этом не знает), поэтому
 // важно показать фактом, что она не наступает: воркеров максимум 4 и счётных
@@ -248,7 +251,7 @@ static void runJobTbbParallel(const string& type, int size, int jobId) {
 
 static void runJob(const string& type, int size, const vector<int>& cores, int jobId) {
     if (cores.empty()) {                          // мода 1: сам прибиваюсь к счётному ядру
-        int myCore = acquireCore();
+        int myCore = acquireCores(1)[0];
         if (myCore >= 0) pinThisThreadTo(myCore); // жёстко на одно из {0,1,4,5}
         printf("job %d_%s_%d started %lld core=%d\n", jobId, type.c_str(), size,
             (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(), sched_getcpu());
@@ -269,11 +272,13 @@ static void runJob(const string& type, int size, const vector<int>& cores, int j
     vector<thread> threads;
     threads.reserve(k);
     for (int c : cores) {
-        threads.emplace_back([type, subSize, c]() {
+        threads.emplace_back([jobId, type, subSize, c]() {
             pinThisThreadTo(c);
+            printf("  piece of job %d started %lld core=%d\n", jobId, (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(), sched_getcpu());
             Job* sub = makeJob(type, subSize);
             double tmp = 0.0;
             sub->execute(&tmp, false);
+            printf("  piece of job %d end %lld core=%d\n", jobId, (long long)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(), sched_getcpu());            
             delete sub;
         });
     }

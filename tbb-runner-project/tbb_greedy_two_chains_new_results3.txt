@@ -1,0 +1,23 @@
+# project  avg_makespan_ms (oneTBB, 1 прогонов)
+ml_two_chain_17.txt 1747742
+ml_two_chain_19.txt 1776052
+ml_two_chain_2.txt 1941014
+ml_two_chain_20.txt 2169117
+ml_two_chain_21.txt 2205891
+ml_two_chain_22.txt 2276557
+ml_two_chain_23.txt 2101039
+ml_two_chain_24.txt 2088842
+ml_two_chain_25.txt 1991630
+ml_two_chain_26.txt 2161489
+ml_two_chain_27.txt 2224218
+ml_two_chain_28.txt 2088461
+ml_two_chain_29.txt 1933719
+ml_two_chain_3.txt 1929031
+ml_two_chain_30.txt 1701608
+ml_two_chain_4.txt 942310
+ml_two_chain_5.txt 994062
+ml_two_chain_6.txt 935578
+ml_two_chain_7.txt 922522
+ml_two_chain_8.txt 956032
+ml_two_chain_9.txt 906081
+

@@ -1,0 +1,1303 @@
+nohup: ввод игнорируется
+BUILD: пиннинг из пула, версия 3 — итераций 1 (Sep 21 2026 01:09:34)
+=== Выполняется проект: ml_two_chain_18.txt (100 работ, перестановка ORDER) ===
+fake 3 started 1789987255420 delay_ms=1
+fake 2 started 1789987255420 delay_ms=0
+fake 2 end 1789987255420
+fake 1 started 1789987255420 delay_ms=0
+fake 1 end 1789987255420
+fake 0 started 1789987255420 delay_ms=0
+fake 0 end 1789987255420
+job 0_TGAMMA_12 started 1789987255420 core=1
+job 76_SUM_108 started 1789987255420 core=5
+  piece of job 0 started 1789987255421 core=1
+fake 3 end 1789987255421
+  piece of job 0 started 1789987255425 core=4
+  piece of job 0 started 1789987255425 core=0
+  piece of job 0 end 1789987257723 core=0
+  piece of job 0 end 1789987257724 core=4
+  piece of job 0 end 1789987257736 core=1
+job 0_TGAMMA_12 end 1789987257737
+job 1_TGAMMA_12 started 1789987257737 core=0
+  piece of job 1 started 1789987257737 core=0
+  piece of job 1 started 1789987257737 core=1
+  piece of job 1 started 1789987257737 core=4
+  piece of job 1 end 1789987260032 core=0
+  piece of job 1 end 1789987260038 core=4
+  piece of job 1 end 1789987260068 core=1
+job 1_TGAMMA_12 end 1789987260068
+job 2_TGAMMA_120 started 1789987260068 core=0
+  piece of job 2 started 1789987260068 core=1
+  piece of job 2 started 1789987260068 core=0
+  piece of job 2 started 1789987260068 core=4
+  piece of job 2 end 1789987283035 core=4
+  piece of job 2 end 1789987283059 core=0
+  piece of job 2 end 1789987283184 core=1
+job 2_TGAMMA_120 end 1789987283186
+job 3_TGAMMA_12 started 1789987283186 core=4
+  piece of job 3 started 1789987283186 core=0
+  piece of job 3 started 1789987283186 core=1
+  piece of job 3 started 1789987283186 core=4
+  piece of job 3 end 1789987285473 core=4
+  piece of job 3 end 1789987285484 core=0
+  piece of job 3 end 1789987285512 core=1
+job 3_TGAMMA_12 end 1789987285512
+job 4_TGAMMA_120 started 1789987285512 core=4
+  piece of job 4 started 1789987285512 core=0
+  piece of job 4 started 1789987285512 core=1
+  piece of job 4 started 1789987285512 core=4
+job 76_SUM_108 end 1789987286363
+job 77_SUM_132 started 1789987286363 core=5
+  piece of job 4 end 1789987308484 core=0
+  piece of job 4 end 1789987308540 core=4
+  piece of job 4 end 1789987308663 core=1
+job 4_TGAMMA_120 end 1789987308664
+job 5_TGAMMA_12 started 1789987308664 core=0
+  piece of job 5 started 1789987308664 core=1
+  piece of job 5 started 1789987308664 core=0
+  piece of job 5 started 1789987308664 core=4
+  piece of job 5 end 1789987310959 core=0
+  piece of job 5 end 1789987310965 core=4
+  piece of job 5 end 1789987310995 core=1
+job 5_TGAMMA_12 end 1789987310995
+job 6_TGAMMA_12 started 1789987310995 core=0
+  piece of job 6 started 1789987310996 core=1
+  piece of job 6 started 1789987310996 core=0
+  piece of job 6 started 1789987310996 core=4
+  piece of job 6 end 1789987313286 core=4
+  piece of job 6 end 1789987313298 core=0
+  piece of job 6 end 1789987313326 core=1
+job 6_TGAMMA_12 end 1789987313327
+job 7_TGAMMA_12 started 1789987313327 core=4
+  piece of job 7 started 1789987313327 core=0
+  piece of job 7 started 1789987313327 core=1
+  piece of job 7 started 1789987313327 core=4
+  piece of job 7 end 1789987315617 core=4
+  piece of job 7 end 1789987315629 core=0
+  piece of job 7 end 1789987315657 core=1
+job 7_TGAMMA_12 end 1789987315657
+job 8_TGAMMA_120 started 1789987315657 core=4
+  piece of job 8 started 1789987315658 core=0
+  piece of job 8 started 1789987315658 core=1
+  piece of job 8 started 1789987315658 core=4
+job 77_SUM_132 end 1789987324155
+job 78_COPY_84 started 1789987324155 core=5
+  piece of job 8 end 1789987338635 core=0
+  piece of job 8 end 1789987338689 core=4
+  piece of job 8 end 1789987338899 core=1
+job 8_TGAMMA_120 end 1789987338900
+job 9_TGAMMA_60 started 1789987338900 core=4
+  piece of job 9 started 1789987338900 core=0
+  piece of job 9 started 1789987338900 core=1
+  piece of job 9 started 1789987338900 core=4
+  piece of job 9 end 1789987350375 core=4
+  piece of job 9 end 1789987350389 core=0
+  piece of job 9 end 1789987350693 core=1
+job 9_TGAMMA_60 end 1789987350694
+job 10_TGAMMA_12 started 1789987350694 core=4
+  piece of job 10 started 1789987350694 core=0
+  piece of job 10 started 1789987350694 core=1
+  piece of job 10 started 1789987350694 core=4
+  piece of job 10 end 1789987352989 core=0
+  piece of job 10 end 1789987352995 core=4
+  piece of job 10 end 1789987353059 core=1
+job 10_TGAMMA_12 end 1789987353059
+job 11_TGAMMA_60 started 1789987353059 core=0
+  piece of job 11 started 1789987353059 core=1
+  piece of job 11 started 1789987353059 core=4
+  piece of job 11 started 1789987353059 core=0
+  piece of job 11 end 1789987364551 core=4
+  piece of job 11 end 1789987364584 core=0
+  piece of job 11 end 1789987364756 core=1
+job 11_TGAMMA_60 end 1789987364757
+job 12_TGAMMA_12 started 1789987364757 core=4
+  piece of job 12 started 1789987364757 core=0
+  piece of job 12 started 1789987364757 core=1
+  piece of job 12 started 1789987364757 core=4
+  piece of job 12 end 1789987367058 core=4
+  piece of job 12 end 1789987367060 core=0
+  piece of job 12 end 1789987367110 core=1
+job 12_TGAMMA_12 end 1789987367110
+job 13_TGAMMA_60 started 1789987367111 core=4
+  piece of job 13 started 1789987367111 core=0
+  piece of job 13 started 1789987367111 core=1
+  piece of job 13 started 1789987367111 core=4
+job 78_COPY_84 end 1789987375383
+job 79_XPY_60 started 1789987375383 core=5
+  piece of job 13 end 1789987378591 core=4
+  piece of job 13 end 1789987378622 core=0
+  piece of job 13 end 1789987378784 core=1
+job 13_TGAMMA_60 end 1789987378784
+job 14_TGAMMA_60 started 1789987378785 core=4
+  piece of job 14 started 1789987378785 core=0
+  piece of job 14 started 1789987378785 core=1
+  piece of job 14 started 1789987378785 core=4
+  piece of job 14 end 1789987390258 core=4
+  piece of job 14 end 1789987390274 core=0
+  piece of job 14 end 1789987390598 core=1
+job 14_TGAMMA_60 end 1789987390599
+job 15_TGAMMA_120 started 1789987390599 core=4
+  piece of job 15 started 1789987390599 core=0
+  piece of job 15 started 1789987390599 core=4
+  piece of job 15 started 1789987390599 core=1
+  piece of job 15 end 1789987413555 core=4
+  piece of job 15 end 1789987413661 core=0
+job 79_XPY_60 end 1789987413870
+job 80_COPY_60 started 1789987413871 core=5
+  piece of job 15 end 1789987413913 core=1
+job 15_TGAMMA_120 end 1789987413914
+job 16_TGAMMA_60 started 1789987413914 core=4
+  piece of job 16 started 1789987413914 core=0
+  piece of job 16 started 1789987413914 core=4
+  piece of job 16 started 1789987413915 core=1
+  piece of job 16 end 1789987425410 core=0
+  piece of job 16 end 1789987425414 core=4
+  piece of job 16 end 1789987425571 core=1
+job 16_TGAMMA_60 end 1789987425571
+job 17_TGAMMA_12 started 1789987425572 core=0
+  piece of job 17 started 1789987425572 core=1
+  piece of job 17 started 1789987425572 core=0
+  piece of job 17 started 1789987425572 core=4
+  piece of job 17 end 1789987427865 core=0
+  piece of job 17 end 1789987427871 core=4
+  piece of job 17 end 1789987427930 core=1
+job 17_TGAMMA_12 end 1789987427931
+job 18_TGAMMA_12 started 1789987427931 core=0
+  piece of job 18 started 1789987427931 core=1
+  piece of job 18 started 1789987427931 core=0
+  piece of job 18 started 1789987427931 core=4
+  piece of job 18 end 1789987430221 core=4
+  piece of job 18 end 1789987430233 core=0
+  piece of job 18 end 1789987430290 core=1
+job 18_TGAMMA_12 end 1789987430290
+job 19_TGAMMA_60 started 1789987430291 core=4
+  piece of job 19 started 1789987430291 core=0
+  piece of job 19 started 1789987430291 core=1
+  piece of job 19 started 1789987430291 core=4
+  piece of job 19 end 1789987441785 core=0
+  piece of job 19 end 1789987441788 core=4
+  piece of job 19 end 1789987441953 core=1
+job 19_TGAMMA_60 end 1789987441954
+job 20_TGAMMA_60 started 1789987441954 core=0
+  piece of job 20 started 1789987441954 core=1
+  piece of job 20 started 1789987441954 core=0
+  piece of job 20 started 1789987441954 core=4
+job 80_COPY_60 end 1789987450537
+job 81_COPY_84 started 1789987450537 core=5
+  piece of job 20 end 1789987453426 core=4
+  piece of job 20 end 1789987453457 core=0
+  piece of job 20 end 1789987453603 core=1
+job 20_TGAMMA_60 end 1789987453603
+job 21_TGAMMA_12 started 1789987453603 core=4
+  piece of job 21 started 1789987453604 core=0
+  piece of job 21 started 1789987453604 core=1
+  piece of job 21 started 1789987453604 core=4
+  piece of job 21 end 1789987455904 core=4
+  piece of job 21 end 1789987455906 core=0
+  piece of job 21 end 1789987455953 core=1
+job 21_TGAMMA_12 end 1789987455954
+job 22_TGAMMA_60 started 1789987455954 core=4
+  piece of job 22 started 1789987455954 core=0
+  piece of job 22 started 1789987455954 core=1
+  piece of job 22 started 1789987455954 core=4
+  piece of job 22 end 1789987467428 core=4
+  piece of job 22 end 1789987467461 core=0
+  piece of job 22 end 1789987467613 core=1
+job 22_TGAMMA_60 end 1789987467613
+job 23_TGAMMA_12 started 1789987467613 core=4
+  piece of job 23 started 1789987467613 core=0
+  piece of job 23 started 1789987467613 core=1
+  piece of job 23 started 1789987467613 core=4
+  piece of job 23 end 1789987469912 core=4
+  piece of job 23 end 1789987469913 core=0
+  piece of job 23 end 1789987469961 core=1
+job 23_TGAMMA_12 end 1789987469961
+job 24_TGAMMA_12 started 1789987469961 core=4
+  piece of job 24 started 1789987469961 core=0
+  piece of job 24 started 1789987469961 core=1
+  piece of job 24 started 1789987469961 core=4
+  piece of job 24 end 1789987472256 core=0
+  piece of job 24 end 1789987472261 core=4
+  piece of job 24 end 1789987472321 core=1
+job 24_TGAMMA_12 end 1789987472321
+job 25_TGAMMA_12 started 1789987472321 core=0
+  piece of job 25 started 1789987472322 core=1
+  piece of job 25 started 1789987472322 core=0
+  piece of job 25 started 1789987472322 core=4
+  piece of job 25 end 1789987474614 core=4
+  piece of job 25 end 1789987474626 core=0
+  piece of job 25 end 1789987474684 core=1
+job 25_TGAMMA_12 end 1789987474684
+job 26_TGAMMA_12 started 1789987474685 core=4
+  piece of job 26 started 1789987474685 core=0
+  piece of job 26 started 1789987474685 core=4
+  piece of job 26 started 1789987474685 core=1
+  piece of job 26 end 1789987476983 core=4
+  piece of job 26 end 1789987476984 core=0
+  piece of job 26 end 1789987477031 core=1
+job 26_TGAMMA_12 end 1789987477031
+job 27_TGAMMA_60 started 1789987477031 core=4
+  piece of job 27 started 1789987477031 core=0
+  piece of job 27 started 1789987477031 core=4
+  piece of job 27 started 1789987477031 core=1
+  piece of job 27 end 1789987488508 core=4
+  piece of job 27 end 1789987488540 core=0
+  piece of job 27 end 1789987488692 core=1
+job 27_TGAMMA_60 end 1789987488692
+job 28_TGAMMA_120 started 1789987488692 core=4
+  piece of job 28 started 1789987488692 core=0
+  piece of job 28 started 1789987488692 core=1
+  piece of job 28 started 1789987488692 core=4
+job 81_COPY_84 end 1789987501852
+job 82_SUM_84 started 1789987501852 core=5
+  piece of job 28 end 1789987511651 core=4
+  piece of job 28 end 1789987511675 core=0
+  piece of job 28 end 1789987512157 core=1
+job 28_TGAMMA_120 end 1789987512158
+job 29_TGAMMA_60 started 1789987512158 core=4
+  piece of job 29 started 1789987512158 core=0
+  piece of job 29 started 1789987512158 core=1
+  piece of job 29 started 1789987512159 core=4
+  piece of job 29 end 1789987523637 core=4
+  piece of job 29 end 1789987523670 core=0
+  piece of job 29 end 1789987523738 core=1
+job 29_TGAMMA_60 end 1789987523738
+job 30_TGAMMA_60 started 1789987523738 core=4
+  piece of job 30 started 1789987523738 core=0
+  piece of job 30 started 1789987523739 core=1
+  piece of job 30 started 1789987523739 core=4
+job 82_SUM_84 end 1789987525908
+job 83_COPY_84 started 1789987525908 core=5
+  piece of job 30 end 1789987535209 core=4
+  piece of job 30 end 1789987535223 core=0
+  piece of job 30 end 1789987535453 core=1
+job 30_TGAMMA_60 end 1789987535453
+job 31_TGAMMA_60 started 1789987535453 core=4
+  piece of job 31 started 1789987535453 core=0
+  piece of job 31 started 1789987535453 core=1
+  piece of job 31 started 1789987535453 core=4
+  piece of job 31 end 1789987546942 core=4
+  piece of job 31 end 1789987546974 core=0
+  piece of job 31 end 1789987547128 core=1
+job 31_TGAMMA_60 end 1789987547128
+job 32_TGAMMA_12 started 1789987547128 core=4
+  piece of job 32 started 1789987547128 core=0
+  piece of job 32 started 1789987547129 core=1
+  piece of job 32 started 1789987547129 core=4
+  piece of job 32 end 1789987549428 core=4
+  piece of job 32 end 1789987549431 core=0
+  piece of job 32 end 1789987549477 core=1
+job 32_TGAMMA_12 end 1789987549477
+job 33_TGAMMA_12 started 1789987549477 core=4
+  piece of job 33 started 1789987549477 core=0
+  piece of job 33 started 1789987549477 core=4
+  piece of job 33 started 1789987549477 core=1
+  piece of job 33 end 1789987551769 core=0
+  piece of job 33 end 1789987551775 core=4
+  piece of job 33 end 1789987551835 core=1
+job 33_TGAMMA_12 end 1789987551835
+job 34_TGAMMA_12 started 1789987551835 core=0
+  piece of job 34 started 1789987551835 core=1
+  piece of job 34 started 1789987551835 core=0
+  piece of job 34 started 1789987551835 core=4
+  piece of job 34 end 1789987554124 core=4
+  piece of job 34 end 1789987554137 core=0
+  piece of job 34 end 1789987554193 core=1
+job 34_TGAMMA_12 end 1789987554194
+job 35_TGAMMA_60 started 1789987554194 core=4
+  piece of job 35 started 1789987554194 core=0
+  piece of job 35 started 1789987554194 core=1
+  piece of job 35 started 1789987554194 core=4
+  piece of job 35 end 1789987565697 core=0
+  piece of job 35 end 1789987565702 core=4
+  piece of job 35 end 1789987565870 core=1
+job 35_TGAMMA_60 end 1789987565871
+job 36_TGAMMA_60 started 1789987565871 core=0
+  piece of job 36 started 1789987565871 core=1
+  piece of job 36 started 1789987565871 core=0
+  piece of job 36 started 1789987565871 core=4
+job 83_COPY_84 end 1789987577221
+job 84_XPY_48 started 1789987577222 core=5
+  piece of job 36 end 1789987577358 core=4
+  piece of job 36 end 1789987577388 core=0
+  piece of job 36 end 1789987577539 core=1
+job 36_TGAMMA_60 end 1789987577539
+job 37_TGAMMA_12 started 1789987577539 core=4
+  piece of job 37 started 1789987577539 core=0
+  piece of job 37 started 1789987577540 core=1
+  piece of job 37 started 1789987577540 core=4
+  piece of job 37 end 1789987579837 core=4
+  piece of job 37 end 1789987579839 core=0
+  piece of job 37 end 1789987579892 core=1
+job 37_TGAMMA_12 end 1789987579892
+job 38_TGAMMA_12 started 1789987579892 core=4
+  piece of job 38 started 1789987579892 core=0
+  piece of job 38 started 1789987579892 core=1
+  piece of job 38 started 1789987579892 core=4
+  piece of job 38 end 1789987582187 core=0
+  piece of job 38 end 1789987582198 core=4
+  piece of job 38 end 1789987582267 core=1
+job 38_TGAMMA_12 end 1789987582268
+job 39_TGAMMA_120 started 1789987582268 core=0
+  piece of job 39 started 1789987582268 core=1
+  piece of job 39 started 1789987582268 core=0
+  piece of job 39 started 1789987582268 core=4
+  piece of job 39 end 1789987605246 core=0
+  piece of job 39 end 1789987605300 core=4
+  piece of job 39 end 1789987605555 core=1
+job 39_TGAMMA_120 end 1789987605556
+job 40_TGAMMA_120 started 1789987605556 core=0
+  piece of job 40 started 1789987605557 core=0
+  piece of job 40 started 1789987605557 core=1
+  piece of job 40 started 1789987605557 core=4
+job 84_XPY_48 end 1789987608113
+job 85_SUM_84 started 1789987608113 core=5
+  piece of job 40 end 1789987628509 core=4
+  piece of job 40 end 1789987628531 core=0
+  piece of job 40 end 1789987628909 core=1
+job 40_TGAMMA_120 end 1789987628910
+job 41_TGAMMA_120 started 1789987628910 core=4
+  piece of job 41 started 1789987628910 core=0
+  piece of job 41 started 1789987628910 core=1
+  piece of job 41 started 1789987628910 core=4
+job 85_SUM_84 end 1789987632200
+job 86_COPY_60 started 1789987632201 core=5
+  piece of job 41 end 1789987651855 core=4
+  piece of job 41 end 1789987651960 core=0
+  piece of job 41 end 1789987652153 core=1
+job 41_TGAMMA_120 end 1789987652154
+job 42_TGAMMA_60 started 1789987652154 core=4
+  piece of job 42 started 1789987652154 core=0
+  piece of job 42 started 1789987652154 core=1
+  piece of job 42 started 1789987652154 core=4
+  piece of job 42 end 1789987663637 core=4
+  piece of job 42 end 1789987663650 core=0
+  piece of job 42 end 1789987663938 core=1
+job 42_TGAMMA_60 end 1789987663938
+job 43_TGAMMA_60 started 1789987663938 core=4
+  piece of job 43 started 1789987663938 core=0
+  piece of job 43 started 1789987663938 core=4
+  piece of job 43 started 1789987663938 core=1
+job 86_COPY_60 end 1789987668815
+job 87_DOT_36 started 1789987668815 core=5
+  piece of job 43 end 1789987675428 core=4
+  piece of job 43 end 1789987675458 core=0
+  piece of job 43 end 1789987675558 core=1
+job 43_TGAMMA_60 end 1789987675558
+job 44_TGAMMA_120 started 1789987675558 core=4
+  piece of job 44 started 1789987675558 core=0
+  piece of job 44 started 1789987675558 core=1
+  piece of job 44 started 1789987675559 core=4
+job 87_DOT_36 end 1789987689114
+job 88_SUM_132 started 1789987689115 core=5
+  piece of job 44 end 1789987698566 core=4
+  piece of job 44 end 1789987698591 core=0
+  piece of job 44 end 1789987699049 core=1
+job 44_TGAMMA_120 end 1789987699050
+job 45_TGAMMA_12 started 1789987699050 core=4
+  piece of job 45 started 1789987699050 core=0
+  piece of job 45 started 1789987699050 core=1
+  piece of job 45 started 1789987699050 core=4
+  piece of job 45 end 1789987701341 core=0
+  piece of job 45 end 1789987701348 core=4
+  piece of job 45 end 1789987701374 core=1
+job 45_TGAMMA_12 end 1789987701375
+job 46_TGAMMA_60 started 1789987701375 core=0
+  piece of job 46 started 1789987701375 core=1
+  piece of job 46 started 1789987701375 core=0
+  piece of job 46 started 1789987701375 core=4
+  piece of job 46 end 1789987712865 core=0
+  piece of job 46 end 1789987712867 core=4
+  piece of job 46 end 1789987712948 core=1
+job 46_TGAMMA_60 end 1789987712948
+job 47_TGAMMA_12 started 1789987712948 core=0
+  piece of job 47 started 1789987712948 core=0
+  piece of job 47 started 1789987712948 core=1
+  piece of job 47 started 1789987712948 core=4
+  piece of job 47 end 1789987715248 core=4
+  piece of job 47 end 1789987715249 core=0
+  piece of job 47 end 1789987715262 core=1
+job 47_TGAMMA_12 end 1789987715262
+job 48_TGAMMA_120 started 1789987715262 core=4
+  piece of job 48 started 1789987715262 core=0
+  piece of job 48 started 1789987715262 core=1
+  piece of job 48 started 1789987715262 core=4
+job 88_SUM_132 end 1789987726946
+job 89_DOT_36 started 1789987726947 core=5
+  piece of job 48 end 1789987738246 core=4
+  piece of job 48 end 1789987738340 core=0
+  piece of job 48 end 1789987738411 core=1
+job 48_TGAMMA_120 end 1789987738411
+job 49_TGAMMA_60 started 1789987738411 core=4
+  piece of job 49 started 1789987738412 core=0
+  piece of job 49 started 1789987738412 core=1
+  piece of job 49 started 1789987738412 core=4
+job 89_DOT_36 end 1789987747074
+job 90_SUM_108 started 1789987747074 core=5
+  piece of job 49 end 1789987749924 core=4
+  piece of job 49 end 1789987749936 core=0
+  piece of job 49 end 1789987750169 core=1
+job 49_TGAMMA_60 end 1789987750169
+job 50_TGAMMA_60 started 1789987750169 core=4
+  piece of job 50 started 1789987750169 core=0
+  piece of job 50 started 1789987750169 core=4
+  piece of job 50 started 1789987750169 core=1
+  piece of job 50 end 1789987761646 core=4
+  piece of job 50 end 1789987761676 core=0
+  piece of job 50 end 1789987761744 core=1
+job 50_TGAMMA_60 end 1789987761744
+job 51_TGAMMA_120 started 1789987761744 core=4
+  piece of job 51 started 1789987761745 core=0
+  piece of job 51 started 1789987761745 core=1
+  piece of job 51 started 1789987761745 core=4
+job 90_SUM_108 end 1789987778053
+job 91_SUM_132 started 1789987778053 core=5
+  piece of job 51 end 1789987784689 core=4
+  piece of job 51 end 1789987784711 core=0
+  piece of job 51 end 1789987785007 core=1
+job 51_TGAMMA_120 end 1789987785008
+job 52_TGAMMA_12 started 1789987785008 core=4
+  piece of job 52 started 1789987785008 core=0
+  piece of job 52 started 1789987785008 core=1
+  piece of job 52 started 1789987785009 core=4
+  piece of job 52 end 1789987787296 core=0
+  piece of job 52 end 1789987787303 core=4
+  piece of job 52 end 1789987787329 core=1
+job 52_TGAMMA_12 end 1789987787329
+job 53_TGAMMA_60 started 1789987787329 core=0
+  piece of job 53 started 1789987787329 core=1
+  piece of job 53 started 1789987787329 core=0
+  piece of job 53 started 1789987787329 core=4
+  piece of job 53 end 1789987798816 core=0
+  piece of job 53 end 1789987798820 core=4
+  piece of job 53 end 1789987798900 core=1
+job 53_TGAMMA_60 end 1789987798901
+job 54_TGAMMA_120 started 1789987798901 core=0
+  piece of job 54 started 1789987798901 core=0
+  piece of job 54 started 1789987798901 core=1
+  piece of job 54 started 1789987798901 core=4
+job 91_SUM_132 end 1789987815912
+job 92_SUM_108 started 1789987815913 core=5
+  piece of job 54 end 1789987821839 core=4
+  piece of job 54 end 1789987821867 core=0
+  piece of job 54 end 1789987822159 core=1
+job 54_TGAMMA_120 end 1789987822159
+job 55_TGAMMA_12 started 1789987822159 core=4
+  piece of job 55 started 1789987822160 core=0
+  piece of job 55 started 1789987822160 core=1
+  piece of job 55 started 1789987822160 core=4
+  piece of job 55 end 1789987824448 core=0
+  piece of job 55 end 1789987824456 core=4
+  piece of job 55 end 1789987824481 core=1
+job 55_TGAMMA_12 end 1789987824482
+job 56_TGAMMA_120 started 1789987824482 core=0
+  piece of job 56 started 1789987824482 core=1
+  piece of job 56 started 1789987824482 core=0
+  piece of job 56 started 1789987824482 core=4
+job 92_SUM_108 end 1789987846844
+job 93_XPY_48 started 1789987846844 core=5
+  piece of job 56 end 1789987847449 core=0
+  piece of job 56 end 1789987847498 core=4
+  piece of job 56 end 1789987847604 core=1
+job 56_TGAMMA_120 end 1789987847605
+job 57_TGAMMA_60 started 1789987847605 core=0
+  piece of job 57 started 1789987847605 core=1
+  piece of job 57 started 1789987847605 core=4
+  piece of job 57 started 1789987847605 core=0
+  piece of job 57 end 1789987859096 core=0
+  piece of job 57 end 1789987859100 core=4
+  piece of job 57 end 1789987859247 core=1
+job 57_TGAMMA_60 end 1789987859247
+job 58_TGAMMA_12 started 1789987859247 core=0
+  piece of job 58 started 1789987859247 core=0
+  piece of job 58 started 1789987859247 core=1
+  piece of job 58 started 1789987859248 core=4
+  piece of job 58 end 1789987861544 core=4
+  piece of job 58 end 1789987861547 core=0
+  piece of job 58 end 1789987861594 core=1
+job 58_TGAMMA_12 end 1789987861594
+job 59_TGAMMA_60 started 1789987861594 core=4
+  piece of job 59 started 1789987861594 core=0
+  piece of job 59 started 1789987861594 core=1
+  piece of job 59 started 1789987861594 core=4
+  piece of job 59 end 1789987873068 core=4
+  piece of job 59 end 1789987873100 core=0
+  piece of job 59 end 1789987873232 core=1
+job 59_TGAMMA_60 end 1789987873232
+job 60_TGAMMA_12 started 1789987873232 core=4
+  piece of job 60 started 1789987873232 core=0
+  piece of job 60 started 1789987873232 core=1
+  piece of job 60 started 1789987873232 core=4
+  piece of job 60 end 1789987875528 core=4
+  piece of job 60 end 1789987875530 core=0
+  piece of job 60 end 1789987875577 core=1
+job 60_TGAMMA_12 end 1789987875577
+job 61_TGAMMA_60 started 1789987875577 core=4
+  piece of job 61 started 1789987875578 core=0
+  piece of job 61 started 1789987875578 core=1
+  piece of job 61 started 1789987875578 core=4
+job 93_XPY_48 end 1789987877498
+job 94_SUM_108 started 1789987877499 core=5
+  piece of job 61 end 1789987887054 core=4
+  piece of job 61 end 1789987887084 core=0
+  piece of job 61 end 1789987887179 core=1
+job 61_TGAMMA_60 end 1789987887179
+job 62_TGAMMA_120 started 1789987887179 core=4
+  piece of job 62 started 1789987887179 core=0
+  piece of job 62 started 1789987887179 core=1
+  piece of job 62 started 1789987887179 core=4
+job 94_SUM_108 end 1789987908480
+job 95_SUM_84 started 1789987908480 core=5
+  piece of job 62 end 1789987910115 core=4
+  piece of job 62 end 1789987910139 core=0
+  piece of job 62 end 1789987910427 core=1
+job 62_TGAMMA_120 end 1789987910428
+job 63_TGAMMA_120 started 1789987910428 core=4
+  piece of job 63 started 1789987910428 core=0
+  piece of job 63 started 1789987910428 core=1
+  piece of job 63 started 1789987910428 core=4
+job 95_SUM_84 end 1789987932537
+job 96_DOT_84 started 1789987932537 core=5
+  piece of job 63 end 1789987933362 core=4
+  piece of job 63 end 1789987933470 core=0
+  piece of job 63 end 1789987933542 core=1
+job 63_TGAMMA_120 end 1789987933544
+job 64_TGAMMA_60 started 1789987933544 core=4
+  piece of job 64 started 1789987933544 core=0
+  piece of job 64 started 1789987933544 core=1
+  piece of job 64 started 1789987933544 core=4
+  piece of job 64 end 1789987945064 core=4
+  piece of job 64 end 1789987945076 core=0
+  piece of job 64 end 1789987945328 core=1
+job 64_TGAMMA_60 end 1789987945328
+job 65_TGAMMA_60 started 1789987945328 core=4
+  piece of job 65 started 1789987945329 core=0
+  piece of job 65 started 1789987945329 core=1
+  piece of job 65 started 1789987945329 core=4
+  piece of job 65 end 1789987956845 core=4
+  piece of job 65 end 1789987956870 core=0
+  piece of job 65 end 1789987956936 core=1
+job 65_TGAMMA_60 end 1789987956936
+job 66_TGAMMA_60 started 1789987956936 core=4
+  piece of job 66 started 1789987956936 core=0
+  piece of job 66 started 1789987956937 core=1
+  piece of job 66 started 1789987956937 core=4
+  piece of job 66 end 1789987968458 core=4
+  piece of job 66 end 1789987968468 core=0
+  piece of job 66 end 1789987968716 core=1
+job 66_TGAMMA_60 end 1789987968716
+job 67_TGAMMA_60 started 1789987968716 core=4
+  piece of job 67 started 1789987968716 core=0
+  piece of job 67 started 1789987968716 core=1
+  piece of job 67 started 1789987968716 core=4
+job 96_DOT_84 end 1789987979424
+job 97_SUM_84 started 1789987979424 core=5
+  piece of job 67 end 1789987980227 core=4
+  piece of job 67 end 1789987980253 core=0
+  piece of job 67 end 1789987980320 core=1
+job 67_TGAMMA_60 end 1789987980321
+job 68_TGAMMA_60 started 1789987980321 core=4
+  piece of job 68 started 1789987980321 core=0
+  piece of job 68 started 1789987980321 core=1
+  piece of job 68 started 1789987980321 core=4
+  piece of job 68 end 1789987991793 core=4
+  piece of job 68 end 1789987991807 core=0
+  piece of job 68 end 1789987991927 core=1
+job 68_TGAMMA_60 end 1789987991928
+job 69_TGAMMA_12 started 1789987991928 core=4
+  piece of job 69 started 1789987991928 core=0
+  piece of job 69 started 1789987991928 core=1
+  piece of job 69 started 1789987991928 core=4
+  piece of job 69 end 1789987994220 core=0
+  piece of job 69 end 1789987994226 core=4
+  piece of job 69 end 1789987994253 core=1
+job 69_TGAMMA_12 end 1789987994253
+job 70_TGAMMA_60 started 1789987994253 core=0
+  piece of job 70 started 1789987994253 core=1
+  piece of job 70 started 1789987994253 core=0
+  piece of job 70 started 1789987994253 core=4
+job 97_SUM_84 end 1789988003507
+job 98_SUM_132 started 1789988003507 core=5
+  piece of job 70 end 1789988005742 core=0
+  piece of job 70 end 1789988005746 core=4
+  piece of job 70 end 1789988005830 core=1
+job 70_TGAMMA_60 end 1789988005830
+job 71_TGAMMA_120 started 1789988005830 core=0
+  piece of job 71 started 1789988005830 core=0
+  piece of job 71 started 1789988005830 core=1
+  piece of job 71 started 1789988005830 core=4
+  piece of job 71 end 1789988028783 core=4
+  piece of job 71 end 1789988028809 core=0
+  piece of job 71 end 1789988029112 core=1
+job 71_TGAMMA_120 end 1789988029113
+job 72_TGAMMA_60 started 1789988029113 core=4
+  piece of job 72 started 1789988029113 core=0
+  piece of job 72 started 1789988029113 core=1
+  piece of job 72 started 1789988029113 core=4
+  piece of job 72 end 1789988040587 core=4
+  piece of job 72 end 1789988040619 core=0
+  piece of job 72 end 1789988040687 core=1
+job 72_TGAMMA_60 end 1789988040687
+job 73_TGAMMA_12 started 1789988040687 core=4
+  piece of job 73 started 1789988040687 core=0
+  piece of job 73 started 1789988040688 core=1
+  piece of job 73 started 1789988040688 core=4
+job 98_SUM_132 end 1789988041393
+job 99_XPY_60 started 1789988041393 core=5
+  piece of job 73 end 1789988042980 core=4
+  piece of job 73 end 1789988042983 core=0
+  piece of job 73 end 1789988043008 core=1
+job 73_TGAMMA_12 end 1789988043008
+job 74_TGAMMA_12 started 1789988043008 core=4
+  piece of job 74 started 1789988043008 core=0
+  piece of job 74 started 1789988043008 core=1
+  piece of job 74 started 1789988043008 core=4
+  piece of job 74 end 1789988045300 core=0
+  piece of job 74 end 1789988045305 core=4
+  piece of job 74 end 1789988045368 core=1
+job 74_TGAMMA_12 end 1789988045368
+job 75_TGAMMA_120 started 1789988045369 core=0
+  piece of job 75 started 1789988045369 core=1
+  piece of job 75 started 1789988045369 core=0
+  piece of job 75 started 1789988045369 core=4
+  piece of job 75 end 1789988068341 core=0
+  piece of job 75 end 1789988068395 core=4
+  piece of job 75 end 1789988068626 core=1
+job 75_TGAMMA_120 end 1789988068627
+job 99_XPY_60 end 1789988077518
+  итерация 0: 822099 ms
+  среднее по 1 итерациям: 822099 ms
+  реальных ожиданий свободного ядра: 0  (блокировок в задачах не было)
+=== Выполняется проект: ml_two_chain_19.txt (100 работ, перестановка ORDER) ===
+fake 3 started 1789988077519 delay_ms=1
+fake 1 started 1789988077519 delay_ms=0
+fake 1 end 1789988077519
+fake 2 started 1789988077519 delay_ms=0
+fake 2 end 1789988077519
+fake 0 started 1789988077519 delay_ms=0
+job 0_TGAMMA_12 started 1789988077519 core=0
+fake 0 end 1789988077519
+job 76_XPY_48 started 1789988077519 core=5
+  piece of job 0 started 1789988077519 core=1
+  piece of job 0 started 1789988077519 core=0
+  piece of job 0 started 1789988077519 core=4
+fake 3 end 1789988077542
+  piece of job 0 end 1789988079806 core=0
+  piece of job 0 end 1789988079812 core=4
+  piece of job 0 end 1789988079870 core=1
+job 0_TGAMMA_12 end 1789988079870
+job 1_TGAMMA_120 started 1789988079870 core=0
+  piece of job 1 started 1789988079870 core=0
+  piece of job 1 started 1789988079870 core=4
+  piece of job 1 started 1789988079870 core=1
+  piece of job 1 end 1789988102813 core=4
+  piece of job 1 end 1789988102841 core=0
+  piece of job 1 end 1789988103635 core=1
+job 1_TGAMMA_120 end 1789988103635
+job 2_TGAMMA_60 started 1789988103636 core=4
+  piece of job 2 started 1789988103636 core=0
+  piece of job 2 started 1789988103636 core=1
+  piece of job 2 started 1789988103636 core=4
+job 76_XPY_48 end 1789988108301
+job 77_XPY_60 started 1789988108302 core=5
+  piece of job 2 end 1789988115115 core=4
+  piece of job 2 end 1789988115152 core=0
+  piece of job 2 end 1789988115290 core=1
+job 2_TGAMMA_60 end 1789988115291
+job 3_TGAMMA_120 started 1789988115291 core=4
+  piece of job 3 started 1789988115291 core=0
+  piece of job 3 started 1789988115291 core=4
+  piece of job 3 started 1789988115291 core=1
+  piece of job 3 end 1789988138254 core=0
+  piece of job 3 end 1789988138310 core=4
+  piece of job 3 end 1789988138540 core=1
+job 3_TGAMMA_120 end 1789988138541
+job 4_TGAMMA_12 started 1789988138541 core=0
+  piece of job 4 started 1789988138541 core=0
+  piece of job 4 started 1789988138541 core=1
+  piece of job 4 started 1789988138541 core=4
+  piece of job 4 end 1789988140840 core=4
+  piece of job 4 end 1789988140842 core=0
+  piece of job 4 end 1789988140890 core=1
+job 4_TGAMMA_12 end 1789988140891
+job 5_TGAMMA_12 started 1789988140891 core=4
+  piece of job 5 started 1789988140891 core=0
+  piece of job 5 started 1789988140891 core=1
+  piece of job 5 started 1789988140891 core=4
+  piece of job 5 end 1789988143182 core=0
+  piece of job 5 end 1789988143188 core=4
+  piece of job 5 end 1789988143250 core=1
+job 5_TGAMMA_12 end 1789988143250
+job 6_TGAMMA_120 started 1789988143250 core=0
+  piece of job 6 started 1789988143250 core=0
+  piece of job 6 started 1789988143250 core=4
+  piece of job 6 started 1789988143250 core=1
+job 77_XPY_60 end 1789988146976
+job 78_SUM_132 started 1789988146977 core=5
+  piece of job 6 end 1789988166188 core=4
+  piece of job 6 end 1789988166213 core=0
+  piece of job 6 end 1789988166595 core=1
+job 6_TGAMMA_120 end 1789988166595
+job 7_TGAMMA_60 started 1789988166596 core=4
+  piece of job 7 started 1789988166596 core=0
+  piece of job 7 started 1789988166596 core=1
+  piece of job 7 started 1789988166596 core=4
+  piece of job 7 end 1789988178077 core=4
+  piece of job 7 end 1789988178107 core=0
+  piece of job 7 end 1789988178177 core=1
+job 7_TGAMMA_60 end 1789988178177
+job 8_TGAMMA_12 started 1789988178178 core=4
+  piece of job 8 started 1789988178178 core=0
+  piece of job 8 started 1789988178178 core=1
+  piece of job 8 started 1789988178178 core=4
+  piece of job 8 end 1789988180477 core=4
+  piece of job 8 end 1789988180480 core=0
+  piece of job 8 end 1789988180490 core=1
+job 8_TGAMMA_12 end 1789988180491
+job 9_TGAMMA_12 started 1789988180491 core=4
+  piece of job 9 started 1789988180491 core=0
+  piece of job 9 started 1789988180491 core=4
+  piece of job 9 started 1789988180491 core=1
+  piece of job 9 end 1789988182783 core=0
+  piece of job 9 end 1789988182789 core=4
+  piece of job 9 end 1789988182815 core=1
+job 9_TGAMMA_12 end 1789988182815
+job 10_TGAMMA_120 started 1789988182815 core=0
+  piece of job 10 started 1789988182815 core=1
+  piece of job 10 started 1789988182815 core=4
+  piece of job 10 started 1789988182815 core=0
+job 78_SUM_132 end 1789988184849
+job 79_COPY_60 started 1789988184849 core=5
+  piece of job 10 end 1789988205762 core=4
+  piece of job 10 end 1789988205871 core=0
+  piece of job 10 end 1789988206066 core=1
+job 10_TGAMMA_120 end 1789988206067
+job 11_TGAMMA_60 started 1789988206067 core=4
+  piece of job 11 started 1789988206067 core=0
+  piece of job 11 started 1789988206067 core=1
+  piece of job 11 started 1789988206067 core=4
+  piece of job 11 end 1789988217541 core=4
+  piece of job 11 end 1789988217554 core=0
+  piece of job 11 end 1789988217837 core=1
+job 11_TGAMMA_60 end 1789988217837
+job 12_TGAMMA_12 started 1789988217838 core=4
+  piece of job 12 started 1789988217838 core=0
+  piece of job 12 started 1789988217838 core=1
+  piece of job 12 started 1789988217838 core=4
+  piece of job 12 end 1789988220128 core=0
+  piece of job 12 end 1789988220134 core=4
+  piece of job 12 end 1789988220191 core=1
+job 12_TGAMMA_12 end 1789988220191
+job 13_TGAMMA_12 started 1789988220191 core=0
+  piece of job 13 started 1789988220191 core=1
+  piece of job 13 started 1789988220191 core=0
+  piece of job 13 started 1789988220191 core=4
+job 79_COPY_60 end 1789988221397
+job 80_SUM_108 started 1789988221397 core=5
+  piece of job 13 end 1789988222474 core=4
+  piece of job 13 end 1789988222485 core=0
+  piece of job 13 end 1789988222525 core=1
+job 13_TGAMMA_12 end 1789988222525
+job 14_TGAMMA_12 started 1789988222525 core=4
+  piece of job 14 started 1789988222526 core=0
+  piece of job 14 started 1789988222526 core=1
+  piece of job 14 started 1789988222526 core=4
+  piece of job 14 end 1789988224814 core=4
+  piece of job 14 end 1789988224827 core=0
+  piece of job 14 end 1789988224849 core=1
+job 14_TGAMMA_12 end 1789988224850
+job 15_TGAMMA_120 started 1789988224850 core=4
+  piece of job 15 started 1789988224850 core=0
+  piece of job 15 started 1789988224850 core=1
+  piece of job 15 started 1789988224850 core=4
+  piece of job 15 end 1789988247822 core=0
+  piece of job 15 end 1789988247876 core=4
+  piece of job 15 end 1789988247983 core=1
+job 15_TGAMMA_120 end 1789988247983
+job 16_TGAMMA_120 started 1789988247984 core=0
+  piece of job 16 started 1789988247984 core=1
+  piece of job 16 started 1789988247984 core=4
+  piece of job 16 started 1789988247984 core=0
+job 80_SUM_108 end 1789988252433
+job 81_SUM_84 started 1789988252433 core=5
+  piece of job 16 end 1789988270950 core=0
+  piece of job 16 end 1789988270999 core=4
+  piece of job 16 end 1789988271100 core=1
+job 16_TGAMMA_120 end 1789988271101
+job 17_TGAMMA_120 started 1789988271101 core=0
+  piece of job 17 started 1789988271101 core=0
+  piece of job 17 started 1789988271101 core=1
+  piece of job 17 started 1789988271101 core=4
+job 81_SUM_84 end 1789988276513
+job 82_COPY_84 started 1789988276513 core=5
+  piece of job 17 end 1789988294042 core=4
+  piece of job 17 end 1789988294069 core=0
+  piece of job 17 end 1789988294558 core=1
+job 17_TGAMMA_120 end 1789988294559
+job 18_TGAMMA_60 started 1789988294559 core=4
+  piece of job 18 started 1789988294560 core=0
+  piece of job 18 started 1789988294560 core=1
+  piece of job 18 started 1789988294560 core=4
+  piece of job 18 end 1789988306055 core=4
+  piece of job 18 end 1789988306086 core=0
+  piece of job 18 end 1789988306240 core=1
+job 18_TGAMMA_60 end 1789988306240
+job 19_TGAMMA_60 started 1789988306240 core=4
+  piece of job 19 started 1789988306241 core=0
+  piece of job 19 started 1789988306241 core=1
+  piece of job 19 started 1789988306241 core=4
+  piece of job 19 end 1789988317716 core=4
+  piece of job 19 end 1789988317730 core=0
+  piece of job 19 end 1789988318013 core=1
+job 19_TGAMMA_60 end 1789988318013
+job 20_TGAMMA_120 started 1789988318013 core=4
+  piece of job 20 started 1789988318013 core=0
+  piece of job 20 started 1789988318013 core=4
+  piece of job 20 started 1789988318013 core=1
+job 82_COPY_84 end 1789988327789
+job 83_SUM_84 started 1789988327789 core=5
+  piece of job 20 end 1789988340960 core=4
+  piece of job 20 end 1789988341068 core=0
+  piece of job 20 end 1789988341234 core=1
+job 20_TGAMMA_120 end 1789988341235
+job 21_TGAMMA_120 started 1789988341235 core=4
+  piece of job 21 started 1789988341235 core=0
+  piece of job 21 started 1789988341235 core=1
+  piece of job 21 started 1789988341235 core=4
+job 83_SUM_84 end 1789988351885
+job 84_COPY_60 started 1789988351885 core=5
+  piece of job 21 end 1789988364182 core=4
+  piece of job 21 end 1789988364208 core=0
+  piece of job 21 end 1789988364626 core=1
+job 21_TGAMMA_120 end 1789988364626
+job 22_TGAMMA_60 started 1789988364626 core=4
+  piece of job 22 started 1789988364627 core=0
+  piece of job 22 started 1789988364627 core=1
+  piece of job 22 started 1789988364627 core=4
+  piece of job 22 end 1789988376111 core=4
+  piece of job 22 end 1789988376142 core=0
+  piece of job 22 end 1789988376294 core=1
+job 22_TGAMMA_60 end 1789988376294
+job 23_TGAMMA_12 started 1789988376294 core=4
+  piece of job 23 started 1789988376294 core=0
+  piece of job 23 started 1789988376295 core=1
+  piece of job 23 started 1789988376295 core=4
+  piece of job 23 end 1789988378591 core=4
+  piece of job 23 end 1789988378593 core=0
+  piece of job 23 end 1789988378636 core=1
+job 23_TGAMMA_12 end 1789988378636
+job 24_TGAMMA_120 started 1789988378636 core=4
+  piece of job 24 started 1789988378636 core=0
+  piece of job 24 started 1789988378636 core=1
+  piece of job 24 started 1789988378636 core=4
+job 84_COPY_60 end 1789988388506
+job 85_DOT_36 started 1789988388507 core=5
+  piece of job 24 end 1789988401628 core=4
+  piece of job 24 end 1789988401724 core=0
+  piece of job 24 end 1789988401880 core=1
+job 24_TGAMMA_120 end 1789988401881
+job 25_TGAMMA_60 started 1789988401881 core=4
+  piece of job 25 started 1789988401881 core=0
+  piece of job 25 started 1789988401881 core=1
+  piece of job 25 started 1789988401881 core=4
+job 85_DOT_36 end 1789988408627
+job 86_XPY_48 started 1789988408628 core=5
+  piece of job 25 end 1789988413375 core=4
+  piece of job 25 end 1789988413389 core=0
+  piece of job 25 end 1789988413663 core=1
+job 25_TGAMMA_60 end 1789988413664
+job 26_TGAMMA_12 started 1789988413664 core=4
+  piece of job 26 started 1789988413664 core=0
+  piece of job 26 started 1789988413664 core=1
+  piece of job 26 started 1789988413664 core=4
+  piece of job 26 end 1789988415958 core=0
+  piece of job 26 end 1789988415963 core=4
+  piece of job 26 end 1789988416035 core=1
+job 26_TGAMMA_12 end 1789988416035
+job 27_TGAMMA_60 started 1789988416035 core=0
+  piece of job 27 started 1789988416036 core=0
+  piece of job 27 started 1789988416036 core=1
+  piece of job 27 started 1789988416036 core=4
+  piece of job 27 end 1789988427527 core=0
+  piece of job 27 end 1789988427530 core=4
+  piece of job 27 end 1789988427689 core=1
+job 27_TGAMMA_60 end 1789988427690
+job 28_TGAMMA_12 started 1789988427690 core=0
+  piece of job 28 started 1789988427690 core=0
+  piece of job 28 started 1789988427690 core=1
+  piece of job 28 started 1789988427690 core=4
+  piece of job 28 end 1789988429987 core=4
+  piece of job 28 end 1789988429989 core=0
+  piece of job 28 end 1789988430047 core=1
+job 28_TGAMMA_12 end 1789988430047
+job 29_TGAMMA_12 started 1789988430047 core=4
+  piece of job 29 started 1789988430047 core=0
+  piece of job 29 started 1789988430047 core=1
+  piece of job 29 started 1789988430047 core=4
+  piece of job 29 end 1789988432338 core=0
+  piece of job 29 end 1789988432345 core=4
+  piece of job 29 end 1789988432417 core=1
+job 29_TGAMMA_12 end 1789988432418
+job 30_TGAMMA_60 started 1789988432418 core=0
+  piece of job 30 started 1789988432418 core=0
+  piece of job 30 started 1789988432418 core=1
+  piece of job 30 started 1789988432418 core=4
+job 86_XPY_48 end 1789988439393
+job 87_DOT_84 started 1789988439393 core=5
+  piece of job 30 end 1789988443913 core=0
+  piece of job 30 end 1789988443916 core=4
+  piece of job 30 end 1789988444045 core=1
+job 30_TGAMMA_60 end 1789988444045
+job 31_TGAMMA_120 started 1789988444045 core=6
+  piece of job 31 started 1789988444045 core=0
+  piece of job 31 started 1789988444045 core=1
+  piece of job 31 started 1789988444045 core=4
+  piece of job 31 end 1789988467076 core=4
+  piece of job 31 end 1789988467101 core=0
+  piece of job 31 end 1789988467649 core=1
+job 31_TGAMMA_120 end 1789988467649
+job 32_TGAMMA_12 started 1789988467649 core=6
+  piece of job 32 started 1789988467650 core=0
+  piece of job 32 started 1789988467650 core=4
+  piece of job 32 started 1789988467650 core=1
+  piece of job 32 end 1789988469948 core=0
+  piece of job 32 end 1789988469956 core=4
+  piece of job 32 end 1789988470007 core=1
+job 32_TGAMMA_12 end 1789988470007
+job 33_TGAMMA_60 started 1789988470007 core=6
+  piece of job 33 started 1789988470008 core=0
+  piece of job 33 started 1789988470008 core=4
+  piece of job 33 started 1789988470008 core=1
+  piece of job 33 end 1789988481520 core=4
+  piece of job 33 end 1789988481534 core=0
+  piece of job 33 end 1789988481772 core=1
+job 33_TGAMMA_60 end 1789988481772
+job 34_TGAMMA_60 started 1789988481772 core=6
+  piece of job 34 started 1789988481772 core=0
+  piece of job 34 started 1789988481772 core=4
+  piece of job 34 started 1789988481772 core=1
+job 87_DOT_84 end 1789988486711
+job 88_SUM_132 started 1789988486711 core=5
+  piece of job 34 end 1789988493258 core=4
+  piece of job 34 end 1789988493288 core=0
+  piece of job 34 end 1789988493354 core=1
+job 34_TGAMMA_60 end 1789988493354
+job 35_TGAMMA_120 started 1789988493354 core=6
+  piece of job 35 started 1789988493355 core=0
+  piece of job 35 started 1789988493355 core=4
+  piece of job 35 started 1789988493355 core=1
+  piece of job 35 end 1789988516319 core=0
+  piece of job 35 end 1789988516373 core=4
+  piece of job 35 end 1789988516476 core=1
+job 35_TGAMMA_120 end 1789988516476
+job 36_TGAMMA_12 started 1789988516476 core=6
+  piece of job 36 started 1789988516476 core=0
+  piece of job 36 started 1789988516477 core=4
+  piece of job 36 started 1789988516477 core=1
+  piece of job 36 end 1789988518763 core=4
+  piece of job 36 end 1789988518775 core=0
+  piece of job 36 end 1789988518797 core=1
+job 36_TGAMMA_12 end 1789988518797
+job 37_TGAMMA_120 started 1789988518797 core=6
+  piece of job 37 started 1789988518797 core=0
+  piece of job 37 started 1789988518797 core=4
+  piece of job 37 started 1789988518797 core=1
+job 88_SUM_132 end 1789988524593
+job 89_COPY_84 started 1789988524593 core=5
+  piece of job 37 end 1789988541727 core=4
+  piece of job 37 end 1789988541753 core=0
+  piece of job 37 end 1789988542233 core=1
+job 37_TGAMMA_120 end 1789988542234
+job 38_TGAMMA_12 started 1789988542234 core=6
+  piece of job 38 started 1789988542234 core=0
+  piece of job 38 started 1789988542234 core=4
+  piece of job 38 started 1789988542234 core=1
+  piece of job 38 end 1789988544526 core=0
+  piece of job 38 end 1789988544532 core=4
+  piece of job 38 end 1789988544588 core=1
+job 38_TGAMMA_12 end 1789988544589
+job 39_TGAMMA_60 started 1789988544589 core=6
+  piece of job 39 started 1789988544589 core=0
+  piece of job 39 started 1789988544589 core=4
+  piece of job 39 started 1789988544589 core=1
+  piece of job 39 end 1789988556078 core=4
+  piece of job 39 end 1789988556093 core=0
+  piece of job 39 end 1789988556380 core=1
+job 39_TGAMMA_60 end 1789988556380
+job 40_TGAMMA_12 started 1789988556380 core=6
+  piece of job 40 started 1789988556380 core=0
+  piece of job 40 started 1789988556381 core=4
+  piece of job 40 started 1789988556381 core=1
+  piece of job 40 end 1789988558677 core=0
+  piece of job 40 end 1789988558682 core=4
+  piece of job 40 end 1789988558741 core=1
+job 40_TGAMMA_12 end 1789988558741
+job 41_TGAMMA_12 started 1789988558741 core=6
+  piece of job 41 started 1789988558741 core=0
+  piece of job 41 started 1789988558741 core=4
+  piece of job 41 started 1789988558741 core=1
+  piece of job 41 end 1789988561039 core=4
+  piece of job 41 end 1789988561041 core=0
+  piece of job 41 end 1789988561084 core=1
+job 41_TGAMMA_12 end 1789988561084
+job 42_TGAMMA_120 started 1789988561084 core=6
+  piece of job 42 started 1789988561084 core=0
+  piece of job 42 started 1789988561084 core=4
+  piece of job 42 started 1789988561084 core=1
+job 89_COPY_84 end 1789988575873
+job 90_XPY_60 started 1789988575873 core=5
+  piece of job 42 end 1789988584020 core=4
+  piece of job 42 end 1789988584130 core=0
+  piece of job 42 end 1789988584352 core=1
+job 42_TGAMMA_120 end 1789988584353
+job 43_TGAMMA_12 started 1789988584353 core=6
+  piece of job 43 started 1789988584353 core=0
+  piece of job 43 started 1789988584353 core=4
+  piece of job 43 started 1789988584353 core=1
+  piece of job 43 end 1789988586642 core=4
+  piece of job 43 end 1789988586653 core=0
+  piece of job 43 end 1789988586712 core=1
+job 43_TGAMMA_12 end 1789988586712
+job 44_TGAMMA_12 started 1789988586712 core=6
+  piece of job 44 started 1789988586712 core=0
+  piece of job 44 started 1789988586712 core=4
+  piece of job 44 started 1789988586712 core=1
+  piece of job 44 end 1789988589010 core=4
+  piece of job 44 end 1789988589014 core=0
+  piece of job 44 end 1789988589059 core=1
+job 44_TGAMMA_12 end 1789988589059
+job 45_TGAMMA_12 started 1789988589059 core=6
+  piece of job 45 started 1789988589060 core=0
+  piece of job 45 started 1789988589060 core=4
+  piece of job 45 started 1789988589060 core=1
+  piece of job 45 end 1789988591351 core=0
+  piece of job 45 end 1789988591357 core=4
+  piece of job 45 end 1789988591419 core=1
+job 45_TGAMMA_12 end 1789988591419
+job 46_TGAMMA_120 started 1789988591419 core=6
+  piece of job 46 started 1789988591419 core=0
+  piece of job 46 started 1789988591419 core=4
+  piece of job 46 started 1789988591419 core=1
+job 90_XPY_60 end 1789988614130
+job 91_SUM_132 started 1789988614131 core=5
+  piece of job 46 end 1789988614358 core=4
+  piece of job 46 end 1789988614387 core=0
+  piece of job 46 end 1789988615045 core=1
+job 46_TGAMMA_120 end 1789988615045
+job 47_TGAMMA_12 started 1789988615045 core=6
+  piece of job 47 started 1789988615046 core=0
+  piece of job 47 started 1789988615046 core=1
+  piece of job 47 started 1789988615046 core=4
+  piece of job 47 end 1789988617336 core=0
+  piece of job 47 end 1789988617343 core=4
+  piece of job 47 end 1789988617371 core=1
+job 47_TGAMMA_12 end 1789988617371
+job 48_TGAMMA_12 started 1789988617371 core=6
+  piece of job 48 started 1789988617371 core=0
+  piece of job 48 started 1789988617371 core=4
+  piece of job 48 started 1789988617371 core=1
+  piece of job 48 end 1789988619671 core=4
+  piece of job 48 end 1789988619674 core=0
+  piece of job 48 end 1789988619685 core=1
+job 48_TGAMMA_12 end 1789988619685
+job 49_TGAMMA_12 started 1789988619685 core=6
+  piece of job 49 started 1789988619685 core=0
+  piece of job 49 started 1789988619685 core=4
+  piece of job 49 started 1789988619685 core=1
+  piece of job 49 end 1789988621978 core=0
+  piece of job 49 end 1789988621985 core=4
+  piece of job 49 end 1789988622011 core=1
+job 49_TGAMMA_12 end 1789988622011
+job 50_TGAMMA_60 started 1789988622011 core=6
+  piece of job 50 started 1789988622011 core=0
+  piece of job 50 started 1789988622011 core=4
+  piece of job 50 started 1789988622011 core=1
+  piece of job 50 end 1789988633484 core=4
+  piece of job 50 end 1789988633498 core=0
+  piece of job 50 end 1789988633617 core=1
+job 50_TGAMMA_60 end 1789988633617
+job 51_TGAMMA_60 started 1789988633618 core=6
+  piece of job 51 started 1789988633618 core=0
+  piece of job 51 started 1789988633618 core=4
+  piece of job 51 started 1789988633618 core=1
+  piece of job 51 end 1789988645088 core=4
+  piece of job 51 end 1789988645120 core=0
+  piece of job 51 end 1789988645186 core=1
+job 51_TGAMMA_60 end 1789988645186
+job 52_TGAMMA_12 started 1789988645186 core=6
+  piece of job 52 started 1789988645186 core=0
+  piece of job 52 started 1789988645186 core=4
+  piece of job 52 started 1789988645186 core=1
+  piece of job 52 end 1789988647472 core=4
+  piece of job 52 end 1789988647484 core=0
+  piece of job 52 end 1789988647506 core=1
+job 52_TGAMMA_12 end 1789988647506
+job 53_TGAMMA_60 started 1789988647506 core=6
+  piece of job 53 started 1789988647506 core=0
+  piece of job 53 started 1789988647506 core=4
+  piece of job 53 started 1789988647506 core=1
+job 91_SUM_132 end 1789988651898
+job 92_XPY_60 started 1789988651898 core=5
+  piece of job 53 end 1789988658964 core=4
+  piece of job 53 end 1789988658979 core=0
+  piece of job 53 end 1789988659189 core=1
+job 53_TGAMMA_60 end 1789988659189
+job 54_TGAMMA_60 started 1789988659189 core=6
+  piece of job 54 started 1789988659189 core=0
+  piece of job 54 started 1789988659189 core=4
+  piece of job 54 started 1789988659190 core=1
+  piece of job 54 end 1789988670660 core=4
+  piece of job 54 end 1789988670695 core=0
+  piece of job 54 end 1789988670824 core=1
+job 54_TGAMMA_60 end 1789988670824
+job 55_TGAMMA_60 started 1789988670824 core=6
+  piece of job 55 started 1789988670824 core=0
+  piece of job 55 started 1789988670824 core=4
+  piece of job 55 started 1789988670824 core=1
+  piece of job 55 end 1789988682308 core=0
+  piece of job 55 end 1789988682313 core=4
+  piece of job 55 end 1789988682457 core=1
+job 55_TGAMMA_60 end 1789988682457
+job 56_TGAMMA_60 started 1789988682457 core=6
+  piece of job 56 started 1789988682458 core=0
+  piece of job 56 started 1789988682458 core=4
+  piece of job 56 started 1789988682458 core=1
+job 92_XPY_60 end 1789988690399
+job 93_XPY_48 started 1789988690399 core=5
+  piece of job 56 end 1789988693941 core=0
+  piece of job 56 end 1789988693946 core=4
+  piece of job 56 end 1789988694091 core=1
+job 56_TGAMMA_60 end 1789988694091
+job 57_TGAMMA_12 started 1789988694091 core=6
+  piece of job 57 started 1789988694091 core=0
+  piece of job 57 started 1789988694091 core=4
+  piece of job 57 started 1789988694091 core=1
+  piece of job 57 end 1789988696382 core=4
+  piece of job 57 end 1789988696394 core=0
+  piece of job 57 end 1789988696464 core=1
+job 57_TGAMMA_12 end 1789988696464
+job 58_TGAMMA_12 started 1789988696464 core=6
+  piece of job 58 started 1789988696464 core=0
+  piece of job 58 started 1789988696464 core=4
+  piece of job 58 started 1789988696464 core=1
+  piece of job 58 end 1789988698762 core=4
+  piece of job 58 end 1789988698764 core=0
+  piece of job 58 end 1789988698823 core=1
+job 58_TGAMMA_12 end 1789988698823
+job 59_TGAMMA_120 started 1789988698823 core=6
+  piece of job 59 started 1789988698824 core=0
+  piece of job 59 started 1789988698824 core=4
+  piece of job 59 started 1789988698824 core=1
+job 93_XPY_48 end 1789988721219
+job 94_SUM_132 started 1789988721219 core=5
+  piece of job 59 end 1789988721766 core=4
+  piece of job 59 end 1789988721876 core=0
+  piece of job 59 end 1789988722102 core=1
+job 59_TGAMMA_120 end 1789988722103
+job 60_TGAMMA_120 started 1789988722103 core=6
+  piece of job 60 started 1789988722103 core=0
+  piece of job 60 started 1789988722103 core=4
+  piece of job 60 started 1789988722103 core=1
+  piece of job 60 end 1789988745070 core=0
+  piece of job 60 end 1789988745124 core=4
+  piece of job 60 end 1789988745228 core=1
+job 60_TGAMMA_120 end 1789988745229
+job 61_TGAMMA_60 started 1789988745229 core=6
+  piece of job 61 started 1789988745229 core=0
+  piece of job 61 started 1789988745229 core=4
+  piece of job 61 started 1789988745229 core=1
+  piece of job 61 end 1789988756720 core=0
+  piece of job 61 end 1789988756722 core=4
+  piece of job 61 end 1789988756804 core=1
+job 61_TGAMMA_60 end 1789988756805
+job 62_TGAMMA_12 started 1789988756805 core=6
+  piece of job 62 started 1789988756805 core=0
+  piece of job 62 started 1789988756805 core=1
+  piece of job 62 started 1789988756805 core=4
+job 94_SUM_132 end 1789988759048
+job 95_XPY_60 started 1789988759049 core=5
+  piece of job 62 end 1789988759103 core=4
+  piece of job 62 end 1789988759106 core=0
+  piece of job 62 end 1789988759117 core=1
+job 62_TGAMMA_12 end 1789988759118
+job 63_TGAMMA_120 started 1789988759118 core=6
+  piece of job 63 started 1789988759118 core=0
+  piece of job 63 started 1789988759118 core=4
+  piece of job 63 started 1789988759118 core=1
+  piece of job 63 end 1789988782054 core=4
+  piece of job 63 end 1789988782166 core=0
+  piece of job 63 end 1789988782355 core=1
+job 63_TGAMMA_120 end 1789988782356
+job 64_TGAMMA_60 started 1789988782356 core=6
+  piece of job 64 started 1789988782356 core=0
+  piece of job 64 started 1789988782357 core=4
+  piece of job 64 started 1789988782357 core=1
+  piece of job 64 end 1789988793843 core=0
+  piece of job 64 end 1789988793846 core=4
+  piece of job 64 end 1789988793989 core=1
+job 64_TGAMMA_60 end 1789988793989
+job 65_TGAMMA_120 started 1789988793990 core=6
+  piece of job 65 started 1789988793990 core=0
+  piece of job 65 started 1789988793990 core=4
+  piece of job 65 started 1789988793990 core=1
+job 95_XPY_60 end 1789988797414
+job 96_DOT_36 started 1789988797414 core=5
+  piece of job 65 end 1789988817023 core=0
+  piece of job 65 end 1789988817061 core=4
+  piece of job 65 end 1789988817210 core=1
+job 65_TGAMMA_120 end 1789988817210
+job 66_TGAMMA_120 started 1789988817210 core=6
+  piece of job 66 started 1789988817211 core=0
+  piece of job 66 started 1789988817211 core=1
+  piece of job 66 started 1789988817211 core=4
+job 96_DOT_36 end 1789988817550
+job 97_XPY_48 started 1789988817551 core=5
+  piece of job 66 end 1789988840144 core=4
+  piece of job 66 end 1789988840174 core=0
+  piece of job 66 end 1789988840904 core=1
+job 66_TGAMMA_120 end 1789988840904
+job 67_TGAMMA_12 started 1789988840904 core=6
+  piece of job 67 started 1789988840905 core=0
+  piece of job 67 started 1789988840905 core=1
+  piece of job 67 started 1789988840905 core=4
+  piece of job 67 end 1789988843198 core=0
+  piece of job 67 end 1789988843204 core=4
+  piece of job 67 end 1789988843275 core=1
+job 67_TGAMMA_12 end 1789988843275
+job 68_TGAMMA_60 started 1789988843275 core=6
+  piece of job 68 started 1789988843276 core=0
+  piece of job 68 started 1789988843276 core=1
+  piece of job 68 started 1789988843276 core=4
+job 97_XPY_48 end 1789988847981
+job 98_XPY_60 started 1789988847981 core=5
+  piece of job 68 end 1789988854756 core=0
+  piece of job 68 end 1789988854759 core=4
+  piece of job 68 end 1789988854905 core=1
+job 68_TGAMMA_60 end 1789988854905
+job 69_TGAMMA_60 started 1789988854905 core=6
+  piece of job 69 started 1789988854905 core=0
+  piece of job 69 started 1789988854905 core=4
+  piece of job 69 started 1789988854905 core=1
+  piece of job 69 end 1789988866392 core=0
+  piece of job 69 end 1789988866397 core=4
+  piece of job 69 end 1789988866541 core=1
+job 69_TGAMMA_60 end 1789988866541
+job 70_TGAMMA_60 started 1789988866541 core=6
+  piece of job 70 started 1789988866542 core=0
+  piece of job 70 started 1789988866542 core=1
+  piece of job 70 started 1789988866542 core=4
+  piece of job 70 end 1789988878008 core=4
+  piece of job 70 end 1789988878021 core=0
+  piece of job 70 end 1789988878325 core=1
+job 70_TGAMMA_60 end 1789988878325
+job 71_TGAMMA_60 started 1789988878326 core=6
+  piece of job 71 started 1789988878326 core=0
+  piece of job 71 started 1789988878326 core=1
+  piece of job 71 started 1789988878328 core=4
+job 98_XPY_60 end 1789988886451
+job 99_DOT_36 started 1789988886451 core=5
+  piece of job 71 end 1789988889809 core=4
+  piece of job 71 end 1789988889836 core=0
+  piece of job 71 end 1789988889949 core=1
+job 71_TGAMMA_60 end 1789988889949
+job 99_DOT_36 end 1789988903273
