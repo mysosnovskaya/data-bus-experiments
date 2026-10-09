@@ -1,2 +1,0 @@
-# project  avg_makespan_ms (oneTBB, 1 прогонов)
-ml_two_chain_18.txt 822099
